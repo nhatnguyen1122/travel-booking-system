@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap');
+:root{
+    --orange:#ffa500;
+    --xanh:#29b862;
+    --red:#ec3535;
+    --xanhbien:#538df0;
+    --trong:#7be0cc;
+}
+
+*{
+    font-family: 'Nunito', sans-serif;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    outline: none;
+    border:none;
+    text-decoration: none;
+    transition: all .2s linear;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 35px;
+    height: 50px;
+    z-index: 1000;
+
+}
+header .logo{
+    margin-left: 30px;
+    font-size: 30px;
+    font-weight: bolder;
+    color: #fff;
+    text-transform: uppercase;
+}
+header .logo span{
+    color: var(--xanh);
+}
+header .bar a{
+    margin-right: 15px;
+    font-size: 18px;
+    color: white;
+}
+header .bar a:hover{
+    color: var(--xanh);
+}
+.bar .indam{
+    color: var(--xanh);
+}
+.icons{
+    margin-right: 90px;
+}
+.icons i{
+    color: white;
+    font-size: 18px;
+
+}
+.icons a i:hover{
+    color: var(--xanh);
+}
+.heading{
+    /* các phần tử trong heading văn bản được căn giữa  */
+    text-align: center;
+    padding:50px;
+}
+
+.heading span{
+    font-size: 28px;
+    background:rgba(255, 165, 0,.2);
+    color:var(--trong);
+    /* đặt bán kính bo tròn  */
+    border-radius: 8px;
+    padding: 21px 18px;
+    margin-top: 80px;
+}
+
+.heading span.space{
+    /* loại bỏ màu nền của pâhnf tử span có lớp space làm cho không có màu nền  */
+    background:none;
+}
+
+.khoitin{
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    padding: 2rem;
+
+}
+
+
+.tin {
+    flex: 1 1 30rem;
+    max-width: 35rem;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    position: relative;
+    padding-bottom: 150px;
+}
+
+.tin:hover {
+    transform: translateY(-1rem);
+}
+
+.tin video {
+    width: 100%;
+    height: 25rem;
+    object-fit: cover;
+}
+
+.tin .content {
+    /*padding: 2rem;*/
+    flex: 1; /* Đẩy phần giá và nút xuống dưới */
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.tin .content h3 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.tin .content p {
+    font-size: 1.4rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    height: 10rem; /* Cố định chiều cao cho mô tả */
+    overflow: hidden;
+}
+
+.tin .content .stars {
+    margin-bottom: 1.5rem;
+}
+
+.tin .content .stars i {
+    font-size: 1.5rem;
+    color: #ffa500;
+}
+
+.tin .content .price {
+    font-size: 2rem;
+    color: #333;
+    font-weight: bold;
+    padding: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 20px;
+    left: 2rem;
+    right: 2rem;
+
+    gap: 1rem; /* Khoảng cách giữa giá và giá gốc */
+    margin-top: auto; /* Đẩy xuống cuối khối tin */
+}
+
+.tin .content .price span {
+    font-size: 1.5rem;
+    color: #999;
+    text-decoration: line-through;
+    font-weight: normal;
+}
+
+.tin .content .docthem {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.8rem 2.5rem;
+    background: #ffa500;
+    color: #fff;
+    font-size: 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: background 0.3s ease;
+    position: absolute;
+    bottom: 0;
+    left: 2rem;
+    right: 2rem;
+}
+
+.tin .content .docthem:hover {
+    background: #ff8c00;
+}
+
+/* Đảm bảo các khối tin có cùng chiều cao */
+@media (max-width: 1200px) {
+    .khoitin {
+        gap: 1.5rem;
+    }
+
+    .tin {
+        flex: 1 1 25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .tin {
+        flex: 1 1 100%;
+    }
+
+    .tin .content p {
+        height: auto; /* Bỏ cố định chiều cao trên mobile */
+    }
+}
+.khoitin a:hover{
+    background: #e1c6c6;
+}
+
+.docthem {
+    background-color: var(--trong);
+    font-size: 16px; /* Giảm kích thước font chữ để nhỏ hơn so với ô */
+    padding: 10px 20px; /* Thêm khoảng cách bên trong để tạo không gian xung quanh chữ */
+    text-align: center; /* Căn giữa chữ trong phần tử */
+    display: inline-block; /* Giữ kích thước phần tử theo nội dung */
+    border-radius: 5px; /* Thêm bo tròn góc cho ô xanh */
+    margin-top: 10px; /* Tạo khoảng cách phía trên nếu cần */
+    color: white; /* Màu chữ trắng để tương phản với màu nền */
+}

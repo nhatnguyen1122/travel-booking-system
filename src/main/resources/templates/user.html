@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome | HUST ONEFUTURE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        :root {
+          --primary: #29b862;
+          --primary-hover: #1e8544;
+          --text-dark: #1d1d1d;
+          --white: #fff;
+          --glass: rgba(255, 255, 255, 0.95);
+          --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+          --radius: 12px;
+        }
+
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Poppins', sans-serif;
+          text-decoration: none;
+          transition: all .2s linear;
+        }
+
+        body {
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          position: relative;
+        }
+
+        .video-container {
+          position: absolute;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
+          z-index: -1;
+        }
+
+        .video-container video {
+          width: 100%; height: 100%;
+          object-fit: cover;
+        }
+
+        .video-overlay {
+          position: absolute;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
+          background: rgba(0, 0, 0, 0.4); /* Dark overlay text readability */
+          z-index: 0;
+        }
+
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 5%;
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            text-transform: uppercase;
+        }
+
+        header .logo span { color: var(--primary); }
+
+        header .bar {
+            display: flex;
+            gap: 15px;
+        }
+
+        header .bar a {
+            font-size: 0.85rem;
+            color: var(--white);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        header .bar a:hover { color: var(--primary); }
+
+        .auth-container {
+          position: relative;
+          z-index: 10;
+          background: var(--glass);
+          backdrop-filter: blur(8px);
+          border-radius: 20px;
+          box-shadow: var(--shadow);
+          width: 450px;
+          max-width: 90%;
+          padding: 2.5rem 2rem;
+          margin-top: 60px; /* Bù cho header */
+          border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .form-toggle {
+          display: flex;
+          margin-bottom: 2rem;
+          border-bottom: 2px solid #eee;
+        }
+
+        .form-toggle button {
+          flex: 1;
+          background: none;
+          border: none;
+          padding: 1rem;
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: #888;
+          cursor: pointer;
+          position: relative;
+        }
+
+        .form-toggle button.active {
+          color: var(--primary);
+        }
+
+        .form-toggle button.active::after {
+          content: '';
+          position: absolute;
+          bottom: -2px; left: 0;
+          width: 100%; height: 2px;
+          background: var(--primary);
+        }
+
+        .input-group {
+          margin-bottom: 1.5rem;
+          position: relative;
+        }
+
+        .input-group input {
+          width: 100%;
+          padding: 12px 15px;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          font-size: 0.95rem;
+          background: #f9f9f9;
+          outline: none;
+        }
+
+        .input-group input:focus {
+          border-color: var(--primary);
+          background: #fff;
+          box-shadow: 0 0 0 4px rgba(41, 184, 98, 0.1);
+        }
+
+        input[type="submit"] {
+          width: 100%;
+          background: var(--primary);
+          color: #fff;
+          padding: 12px;
+          border: none;
+          border-radius: 8px;
+          font-size: 1.1rem;
+          font-weight: 600;
+          cursor: pointer;
+          margin-top: 0.5rem;
+        }
+
+        input[type="submit"]:hover {
+          background: var(--primary-hover);
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(41, 184, 98, 0.3);
+        }
+
+        .hidden {
+          display: none;
+          animation: fadeOut 0.3s ease;
+        }
+
+        .animate-in {
+          animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 2000;
+          left: 0; top: 0;
+          width: 100%; height: 100%;
+          background-color: rgba(0, 0, 0, 0.6);
+          backdrop-filter: blur(5px);
+          justify-content: center;
+          align-items: center;
+        }
+
+        .modal-content {
+          background: white;
+          padding: 2rem;
+          border-radius: 15px;
+          text-align: center;
+          width: 350px;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .modal-content h2 {
+          color: var(--text-dark);
+          margin-bottom: 1rem;
+        }
+
+        .modal-content p {
+          color: #666;
+          margin-bottom: 1.5rem;
+        }
+
+        .modal-content button {
+          background: var(--primary);
+          color: white;
+          border: none;
+          padding: 10px 30px;
+          border-radius: 50px;
+          cursor: pointer;
+          font-weight: 600;
+        }
+
+        .modal-content button:hover {
+            background: var(--primary-hover);
+        }
+
+        @media (max-width: 1200px) {
+            header { padding: 1rem 2rem; }
+            header .bar { display: none; } /* Ẩn menu trên mobile để tránh rối */
+        }
+    </style>
+</head>
+<body>
+
+<div class="video-container">
+    <div class="video-overlay"></div>
+    <video src="images/waves.mp4" id="video-slider" loop autoplay muted></video>
+</div>
+
+<header>
+    <a href="home" class="logo"><span>HUST</span>ONEFUTURE</a>
+    <nav class="bar">
+        <a href="home">Home</a>
+        <a href="booking">Booking</a>
+        <a href="hotel">Hotels</a>
+        <a href="flight">Flights</a>
+        <a href="trending">Trending</a>
+        <a href="news">News</a>
+        <a href="package">Packages</a>
+        <a href="services">Services</a>
+        <a href="gallery">Gallery</a>
+        <a href="review">Reviews</a>
+        <a href="contact">Contact</a>
+        <a href="plan-trip">Payment</a>
+    </nav>
+</header>
+
+<div class="auth-container">
+
+    <form id="sign-in-form" class="animate-in">
+        <div class="form-toggle">
+            <button type="button" id="sign-in-button" class="active">Login</button>
+            <button type="button" id="sign-up-button">Register</button>
+        </div>
+
+        <div class="input-group">
+            <input type="tel" placeholder="Phone number" id="login-phone" required>
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder="Password" id="login-password" required>
+        </div>
+
+        <input type="submit" value="Login now">
+    </form>
+
+    <form id="sign-up-form" class="hidden">
+        <div class="form-toggle">
+            <button type="button" id="sign-in-button1">Login</button>
+            <button type="button" id="sign-up-button1" class="active">Register</button>
+        </div>
+
+        <div class="input-group">
+            <input type="text" placeholder="Full name" id="signup-name" required>
+        </div>
+        <div class="input-group">
+            <input type="email" placeholder="Email" id="signup-email" required>
+        </div>
+        <div class="input-group">
+            <input type="tel" placeholder="Phone number" id="signup-phone" required>
+        </div>
+        <div class="input-group">
+            <input type="text" onfocus="(this.type='date')" placeholder="Date of birth" id="birthday" required>
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder="Password" id="signup-password" required>
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder="Re-enter password" id="signup-confirm-password" required>
+        </div>
+
+        <input type="submit" value="Register now">
+    </form>
+
+</div>
+
+<div id="error-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-modal" style="display:none;">&times;</span>
+        <h2>Notification</h2>
+        <p id="error-message"></p>
+        <button id="close-modal-button">Close</button>
+    </div>
+</div>
+
+<script src="/js/user.js"></script>
+<script>
+    // Clear user session when visiting login page
+    localStorage.removeItem('userId');
+
+    const signInBtn = document.getElementById('sign-in-button');
+    const signUpBtn = document.getElementById('sign-up-button');
+    const signInBtn1 = document.getElementById('sign-in-button1');
+    const signUpBtn1 = document.getElementById('sign-up-button1');
+    const signInForm = document.getElementById('sign-in-form');
+    const signUpForm = document.getElementById('sign-up-form');
+    const modal = document.getElementById('error-modal');
+    const closeModalBtn = document.getElementById('close-modal-button');
+
+    function showSignUp() {
+      signInForm.classList.add('hidden');
+      signInForm.classList.remove('animate-in');
+      signUpForm.classList.remove('hidden');
+      signUpForm.classList.add('animate-in');
+    }
+
+    function showSignIn() {
+      signUpForm.classList.add('hidden');
+      signUpForm.classList.remove('animate-in');
+      signInForm.classList.remove('hidden');
+      signInForm.classList.add('animate-in');
+    }
+
+    // Event Listeners for Toggles
+    if(signUpBtn) signUpBtn.addEventListener('click', showSignUp);
+    if(signInBtn1) signInBtn1.addEventListener('click', showSignIn);
+    if(signUpBtn1) signUpBtn1.addEventListener('click', showSignUp); // Add extra safety for active buttons
+    if(signInBtn) signInBtn.addEventListener('click', showSignIn);
+
+    // Close modal logic
+    if(closeModalBtn) {
+        closeModalBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+</body>
+</html>

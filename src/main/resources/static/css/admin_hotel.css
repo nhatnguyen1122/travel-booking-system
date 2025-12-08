@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap');
+
+:root {
+    --orange: #ffa500;
+    --green: #29b862;
+    --red: #ec3535;
+    --blue: #538df0;
+    --light-green: #7be0cc;
+    --dark-bg: #333;
+    --light-bg: #f9f9f9;
+    --border-color: #ddd;
+}
+
+* {
+    font-family: 'Nunito', sans-serif;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    transition: all .2s linear;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--light-bg);
+    margin: 0;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--dark-bg);
+}
+
+/* Header */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--dark-bg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 35px;
+    height: 50px;
+    color: white;
+}
+
+header .logo {
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+}
+
+header .logo span {
+    color: var(--green);
+}
+
+header .bar a {
+    margin-right: 15px;
+    font-size: 18px;
+    color: white;
+}
+
+header .bar a:hover {
+    color: var(--green);
+}
+
+/* Booking Table */
+#bookingTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#bookingTable th, #bookingTable td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid var(--border-color);
+}
+
+#bookingTable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* Buttons */
+button {
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.add-btn {
+    background-color: var(--green);
+    color: white;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.delete-btn {
+    background-color: var(--red);
+    color: white;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+/* Footer */
+.footer {
+    margin-top: 30px;
+    background: var(--dark-bg);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-top: 2px solid white;
+}
+
+.credit span {
+    color: var(--orange);
+}

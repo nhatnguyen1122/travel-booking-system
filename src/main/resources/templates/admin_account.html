@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Management | HUST ONEFUTURE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #29b862;
+            --primary-dark: #1e8544;
+            --text-dark: #1d1d1d;
+            --text-light: #666;
+            --white: #fff;
+            --bg-light: #f9f9f9;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --radius: 12px;
+            --danger: #e74c3c;
+            --info: #3498db;
+            --warning: #f39c12;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            transition: all .2s linear;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            padding-top: 80px; /* Space for fixed header */
+        }
+
+        /* --- HEADER & NAVBAR --- */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8); /* Darker background for Admin */
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 5%;
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            text-transform: uppercase;
+        }
+
+        header .logo span { color: var(--primary); }
+
+        header .bar {
+            display: flex;
+            gap: 20px;
+        }
+
+        header .bar a {
+            font-size: 0.9rem;
+            color: var(--white);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        header .bar a:hover, header .bar a.indam {
+            color: var(--primary);
+        }
+
+        header .icons {
+            display: flex;
+            align-items: center;
+        }
+
+        header .icons i {
+            font-size: 1.1rem;
+            color: var(--white);
+            cursor: pointer;
+            margin-left: 15px;
+        }
+
+        header .icons i:hover { color: var(--primary); }
+
+        /* --- DROPDOWN --- */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 60px; right: 5%;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 150px;
+            overflow: hidden;
+            flex-direction: column;
+            z-index: 1001;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
+            color: var(--primary);
+        }
+
+        /* --- MAIN CONTAINER --- */
+        .container {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .container .left p {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .container .right {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* --- BUTTON GROUPS --- */
+        .btn-group {
+            padding: 0 5%;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: var(--white);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .btn-create { background-color: var(--primary); }
+        .btn-upload { background-color: var(--info); }
+        .btn-print { background-color: #95a5a6; }
+        .btn-copy { background-color: #34495e; }
+        .btn-excel { background-color: #27ae60; }
+        .btn-pdf { background-color: #e74c3c; }
+        .btn-delete-all { background-color: #c0392b; }
+
+        .btn:hover { opacity: 0.9; }
+
+        /* --- FILTER & SEARCH --- */
+        .filter-container {
+            padding: 0 5%;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .toggle-btn {
+            margin-left: 5%;
+            margin-bottom: 10px;
+            background: none;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-box input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .search-box button {
+            padding: 8px 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* --- TABLE --- */
+        h2 {
+            padding: 0 5%;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        table {
+            width: 90%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background: var(--white);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: var(--white);
+            font-weight: 500;
+        }
+
+        tr:hover { background-color: #f1f1f1; }
+
+        .action-buttons button {
+            padding: 5px 10px;
+            border-radius: 3px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .toggle-status-btn { background-color: var(--info); }
+
+        /* --- PAGINATION --- */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 10px;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .pagination button.active, .pagination button:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* --- MODAL --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 0;
+            border-radius: 12px;
+            width: 450px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.3s ease-in-out;
+            overflow: hidden;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header .close {
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <a href="#" class="logo"><span>HUST</span>ONEFUTURE</a>
+    <nav class="bar">
+        <a href="admin_booking">Manage Trips</a>
+        <a href="admin_account" class="indam">Manage Accounts</a>
+        <a href="admin_flights">Manage Flights</a>
+        <a href="admin_hotel">Manage Hotels</a>
+    </nav>
+    <div class="icons">
+        <i class="fas fa-search" id="search-btn"></i>
+        <i class="fas fa-user" id="user-icon"></i>
+        <div id="user-menu" class="dropdown-menu">
+            <a href="/profile">My Profile</a>
+            <a href="/user">Logout</a>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="left">
+        <p><b>Customer Management</b></p>
+    </div>
+    <div class="right">
+        <span><i class="fas fa-calendar-alt"></i> <span id="currentDate"></span></span> |
+        <span><i class="fas fa-clock"></i> <span id="currentTime"></span></span>
+    </div>
+</div>
+
+<div class="btn-group">
+    <a href="#" class="btn btn-create" onclick="openModal()">
+        <i class="fa fa-plus"></i> Create New Staff
+    </a>
+    <a href="#" class="btn btn-upload"><i class="fa fa-upload"></i> Upload File</a>
+    <a href="#" class="btn btn-print"><i class="fa fa-print"></i> Print</a>
+    <a href="#" class="btn btn-copy"><i class="fa fa-copy"></i> Copy</a>
+    <a href="#" class="btn btn-excel"><i class="fa fa-file-excel"></i> Excel</a>
+    <a href="#" class="btn btn-pdf"><i class="fa fa-file-pdf"></i> PDF</a>
+    <a href="#" class="btn btn-delete-all"><i class="fa fa-trash"></i> Delete All</a>
+</div>
+
+<button class="toggle-btn" onclick="toggleFilter()">Toggle Filter</button>
+
+<div class="filter-container" id="filterContainer">
+    <div class="search-box">
+        <label for="search">Search:</label>
+        <input type="text" id="search" name="search" placeholder="Enter keyword...">
+        <button onclick="searchUsers()">Search</button>
+    </div>
+</div>
+
+<h2>Customer Information Table</h2>
+
+<table id="userTable">
+    <thead>
+    <tr>
+        <th>Full Name</th>
+        <th>Phone Number</th>
+        <th>Birthday</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<div class="pagination">
+    <button disabled>Prev</button>
+    <button>1</button>
+    <button>Next</button>
+</div>
+
+<div id="createStaffModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Add New Staff</h5>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="createStaffForm">
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" id="phone" placeholder="Enter phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter password" required>
+                </div>
+                <div class="form-group">
+                    <label for="passwordConfirm">Confirm Password</label>
+                    <input type="password" id="passwordConfirm" placeholder="Confirm password" required>
+                </div>
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter email" required>
+                </div>
+                <div class="form-group">
+                    <label for="birthday">Birthday</label>
+                    <input type="date" id="birthday" required>
+                </div>
+                <button type="submit" class="btn-primary">Add Staff</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Header Time Script
+    function updateTime() {
+        const now = new Date();
+        document.getElementById('currentDate').innerText = now.toLocaleDateString();
+        document.getElementById('currentTime').innerText = now.toLocaleTimeString();
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // User Menu Toggle
+    document.getElementById("user-icon").addEventListener("click", function(event) {
+        event.preventDefault();
+        let menu = document.getElementById("user-menu");
+        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    });
+
+    document.addEventListener("click", function(event) {
+        let userIcon = document.getElementById("user-icon");
+        let menu = document.getElementById("user-menu");
+        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
+            menu.style.display = "none";
+        }
+    });
+
+    // Modal Logic
+    function openModal() {
+        document.getElementById('createStaffModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('createStaffModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('createStaffModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // Toggle Filter
+    function toggleFilter() {
+        const filter = document.getElementById('filterContainer');
+        filter.style.display = filter.style.display === 'none' ? 'flex' : 'none';
+    }
+
+    // Data Loading Logic
+    let currentPage = 0;
+    const pageSize = 5;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        loadUsers(currentPage, pageSize);
+    });
+
+    function loadUsers(pageNo, pageSize) {
+        fetch(`/user/allUsers?pageNo=${pageNo}&pageSize=${pageSize}`)
+            .then(response => {
+                if (!response.ok) throw new Error("Network response was not ok");
+                return response.json();
+            })
+            .then(data => {
+                if (data.code === 1000) {
+                    renderUserTable(data.data.items);
+                    renderPagination(data.data.totalPages);
+                } else {
+                    console.error("Error fetching users: ", data.message);
+                }
+            })
+            .catch(error => console.error("Error fetching users:", error));
+    }
+
+    function renderUserTable(users) {
+        const tableBody = document.querySelector("#userTable tbody");
+        tableBody.innerHTML = "";
+        users.forEach(user => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${user.fullName}</td>
+                <td>${user.phone}</td>
+                <td>${user.birthday}</td>
+                <td>${user.email}</td>
+                <td>${user.status ? "Active" : "Locked"}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="toggle-status-btn" onclick="toggleStatus(${user.id})">
+                            ${user.status ? "Lock" : "Unlock"}
+                        </button>
+                    </div>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function renderPagination(totalPages) {
+        const paginationContainer = document.querySelector(".pagination");
+        paginationContainer.innerHTML = "";
+
+        const prevButton = document.createElement("button");
+        prevButton.textContent = "Prev";
+        prevButton.disabled = currentPage === 0;
+        prevButton.onclick = function () {
+            if (currentPage > 0) {
+                currentPage--;
+                loadUsers(currentPage, pageSize);
+            }
+        };
+        paginationContainer.appendChild(prevButton);
+
+        for (let i = 0; i < totalPages; i++) {
+            const pageButton = document.createElement("button");
+            pageButton.textContent = i + 1;
+            pageButton.classList.toggle("active", i === currentPage);
+            pageButton.onclick = function () {
+                currentPage = i;
+                loadUsers(currentPage, pageSize);
+            };
+            paginationContainer.appendChild(pageButton);
+        }
+
+        const nextButton = document.createElement("button");
+        nextButton.textContent = "Next";
+        nextButton.disabled = currentPage >= totalPages - 1;
+        nextButton.onclick = function () {
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                loadUsers(currentPage, pageSize);
+            }
+        };
+        paginationContainer.appendChild(nextButton);
+    }
+
+    function toggleStatus(userId) {
+        if (confirm("Are you sure you want to change the status of this account?")) {
+            fetch(`/user/changeStatus/${userId}`, { method: "PATCH" })
+                .then(response => {
+                    if (!response.ok) throw new Error("Network response was not ok");
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.code === 1000) {
+                        alert("Status changed successfully!");
+                        loadUsers(currentPage, pageSize);
+                    } else {
+                        alert("Failed to change status: " + data.message);
+                    }
+                })
+                .catch(error => console.error("Error toggling status:", error));
+        }
+    }
+
+    function searchUsers() {
+        const searchKeyword = document.getElementById("search").value.trim();
+        currentPage = 0;
+
+        fetch(`/user/searchUser?pageNo=${currentPage}&pageSize=${pageSize}&search=${encodeURIComponent(searchKeyword)}`)
+            .then(response => {
+                if (!response.ok) throw new Error("Network response was not ok");
+                return response.json();
+            })
+            .then(data => {
+                if (data.code === 1000) {
+                    renderUserTable(data.data.items);
+                    renderPagination(data.data.totalPages);
+                } else {
+                    console.error("Error fetching search results: ", data.message);
+                }
+            })
+            .catch(error => console.error("Error searching users:", error));
+    }
+
+    // Create Staff Form
+    document.getElementById('createStaffForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = {
+            phone: document.getElementById("phone").value,
+            password: document.getElementById("password").value,
+            passwordConfirm: document.getElementById("passwordConfirm").value,
+            fullName: document.getElementById("fullName").value,
+            email: document.getElementById("email").value,
+            birthday: document.getElementById("birthday").value
+        };
+
+        if (formData.password !== formData.passwordConfirm) {
+            alert("Confirm password does not match!");
+            return;
+        }
+
+        fetch("/admin/acc", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.code === 1000) {
+                alert("Staff created successfully!");
+                document.getElementById("createStaffForm").reset();
+                closeModal();
+                loadUsers(currentPage, pageSize);
+            } else {
+                alert("Error: " + data.message);
+            }
+        })
+        .catch(error => console.error("Error creating staff:", error));
+    });
+</script>
+</body>
+</html>

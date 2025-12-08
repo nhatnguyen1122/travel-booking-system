@@ -1,0 +1,246 @@
+:root {
+    --xanh: #29b862; /* Màu xanh lá cây */
+}
+
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo {
+    margin-left: 30px;
+    font-size: 30px;
+    font-weight: bolder;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+header .logo span {
+    color: var(--xanh); /* Sử dụng biến --xanh */
+}
+
+header .bar a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 16px;
+}
+
+header .bar a:hover {
+    color: #29b862;
+}
+
+header .bar .indam {
+    color: #29b862;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.flight-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.flight-item {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.flight-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.airline-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #29b862;
+    margin-bottom: 10px;
+}
+
+.ticket-class {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.price {
+    font-size: 18px;
+    color: #e67e22;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.check-in-date,
+.check-out-date,
+.seat-available {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.choose-flight {
+    background-color: #29b862;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.choose-flight:hover {
+    background-color: #1e8449;
+}
+
+.error-message {
+    color: red;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Hiệu ứng loading */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.flight-item {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 40px 20px;
+    margin-top: 50px;
+}
+
+.container-footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-preview {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-preview h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #29b862;
+}
+
+.footer-preview p,
+.footer-preview ul {
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.footer-preview ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-preview ul li {
+    margin-bottom: 10px;
+}
+
+.footer-preview ul li a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-preview ul li a:hover {
+    color: #29b862;
+}
+
+.credit {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 16px;
+    color: #ccc;
+}
+
+.credit span {
+    color: #29b862;
+    font-weight: bold;
+}
+
+/* Biểu tượng người dùng */
+.icons i {
+    color: #fff;
+    font-size: 18px;
+    margin-left: 10px;
+    transition: color 0.3s ease;
+}
+
+.icons i:hover {
+    color: #29b862;
+}
+
+/* Phần Brand Location */
+.footer-preview ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-preview ul li a:hover {
+    color: #29b862;
+}
+
+/* Hiệu ứng khi nhấn vào liên kết */
+.footer-preview ul li a:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}

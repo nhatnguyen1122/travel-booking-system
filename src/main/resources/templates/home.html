@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | HUST ONEFUTURE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #29b862;
+            --primary-dark: #1e8544;
+            --text-dark: #1d1d1d;
+            --text-light: #666;
+            --white: #fff;
+            --bg-light: #f9f9f9;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            transition: all .2s linear;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            overflow-x: hidden;
+        }
+
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 7%;
+        }
+
+        header .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--white);
+            text-transform: uppercase;
+        }
+
+        header .logo span {
+            color: var(--primary);
+        }
+
+        /* --- SỬA CSS MENU BAR --- */
+        header .bar {
+            display: flex;
+            /* Giảm gap từ 20px xuống 15px để vừa nhiều mục hơn */
+            gap: 15px;
+        }
+
+        header .bar a {
+            /* Giảm font-size từ 1rem xuống 0.9rem cho gọn */
+            font-size: 0.9rem;
+            color: var(--white);
+            font-weight: 500;
+            /* Ngăn xuống dòng */
+            white-space: nowrap;
+        }
+        /* ------------------------ */
+
+        header .bar a:hover, header .bar a.indam {
+            color: var(--primary);
+        }
+
+        header .icons i {
+            font-size: 1.2rem;
+            color: var(--white);
+            cursor: pointer;
+            margin-left: 15px;
+        }
+
+        header .icons i:hover {
+            color: var(--primary);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 7%;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 180px;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
+            color: var(--primary);
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .video-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+        }
+
+        .video-container video {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-content {
+            z-index: 1;
+            margin-top: -50px;
+        }
+
+        .hero-content h3 {
+            font-size: 3.5rem;
+            color: var(--white);
+            text-transform: uppercase;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            color: var(--white);
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        .booking-bar {
+            background: var(--white);
+            padding: 10px 10px 10px 30px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            margin: 30px auto 0 auto;
+            max-width: 900px;
+            width: 90%;
+        }
+
+        .booking-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #ddd;
+            padding-right: 20px;
+            text-align: left;
+        }
+
+        .booking-item:last-child {
+            border: none;
+            flex: 0;
+            padding-right: 0;
+        }
+
+        .booking-item label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .booking-item input {
+            border: none;
+            outline: none;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            background: transparent;
+            width: 100%;
+            padding: 5px 0;
+        }
+
+        .booking-item input[type=number]::-webkit-inner-spin-button,
+        .booking-item input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .btn-search {
+            background: var(--primary);
+            color: var(--white);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+
+        .btn-search:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .vid-btn {
+            height: 15px;
+            width: 15px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .vid-btn.active {
+            background: var(--primary);
+            border-color: var(--white);
+            transform: scale(1.2);
+        }
+
+        section {
+            padding: 4rem 7%;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-heading h1 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-heading span {
+            color: var(--primary);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-content h3, .card-content h2 {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .card-content p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .card-meta {
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-link {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .package-card video {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .stars i {
+            color: #ffa500;
+            font-size: 0.8rem;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .price span {
+            font-size: 0.9rem;
+            color: #999;
+            text-decoration: line-through;
+            font-weight: 400;
+            margin-left: 5px;
+        }
+
+        .btn-book {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: var(--primary);
+            color: var(--white);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .btn-book:hover {
+            background: var(--primary-dark);
+        }
+
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .service-box {
+            background: var(--white);
+            padding: 2rem;
+            text-align: center;
+            border-radius: var(--radius);
+            border: 1px solid #eee;
+            transition: 0.3s;
+        }
+
+        .service-box:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .service-box i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .service-box h3 {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            text-transform: capitalize;
+        }
+
+        .service-box p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .footer {
+            background: #222;
+            color: #fff;
+            padding: 4rem 7%;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-col h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .footer-col ul li {
+            list-style: none;
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a, .footer-col p, .footer-col a {
+            color: #bbb;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .footer-col ul li a:hover, .footer-col a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .credit {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #333;
+            font-size: 1rem;
+        }
+
+        .credit span {
+            color: var(--primary);
+        }
+
+        @media (max-width: 1200px) {
+            header { padding: 1rem 2rem; }
+            header .bar { display: none; } /* Ẩn menu khi màn hình nhỏ */
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h3 { font-size: 2.5rem; }
+            .booking-bar { flex-direction: column; align-items: stretch; border-radius: 15px; padding: 20px; }
+            .booking-item { border-right: none; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 10px; }
+            .btn-search { width: 100%; border-radius: 10px; margin-top: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="logo"><span>HUST</span>ONEFUTURE</a>
+
+    <nav class="bar">
+        <a href="home" class="indam">Home</a>
+        <a href="booking">Booking</a>
+        <a href="hotel">Hotels</a>
+        <a href="flight">Flights</a>
+        <a href="trending">Trending</a>
+        <a href="news">News</a>
+        <a href="package">Packages</a>
+        <a href="services">Services</a>
+        <a href="gallery">Gallery</a>
+        <a href="review">Reviews</a>
+        <a href="contact">Contact</a>
+        <a href="plan-trip">Payment</a>
+    </nav>
+
+    <div class="icons">
+        <i class="fas fa-search" id="search-btn"></i>
+        <i class="fas fa-user" id="user-icon"></i>
+        <div id="user-menu" class="dropdown-menu">
+            <a href="/profile">My Profile</a>
+            <a href="/user">Logout</a>
+        </div>
+    </div>
+</header>
+
+<section class="hero" id="home">
+    <div class="video-container">
+        <video src="images/ocean.mp4" id="video-slider" loop autoplay muted></video>
+    </div>
+
+    <div class="hero-content">
+        <h3>Discover the World</h3>
+        <p>New journeys are waiting for you</p>
+    </div>
+
+    <form action="" class="booking-bar">
+        <div class="booking-item">
+            <label>Location</label>
+            <input type="text" placeholder="Where are you going?">
+        </div>
+        <div class="booking-item">
+            <label>Guests</label>
+            <input type="number" placeholder="Add guests" min="1">
+        </div>
+        <div class="booking-item">
+            <label>Check in</label>
+            <input type="text" onfocus="(this.type='date')" placeholder="Add dates">
+        </div>
+        <div class="booking-item">
+            <label>Check out</label>
+            <input type="text" onfocus="(this.type='date')" placeholder="Add dates">
+        </div>
+        <div class="booking-item">
+            <button type="submit" class="btn-search">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </form>
+
+    <div class="controls">
+        <span class="vid-btn active" data-src="images/ocean.mp4"></span>
+        <span class="vid-btn" data-src="images/waves.mp4"></span>
+        <span class="vid-btn" data-src="images/vid-4.mp4"></span>
+        <span class="vid-btn" data-src="images/seoul.mp4"></span>
+        <span class="vid-btn" data-src="images/vid-3.mp4"></span>
+    </div>
+</section>
+
+<section class="trending" id="trending">
+    <div class="section-heading">
+        <h1>Top <span>Trending</span></h1>
+    </div>
+    <div class="grid-container">
+        <div class="card">
+            <a href=""><img src="images/dia-diem-hampshire-anh.jpg" alt=""></a>
+            <div class="card-content">
+                <h3>Wakehurst Forest, UK</h3>
+                <div class="card-meta">
+                    <span><i class="fas fa-calendar"></i> 15 Jan 2024</span>
+                    <span><i class="fas fa-map-marker-alt"></i> England</span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <a href=""><img src="images/g-9.jpg" alt=""></a>
+            <div class="card-content">
+                <h3>Pyramids</h3>
+                <div class="card-meta">
+                    <span><i class="fas fa-calendar"></i> 15 Dec 2023</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Egypt</span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <a href=""><img src="images/neuschwanstein-đức.jpg" alt=""></a>
+            <div class="card-content">
+                <h3>Neuschwanstein Castle</h3>
+                <div class="card-meta">
+                    <span><i class="fas fa-calendar"></i> 17 Jan 2024</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Germany</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="packages" id="packages">
+    <div class="section-heading">
+        <h1>Popular <span>Packages</span></h1>
+    </div>
+    <div class="grid-container">
+        <div class="card package-card">
+            <video controls loop poster="">
+                <source src="images/vương quốc anh.mp4" type="video/mp4">
+            </video>
+            <div class="card-content">
+                <h3><i class="fas fa-map-marker-alt"></i> The United Kingdom</h3>
+                <p>Experience the royal heritage and stunning landscapes of the UK.</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                </div>
+                <div class="price">$78.00 <span>$120.00</span></div>
+                <a href="#" class="btn-book">Book Now</a>
+            </div>
+        </div>
+        <div class="card package-card">
+            <video controls loop>
+                <source src="images/Hawaii.mp4" type="video/mp4">
+            </video>
+            <div class="card-content">
+                <h3><i class="fas fa-map-marker-alt"></i> Hawaii</h3>
+                <p>Tropical paradise with warm aloha spirit and adventure.</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <div class="price">$86.00 <span>$140.00</span></div>
+                <a href="#" class="btn-book">Book Now</a>
+            </div>
+        </div>
+        <div class="card package-card">
+            <video controls loop>
+                <source src="images/paris_-_16619 (540p).mp4" type="video/mp4">
+            </video>
+            <div class="card-content">
+                <h3><i class="fas fa-map-marker-alt"></i> Paris</h3>
+                <p>The city of love, art, fashion and gastronomy.</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <div class="price">$56.00 <span>$126.00</span></div>
+                <a href="#" class="btn-book">Book Now</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="services" id="services">
+    <div class="section-heading">
+        <h1>Our <span>Services</span></h1>
+    </div>
+    <div class="services-container">
+        <div class="service-box">
+            <i class="fas fa-hotel"></i>
+            <h3>Affordable Hotels</h3>
+            <p>Quality stays on a budget. Start your journey today!</p>
+        </div>
+        <div class="service-box">
+            <i class="fas fa-plane"></i>
+            <h3>Fastest Travel</h3>
+            <p>Commercial air travel is the fastest mode for long distances.</p>
+        </div>
+        <div class="service-box">
+            <i class="fas fa-hiking"></i>
+            <h3>Adventures</h3>
+            <p>Exciting journeys that push boundaries and create memories.</p>
+        </div>
+        <div class="service-box">
+            <i class="fas fa-utensils"></i>
+            <h3>Food & Drinks</h3>
+            <p>Explore global flavors and enrich your cultural palate.</p>
+        </div>
+    </div>
+</section>
+
+<section class="news" id="news">
+    <div class="section-heading">
+        <h1>Travel <span>News</span></h1>
+    </div>
+    <div class="grid-container">
+        <div class="card">
+            <img src="images/costa-rica.jpg" alt="">
+            <div class="card-content">
+                <h3>Costa Rica Wildlife</h3>
+                <p>A journey through rainforests and stunning beaches.</p>
+                <a href="https://luhanhvietnam.com.vn" target="_blank" class="btn-link">Read More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+        <div class="card">
+            <img src="images/p-1.jpg" alt="">
+            <div class="card-content">
+                <h3>India Itinerary</h3>
+                <p>Rich culture, history, and food make India a perfect destination.</p>
+                <a href="https://www.traveloka.com" target="_blank" class="btn-link">Read More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+        <div class="card">
+            <img src="images/Lapland.jpg" alt="">
+            <div class="card-content">
+                <h3>Winter in Lapland</h3>
+                <p>Experience the magic of winter in Finland's northern region.</p>
+                <a href="https://tatinta.com" target="_blank" class="btn-link">Read More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h2>About Us</h2>
+            <p>Website developed by Group 14. We connect you to the world's most beautiful destinations.</p>
+        </div>
+    </div>
+</section>
+
+<script src="/js/home.js"></script>
+<script>
+    document.getElementById("user-icon").addEventListener("click", function(event) {
+        event.preventDefault();
+        let menu = document.getElementById("user-menu");
+        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    });
+
+    document.addEventListener("click", function(event) {
+        let userIcon = document.getElementById("user-icon");
+        let menu = document.getElementById("user-menu");
+
+        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
+            menu.style.display = "none";
+        }
+    });
+</script>
+</body>
+</html>

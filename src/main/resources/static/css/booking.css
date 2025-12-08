@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap');
+:root{
+    --orange:#ffa500;
+    --xanh:#29b862;
+    --red:#ec3535;
+    --xanhbien:#538df0;
+    --trong:#7be0cc;
+}
+
+*{
+    font-family: 'Nunito', sans-serif;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    outline: none;
+    border:none;
+    text-decoration: none;
+    transition: all .2s linear;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/*header{*/
+/*    position: fixed;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    right: 0;*/
+/*    background: #333;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: space-between;*/
+/*    padding: 10px 35px;*/
+/*    height: 50px;*/
+
+/*}*/
+/*nav.bar {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    gap: 20px;*/
+/*}*/
+
+/*.bar .home a{*/
+/*    margin-right: 15px;*/
+/*    font-size: 18px;*/
+/*    color: white;*/
+/*}*/
+
+/*.home:hover {*/
+/*    background-color: var(--green);*/
+/*    color: var(--xanh);*/
+/*}*/
+/*!* Dropdown buttons *!*/
+/*.dropdown .btn-secondary {*/
+/*    background-color: transparent;*/
+/*    border: none;*/
+/*    color: white;*/
+/*    font-size: 16px;*/
+/*    padding: 10px 15px;*/
+/*    text-transform: capitalize;*/
+/*}*/
+
+/*.dropdown .btn-secondary:hover,*/
+/*.dropdown .btn-secondary:focus {*/
+/*    background-color: var(--green);*/
+/*    color: var(--xanh);*/
+/*    box-shadow: none;*/
+/*}*/
+
+/*.dropdown-toggle::after {*/
+/*    margin-left: 5px;*/
+/*    display: none !important;*/
+/*}*/
+
+/*!* Dropdown menu *!*/
+/*.dropdown-menu {*/
+/*    background-color: var(--green);*/
+/*    border: none;*/
+/*    border-radius: 0 0 5px 5px;*/
+/*    margin-top: 0;*/
+/*}*/
+
+/*.dropdown-item {*/
+/*    color: white;*/
+/*    padding: 8px 16px;*/
+/*    font-size: 15px;*/
+/*}*/
+
+/*.dropdown-item:hover {*/
+/*    background-color: var(--green);*/
+/*    color: var(--xanh);*/
+/*}*/
+/*header .logo{*/
+/*    margin-left: 30px;*/
+/*    font-size: 30px;*/
+/*    font-weight: bolder;*/
+/*    color: #fff;*/
+/*    text-transform: uppercase;*/
+/*}*/
+/*header .logo span{*/
+/*    color: var(--xanh);*/
+/*}*/
+/*header .bar a{*/
+/*    margin-right: 15px;*/
+/*    font-size: 18px;*/
+/*    color: black;*/
+/*}*/
+/*header .bar a:hover{*/
+/*    color: var(--xanh);*/
+/*}*/
+/*.bar .indam{*/
+/*    color: var(--xanh);*/
+/*}*/
+/*.icons{*/
+/*    margin-left: 15px;*/
+/*    margin-right: 90px;*/
+/*}*/
+/*.icons i{*/
+/*    margin-left:10vh;*/
+/*    color: white;*/
+/*    font-size: 18px;*/
+
+/*}*/
+/*.icons a i:hover{*/
+/*    color: var(--xanh);*/
+/*}*/
+
+header{
+    /* đặt vị trí cố định trên cùng trang  */
+    position: fixed;
+    top:0; left: 0; right:0;
+    background:#333;
+    /* sử dụng hiển thị các phần tử con theo chiều ngang  */
+    display: flex;
+    /* các phần tử con căn giưuax theo chiều dọc  */
+    align-items: center;
+    /* các phần tử con căn giữa theo chiều ngang và có khoảng cách giữa chúng  */
+    justify-content: space-between;
+    padding: 35px;
+    height:50px ;
+    z-index: 1000 ;
+}
+header .logo{
+    margin-left: 30px;
+    font-size: 30px;
+    /* in đậm chữ hơn  */
+    font-weight: bolder;
+    color:#fff;
+    /* chuyển đổi văn bản thành chữ in hoa  */
+    text-transform: uppercase;
+}
+
+header .logo span{
+    color: var(--xanh);
+}
+header .bar a{
+    margin-right: 15px;
+    font-size: 18px;
+    color: white;
+}
+header .bar a:hover{
+    color:var(--xanh) ;
+}
+.icons{
+    margin-right: 90px;
+}
+.icons i{
+    color: white;
+    font-size: 18px;
+    margin-right: 5px;
+}
+.icons a i:hover{
+    color: var(--xanh);
+}
+
+.heading{
+    /* các phần tử trong heading văn bản được căn giữa  */
+    top:90vh;
+    text-align: center;
+    padding:50px;
+    padding-top:100px;
+}
+
+.heading span{
+    font-size: 28px;
+    background:rgba(255, 165, 0,.2);
+    color:var(--trong);
+    /* đặt bán kính bo tròn  */
+    border-radius: 8px;
+    padding: 21px 18px;
+    margin-top: 80px;
+}
+
+.heading span.space{
+    /* loại bỏ màu nền của pâhnf tử span có lớp space làm cho không có màu nền  */
+    background:none;
+}
+
+.booking{
+    margin-left: 150px;
+    margin-right: 75px;
+    display: flex;
+    align-items: center;
+}
+.booking img{
+    width: 600px;
+    height: 600px;
+    border-radius: 30px;
+}
+
+.inputBox{
+    margin-left: 10px;
+    padding: 5px;
+}
+.inputBox input{
+    width: 500px;
+    height: 30px;
+    border: 1px solid gainsboro;
+    border-radius: 20px;
+}
+
+.submit{
+    margin-left: 10px;
+    margin-top: 10px;
+    background-color: #51cd82 ;
+    border-radius: 10px;
+    height: 30px   ;
+    cursor: pointer;
+}
+.submit:hover{
+    background-color: antiquewhite;
+}
+
+
+.footer{
+    margin-top: 30px;
+    background:#333;
+}
+.footer .container-footer{
+    margin-left: 30px;
+    display: flex;
+}
+.footer .container-footer .footer-preview{
+    width: 25%;
+    color: white;
+}
+.footer .container-footer .footer-preview a{
+    text-decoration: none;
+    color: white;
+}
+.footer .container-footer .footer-preview ul{
+    list-style: none;
+}
+.footer .container-footer .footer-preview a:hover{
+    color: var(--orange);
+    text-decoration: underline;
+}
+.credit{
+    border-top: 2px solid white;
+    padding-top: 5px;
+    text-align: center;
+    font-size: 18px;
+    color: white;
+}
+.credit span{
+    color: var(--orange);
+    background-color: #333;
+}
+a {
+    text-decoration: none;
+}

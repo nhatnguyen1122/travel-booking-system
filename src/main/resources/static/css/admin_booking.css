@@ -1,0 +1,418 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap');
+:root{
+    --orange:#ffa500;
+    --xanh:#29b862;
+    --red:#ec3535;
+    --xanhbien:#538df0;
+    --trong:#7be0cc;
+}
+
+*{
+    font-family: 'Nunito', sans-serif;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    outline: none;
+    border:none;
+    text-decoration: none;
+    transition: all .2s linear;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 35px;
+    height: 50px;
+
+}
+header .logo{
+    margin-left: 30px;
+    font-size: 30px;
+    font-weight: bolder;
+    color: #fff;
+    text-transform: uppercase;
+}
+header .logo span{
+    color: var(--xanh);
+}
+header .bar a{
+    margin-right: 15px;
+    font-size: 18px;
+    color: white;
+}
+header .bar a:hover{
+    color: var(--xanh);
+}
+.bar .indam{
+    color: var(--xanh);
+}
+.icons{
+    margin-right: 90px;
+}
+.icons i{
+    color: white;
+    font-size: 18px;
+
+}
+.icons a i:hover{
+    color: var(--xanh);
+}
+.heading{
+    /* các phần tử trong heading văn bản được căn giữa  */
+    text-align: center;
+    padding:50px;
+}
+
+.heading span{
+    font-size: 28px;
+    background:rgba(255, 165, 0,.2);
+    color:var(--trong);
+    /* đặt bán kính bo tròn  */
+    border-radius: 8px;
+    padding: 21px 18px;
+    margin-top: 80px;
+}
+
+.heading span.space{
+    /* loại bỏ màu nền của pâhnf tử span có lớp space làm cho không có màu nền  */
+    background:none;
+}
+.booking{
+    margin-left: 150px;
+    margin-right: 75px;
+    display: flex;
+    align-items: center;
+}
+.booking img{
+    width: 600px;
+    height: 600px;
+    border-radius: 30px;
+}
+
+.inputBox{
+    margin-left: 10px;
+    padding: 5px;
+}
+.inputBox input{
+    width: 500px;
+    height: 30px;
+    border: 1px solid gainsboro;
+    border-radius: 20px;
+}
+
+.submit{
+    margin-left: 10px;
+    margin-top: 10px;
+    background-color: #51cd82 ;
+    border-radius: 10px;
+    height: 30px   ;
+    cursor: pointer;
+}
+.submit:hover{
+    background-color: antiquewhite;
+}
+
+
+.footer{
+    margin-top: 30px;
+    background:#333;
+}
+.footer .container-footer{
+    margin-left: 30px;
+    display: flex;
+}
+.footer .container-footer .footer-preview{
+    width: 25%;
+    color: white;
+}
+.footer .container-footer .footer-preview a{
+    text-decoration: none;
+    color: white;
+}
+.footer .container-footer .footer-preview ul{
+    list-style: none;
+}
+.footer .container-footer .footer-preview a:hover{
+    color: var(--orange);
+    text-decoration: underline;
+}
+.credit{
+    border-top: 2px solid white;
+    padding-top: 5px;
+    text-align: center;
+    font-size: 18px;
+    color: white;
+}
+.credit span{
+    color: var(--orange);
+    background-color: #333;
+}
+/* General container layout */
+.container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-left: 5px solid #28b862;
+    background-color: #fff;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    top: auto;
+}
+
+.left {
+    font-size: 20px;
+    color: #003366;
+}
+
+.right {
+    font-size: 16px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.right i {
+    color: black;
+    margin-right: 5px;
+}
+/* a */
+table {
+    width: 50%;
+    border-collapse: collapse;
+    display: inline-block
+}
+table, th, td {
+    border: 1px solid black;
+}
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+th {
+    background-color: #f2f2f2;
+}
+.delete-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+#myInput {
+    width: 50%;
+    padding: 12px;
+    margin: 12px 0;
+    box-sizing: border-box;
+    border: 1px solid black;
+}
+/*  */
+.number {
+
+    max-width: 600px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 50%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+textarea {
+    resize: vertical;
+    height: 80px;
+}
+
+button {
+    cursor: pointer;
+}
+
+.new-customer-btn {
+    background-color: #004085;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.totals p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.amount {
+    font-weight: bold;
+    color: green;
+}
+
+#remaining {
+    color: red;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+
+
+.btn-back {
+    background-color: #343a40;
+}
+#nam{
+    display: flex;
+}
+
+#booking-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Căn đỉnh cho cả hai phần */
+    gap: 10px; /* Khoảng cách giữa các phần */
+}
+
+#booking-table-container, #payment-form-container {
+    width: 50%; /* Mỗi phần chiếm 48% chiều rộng, bạn có thể tùy chỉnh */
+}
+
+#booking-table-container table {
+    width: 100%; /* Để bảng có chiều rộng 100% của container */
+}
+
+.totals, .buttons {
+    margin-top: 10px;
+}
+
+/* Đảm bảo rằng các nút và form trông ổn */
+#payment-form-container .formGroup {
+    margin-bottom: 20px;
+}
+#payment-form-container{
+    border: 1px solid #333333; /* Viền dày 3px, kiểu dashed, màu đỏ */
+}
+/*  */
+.buttons button {
+    font-size: 18px;          /* Tăng kích thước chữ cho các nút */
+    padding: 15px 25px;       /* Tăng kích thước vùng nhấn với khoảng đệm */
+    border-radius: 8px;       /* Bo tròn góc của nút */
+    border: none;             /* Xóa viền mặc định */
+    cursor: pointer;          /* Thay đổi con trỏ chuột khi hover vào nút */
+    margin-right: 10px;       /* Tạo khoảng cách giữa các nút */
+}
+
+/* Thiết kế riêng cho nút Lưu đơn hàng */
+.btnSave {
+    background-color: #4CAF50; /* Màu nền xanh lá */
+    color: white;              /* Màu chữ trắng */
+}
+
+/* Thiết kế riêng cho nút Lưu và in hóa đơn */
+.btnPrint {
+    background-color: #008CBA; /* Màu nền xanh dương */
+    color: white;              /* Màu chữ trắng */
+}
+
+/* Thiết kế riêng cho nút Quay về */
+.btnBack {
+    background-color: #f44336; /* Màu nền đỏ */
+    color: white;              /* Màu chữ trắng */
+}
+
+.buttons button:hover {
+    opacity: 0.8;              /* Khi hover, nút sẽ trở nên nhạt hơn một chút */
+}
+/* ừavcbnsaivcebadiv */
+/* Tạo kiểu cho toàn bộ form */
+#paymentForm {
+    background-color: #f9f9f9; /* Màu nền nhạt cho form */
+    padding: 20px; /* Khoảng cách bên trong form */
+    border-radius: 8px; /* Bo tròn góc form */
+    max-width: 500px; /* Đặt chiều rộng tối đa cho form */
+    margin: 0 auto; /* Canh giữa form */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tạo đổ bóng */
+}
+
+/* Tạo kiểu cho nhóm form */
+.formGroup {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px; /* Khoảng cách dưới mỗi nhóm */
+}
+
+/* Tạo kiểu cho label */
+.formGroup label {
+    font-size: 16px;
+    color: #333; /* Màu chữ của label */
+    margin-right: 10px; /* Khoảng cách giữa label và input */
+}
+
+/* Tạo kiểu cho input */
+.formGroup input {
+    flex-grow: 1; /* Để input chiếm khoảng không gian còn lại */
+    padding: 8px;
+    border: 1px solid #ccc; /* Màu viền nhạt */
+    border-radius: 4px; /* Bo góc input */
+    font-size: 14px;
+}
+
+/* Tạo hiệu ứng hover cho input */
+.formGroup input:hover {
+    border-color: #888; /* Màu viền khi hover */
+}
+
+/* Tạo kiểu cho nút Tạo mới */
+.newCustomerBtn {
+    background-color: #4CAF50; /* Màu nền nút xanh lá */
+    color: white; /* Màu chữ trắng */
+    padding: 8px 12px;
+    border: none; /* Không viền */
+    border-radius: 4px; /* Bo góc nút */
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px; /* Khoảng cách giữa nút và input */
+}
+
+/* Hiệu ứng hover cho nút */
+.newCustomerBtn:hover {
+    background-color: #45a049; /* Màu nền đậm hơn khi hover */
+}

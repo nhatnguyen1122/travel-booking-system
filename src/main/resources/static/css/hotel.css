@@ -1,0 +1,424 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap');
+
+:root {
+    --orange: #ffa500;
+    --xanh: #29b862;
+    --red: #ec3535;
+    --xanhbien: #538df0;
+    --trong: #7be0cc;
+}
+
+* {
+    font-family: 'Nunito', sans-serif;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    transition: all 0.2s linear;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 35px;
+    height: 50px;
+    z-index: 1000;
+}
+
+header .logo {
+    margin-left: 30px;
+    font-size: 30px;
+    font-weight: bolder;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+header .logo span {
+    color: var(--xanh);
+}
+
+header .bar a {
+    margin-right: 15px;
+    font-size: 18px;
+    color: white;
+}
+
+header .bar a:hover {
+    color: var(--xanh);
+}
+
+.bar .indam {
+    color: var(--xanh);
+}
+
+.icons {
+    margin-right: 90px;
+}
+
+.icons i {
+    color: white;
+    font-size: 18px;
+}
+
+.icons a i:hover {
+    color: var(--xanh);
+}
+
+.container {
+    margin-top: 80px; /* To avoid overlap with the fixed header */
+    padding: 20px;
+}
+
+/* Kiểu dáng cho danh sách khách sạn */
+.hotel-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Phần tử khách sạn */
+.hotel-item {
+    width: 300px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Khi di chuột vào, đổi màu nền & viền */
+.hotel-item:hover {
+    background-color: #e3f2fd;
+    border: 2px solid #29b862;
+    transform: scale(1.05);
+}
+
+/* Nút chọn khách sạn */
+.choose-hotel {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #29b862;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.choose-hotel:hover {
+    background-color: #218838;
+}
+
+/* Hiển thị modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Nội dung modal */
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 350px;
+    text-align: center;
+}
+
+/* Nút đóng modal */
+.close-modal {
+    float: right;
+    font-size: 22px;
+    cursor: pointer;
+}
+/* Bổ sung CSS cho phần container và danh sách khách sạn */
+.container {
+    margin-top: 80px; /* Để tránh chồng lấn với header cố định */
+    padding: 20px;
+}
+
+/* Kiểu dáng cho danh sách khách sạn */
+.hotel-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Phần tử khách sạn */
+.hotel-item {
+    width: 300px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Khi di chuột vào, đổi màu nền & viền */
+.hotel-item:hover {
+    background-color: #e3f2fd;
+    border: 2px solid var(--xanh);
+    transform: scale(1.05);
+}
+
+/* Tiêu đề khách sạn */
+.hotel-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Giá khách sạn */
+.hotel-price {
+    font-size: 18px;
+    color: var(--xanh);
+    margin-bottom: 10px;
+}
+
+/* Nút chọn khách sạn */
+.choose-hotel {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--xanh);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
+}
+
+.choose-hotel:hover {
+    background-color: var(--xanhbien);
+}
+
+/* Hiển thị modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Nội dung modal */
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 350px;
+    text-align: center;
+    position: relative;
+}
+
+/* Nút đóng modal */
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #333;
+}
+
+.close-modal:hover {
+    color: var(--red);
+}
+
+/* Form trong modal */
+#hotel-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#hotel-form label {
+    font-size: 16px;
+    color: #333;
+    text-align: left;
+}
+
+#hotel-form input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#hotel-form button {
+    padding: 10px;
+    background-color: var(--xanh);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#hotel-form button:hover {
+    background-color: var(--xanhbien);
+}
+
+/* Thông báo lỗi */
+.error-message {
+    color: var(--red);
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20px;
+}
+/* Kiểu dáng cho phần chọn phòng */
+.room-selection {
+    position: relative;
+    margin: 20px 0;
+}
+
+#choose-room-btn {
+    padding: 10px;
+    background-color: var(--xanh);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#choose-room-btn:hover {
+    background-color: var(--xanhbien);
+}
+
+.room-list {
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.room-list.show {
+    display: block;
+}
+
+.room-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.room-item:last-child {
+    border-bottom: none;
+}
+
+.room-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+/* Kiểu dáng cho trạng thái phòng */
+.room-status {
+    margin-left: 10px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+/* Kiểu dáng cho modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 350px;
+    text-align: center;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #333;
+}
+
+.close-modal:hover {
+    color: var(--red);
+}
+
+/* Kiểu dáng cho danh sách phòng */
+.room-list {
+    display: none;
+    margin-top: 10px;
+    /*border: 1px solid #ccc;*/
+    border: 1px solid red;
+    padding: 10px;
+    border-radius: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.room-list.show {
+    display: block;
+}
+
+.room-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.room-item input[type="checkbox"] {
+    margin-right: 10px;
+}

@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap');
+:root{
+    --orange:#ffa500;
+    --xanh:#29b862;
+    --red:#ec3535;
+    --xanhbien:#538df0;
+    --trong:#7be0cc;
+}
+
+*{
+    font-family: 'Nunito', sans-serif;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    outline: none;
+    border:none;
+    text-decoration: none;
+    transition: all .2s linear;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 35px;
+    height: 50px;
+
+}
+header .logo{
+    margin-left: 30px;
+    font-size: 30px;
+    font-weight: bolder;
+    color: #fff;
+    text-transform: uppercase;
+}
+header .logo span{
+    color: var(--xanh);
+}
+header .bar a{
+    margin-right: 15px;
+    font-size: 18px;
+    color: white;
+}
+header .bar a:hover{
+    color: var(--xanh);
+}
+.icons{
+    margin-right: 90px;
+}
+.icons i{
+    color: white;
+    font-size: 18px;
+
+}
+.icons a i:hover{
+    color: var(--xanh);
+}
+.heading{
+    /* các phần tử trong heading văn bản được căn giữa  */
+    text-align: center;
+    padding:50px;
+}
+
+.heading span{
+    font-size: 28px;
+    background:rgba(255, 165, 0,.2);
+    color:var(--trong);
+    /* đặt bán kính bo tròn  */
+    border-radius: 8px;
+    padding: 21px 18px;
+    margin-top: 80px;
+}
+
+.heading span.space{
+    /* loại bỏ màu nền của pâhnf tử span có lớp space làm cho không có màu nền  */
+    background:none;
+}
+.contact{
+    margin-top: 20px;
+    margin-left: 370px;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    padding: auto;
+}
+.form input[type="text"]{
+    height: 50px;
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    margin-bottom: 10px;
+}
+.form input[type="tel"]{
+    height: 50px;
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    margin-bottom: 10px;
+}
+textarea{
+    height: 100px;
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    margin-bottom: 10px;
+
+}
+.form input[type="submit"]{
+    height: 50px;
+    width: 30%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background-color: var(--xanh); /* Màu nền mặc định */
+}
+.form input[type="submit"]:hover {
+    background-color: var(--orange); /* Màu nền khi di chuột vào */
+    color: var(--trong); /* Màu chữ khi di chuột vào */
+}
+.bar .indam{
+    color: var(--xanh);
+}

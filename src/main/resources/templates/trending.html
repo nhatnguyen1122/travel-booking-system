@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending | HUST ONEFUTURE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #29b862;
+            --primary-dark: #1e8544;
+            --text-dark: #1d1d1d;
+            --text-light: #666;
+            --white: #fff;
+            --bg-light: #f9f9f9;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            transition: all .2s linear;
+        }
+
+        body {
+            background-color: var(--bg-light);
+        }
+
+        /* --- HEADER & NAVBAR (ĐỒNG BỘ) --- */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 5%;
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            text-transform: uppercase;
+        }
+
+        header .logo span { color: var(--primary); }
+
+        header .bar {
+            display: flex;
+            gap: 15px;
+        }
+
+        header .bar a {
+            font-size: 0.85rem;
+            color: var(--white);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        header .bar a:hover, header .bar a.indam {
+            color: var(--primary);
+        }
+
+        header .icons {
+            display: flex;
+            align-items: center;
+        }
+
+        header .icons i {
+            font-size: 1.1rem;
+            color: var(--white);
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        header .icons i:hover { color: var(--primary); }
+
+        /* --- DROPDOWN --- */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 60px; right: 5%;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 150px;
+            overflow: hidden;
+            flex-direction: column;
+            z-index: 1001;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
+            color: var(--primary);
+        }
+
+        /* --- TRENDING CONTENT --- */
+        .trending-section {
+            padding: 8rem 7% 4rem;
+        }
+
+        .heading {
+            text-align: center;
+            padding-bottom: 2rem;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            font-size: 3.5rem;
+        }
+
+        .heading span {
+            letter-spacing: 5px;
+            display: inline-block;
+            color: var(--primary);
+            text-shadow: 0 5px 10px rgba(0,0,0,.1);
+            transition: .3s;
+        }
+
+        .heading span:hover {
+            transform: translateY(-10px);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eee;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .image-box {
+            height: 250px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .image-box img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            transition: 0.3s;
+        }
+
+        .card:hover .image-box img {
+            transform: scale(1.1);
+        }
+
+        .content {
+            padding: 1.5rem;
+        }
+
+        .content h3 {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .content p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content p i {
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        /* --- FOOTER (ĐỒNG BỘ) --- */
+        .footer { background: #222; color: #fff; padding: 4rem 7%; }
+        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+        .footer-col h2 { font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--primary); }
+        .footer-col ul li { list-style: none; margin-bottom: 10px; }
+        .footer-col ul li a, .footer-col p { color: #bbb; font-size: 0.9rem; transition: 0.3s; }
+        .footer-col ul li a:hover { color: var(--primary); padding-left: 5px; }
+        .credit { text-align: center; padding-top: 2rem; margin-top: 2rem; border-top: 1px solid #333; font-size: 1rem; }
+        .credit span { color: var(--primary); }
+
+        @media (max-width: 1200px) {
+            header { padding: 1rem 2rem; }
+            header .bar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="logo"><span>HUST</span>ONEFUTURE</a>
+    <nav class="bar">
+        <a href="home">Home</a>
+        <a href="booking">Booking</a>
+        <a href="hotel">Hotels</a>
+        <a href="flight">Flights</a>
+        <a href="trending" class="indam">Trending</a>
+        <a href="news">News</a>
+        <a href="package">Packages</a>
+        <a href="services">Services</a>
+        <a href="gallery">Gallery</a>
+        <a href="review">Reviews</a>
+        <a href="contact">Contact</a>
+        <a href="plan-trip">Payment</a>
+    </nav>
+    <div class="icons">
+        <i class="fas fa-search" id="search-btn"></i>
+        <i class="fas fa-user" id="user-icon"></i>
+        <div id="user-menu" class="dropdown-menu">
+            <a href="/profile">My Profile</a>
+            <a href="/user">Logout</a>
+        </div>
+    </div>
+</header>
+
+<section class="trending-section">
+    <h1 class="heading">
+        <span>T</span>
+        <span>O</span>
+        <span>P</span>
+        <span class="space"></span>
+        <span>T</span>
+        <span>R</span>
+        <span>E</span>
+        <span>N</span>
+        <span>D</span>
+        <span>I</span>
+        <span>N</span>
+        <span>G</span>
+    </h1>
+
+    <div class="grid-container">
+        <div class="card">
+            <div class="image-box">
+                <a href=""><img src="images/dia-diem-hampshire-anh.jpg" alt="Wakehurst"></a>
+            </div>
+            <div class="content">
+                <h3>Wakehurst Forest</h3>
+                <p><i class="fas fa-calendar-alt"></i> January 15, 2024</p>
+                <p><i class="fas fa-map-marker-alt"></i> United Kingdom</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="image-box">
+                <a href=""><img src="images/g-9.jpg" alt="Pyramids"></a>
+            </div>
+            <div class="content">
+                <h3>The Pyramids</h3>
+                <p><i class="fas fa-calendar-alt"></i> December 15, 2023</p>
+                <p><i class="fas fa-map-marker-alt"></i> Egypt</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="image-box">
+                <a href=""><img src="images/neuschwanstein-đức.jpg" alt="Neuschwanstein"></a>
+            </div>
+            <div class="content">
+                <h3>Neuschwanstein Castle</h3>
+                <p><i class="fas fa-calendar-alt"></i> January 17, 2024</p>
+                <p><i class="fas fa-map-marker-alt"></i> Germany</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="image-box">
+                <a href=""><img src="images/trung-tam-thanh-pho-ha-noi-603da1f235b38.jpg" alt="Hanoi"></a>
+            </div>
+            <div class="content">
+                <h3>Turtle Tower</h3>
+                <p><i class="fas fa-calendar-alt"></i> March 15, 2024</p>
+                <p><i class="fas fa-map-marker-alt"></i> Hanoi City</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="image-box">
+                <a href=""><img src="images/hcm.jfif" alt="HCM"></a>
+            </div>
+            <div class="content">
+                <h3>Ho Chi Minh City</h3>
+                <p><i class="fas fa-calendar-alt"></i> July 24, 2024</p>
+                <p><i class="fas fa-map-marker-alt"></i> Vietnam</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="image-box">
+                <a href=""><img src="images/danang.jfif" alt="Da Nang"></a>
+            </div>
+            <div class="content">
+                <h3>Golden Bridge</h3>
+                <p><i class="fas fa-calendar-alt"></i> June 21, 2024</p>
+                <p><i class="fas fa-map-marker-alt"></i> Da Nang City</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h2>About Us</h2>
+            <p>Website developed by Group 14. We connect you to the world's most beautiful destinations.</p>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.getElementById("user-icon").addEventListener("click", function(event) {
+        event.preventDefault();
+        let menu = document.getElementById("user-menu");
+        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    });
+
+    document.addEventListener("click", function(event) {
+        let userIcon = document.getElementById("user-icon");
+        let menu = document.getElementById("user-menu");
+
+        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
+            menu.style.display = "none";
+        }
+    });
+</script>
+</body>
+</html>

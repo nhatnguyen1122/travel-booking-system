@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap');
+:root{
+    --orange:#ffa500;
+    --xanh:#29b862;
+    --red:#ec3535;
+    --xanhbien:#538df0;
+    --trong:#7be0cc;
+}
+
+*{
+    font-family: 'Nunito', sans-serif;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    outline: none;
+    border:none;
+    text-decoration: none;
+    transition: all .2s linear;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 35px;
+    height: 50px;
+
+}
+header .logo{
+    margin-left: 30px;
+    font-size: 30px;
+    font-weight: bolder;
+    color: #fff;
+    text-transform: uppercase;
+}
+header .logo span{
+    color: var(--xanh);
+}
+header .bar a{
+    margin-right: 15px;
+    font-size: 18px;
+    color: white;
+}
+header .bar a:hover{
+    color: var(--xanh);
+}
+.bar .indam{
+    color: var(--xanh);
+}
+.icons{
+    margin-right: 90px;
+}
+.icons i{
+    color: white;
+    font-size: 18px;
+
+}
+.icons a i:hover{
+    color: var(--xanh);
+}
+.heading{
+    /* các phần tử trong heading văn bản được căn giữa  */
+    text-align: center;
+    padding:50px;
+}
+
+.heading span{
+    font-size: 28px;
+    background:rgba(255, 165, 0,.2);
+    color:var(--trong);
+    /* đặt bán kính bo tròn  */
+    border-radius: 8px;
+    padding: 21px 18px;
+    margin-top: 80px;
+}
+
+.heading span.space{
+    /* loại bỏ màu nền của pâhnf tử span có lớp space làm cho không có màu nền  */
+    background:none;
+}
+.khoitin{
+    margin-top: 50px;
+    margin-bottom: 30px;
+    margin-left: 100px;
+    margin-bottom: 150px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.khoitin .tin {
+    width: 300px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid grey;
+    padding: 10px;
+    border-radius: 30px;
+    margin-right: 20px;
+}
+.khoitin .tin img{
+    border-radius: 50%;
+    width: 100px;
+    height: 75px;
+}
+.khoitin .tin p{
+    color: grey;
+}
+.khoitin .tin i{
+    color: var(--orange);
+}

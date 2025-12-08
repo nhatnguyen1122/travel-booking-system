@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap');
+:root{
+    --orange:#ffa500;
+    --xanh:#29b862;
+    --red:#ec3535;
+    --xanhbien:#538df0;
+    --trong:#7be0cc;
+}
+
+*{
+    font-family: 'Nunito', sans-serif;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    outline: none;
+    border:none;
+    text-decoration: none;
+    transition: all .2s linear;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 35px;
+    height: 50px;
+
+}
+header .logo{
+    margin-left: 30px;
+    font-size: 30px;
+    font-weight: bolder;
+    color: #fff;
+    text-transform: uppercase;
+}
+header .logo span{
+    color: var(--xanh);
+}
+header .bar a{
+    margin-right: 15px;
+    font-size: 18px;
+    color: white;
+}
+header .bar a:hover{
+    color: var(--xanh);
+}
+.bar .indam{
+    color: var(--xanh);
+}
+.icons{
+    margin-right: 90px;
+}
+.icons i{
+    color: white;
+    font-size: 18px;
+
+}
+.icons a i:hover{
+    color: var(--xanh);
+}
+.heading{
+    /* các phần tử trong heading văn bản được căn giữa  */
+    text-align: center;
+    padding:50px;
+}
+
+.heading span{
+    font-size: 28px;
+    background:rgba(255, 165, 0,.2);
+    color:var(--trong);
+    /* đặt bán kính bo tròn  */
+    border-radius: 8px;
+    padding: 21px 18px;
+    margin-top: 80px;
+}
+
+.heading span.space{
+    /* loại bỏ màu nền của pâhnf tử span có lớp space làm cho không có màu nền  */
+    background:none;
+}
+.khoitin{
+    margin-top: 30px;
+    margin-right: 200px; margin-left: 200px;
+    margin-bottom: 20px;
+    width: 1100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.khoitin .tin{
+    border: 1px solid gainsboro;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    width: 1000px;
+}
+.khoitin .tin img{
+    margin-top: 10px;
+    width: 700px;
+    height: 400px;
+}
+.khoitin .tin p{
+    margin: 5px;
+    margin-top: 0px;
+    font-size: 12px;
+    color: grey;
+    text-align: center;
+}
+.docthem {
+    background-color: var(--trong);
+    font-size: 16px; /* Giảm kích thước font chữ để nhỏ hơn so với ô */
+    padding: 10px 20px; /* Thêm khoảng cách bên trong để tạo không gian xung quanh chữ */
+    text-align: center; /* Căn giữa chữ trong phần tử */
+    display: inline-block; /* Giữ kích thước phần tử theo nội dung */
+    border-radius: 5px; /* Thêm bo tròn góc cho ô xanh */
+    margin-top: 10px; /* Tạo khoảng cách phía trên nếu cần */
+    color: white; /* Màu chữ trắng để tương phản với màu nền */
+}
+a .docthem:hover{
+    background: #e1c6c6;
+}

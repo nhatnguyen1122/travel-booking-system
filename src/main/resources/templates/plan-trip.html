@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment & Trip Management | HUST ONEFUTURE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #29b862;
+            --primary-dark: #1e8544;
+            --text-dark: #1d1d1d;
+            --text-light: #666;
+            --white: #fff;
+            --bg-light: #f9f9f9;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --radius: 12px;
+            --danger: #e74c3c;
+            --info: #3498db;
+            --warning: #f39c12;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            transition: all .2s linear;
+        }
+
+        body {
+            background-color: var(--bg-light);
+        }
+
+        /* --- HEADER & NAVBAR (ĐỒNG BỘ) --- */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 5%;
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            text-transform: uppercase;
+        }
+
+        header .logo span { color: var(--primary); }
+
+        header .bar {
+            display: flex;
+            gap: 15px;
+        }
+
+        header .bar a {
+            font-size: 0.85rem;
+            color: var(--white);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        header .bar a:hover, header .bar a.indam {
+            color: var(--primary);
+        }
+
+        header .icons {
+            display: flex;
+            align-items: center;
+        }
+
+        header .icons i {
+            font-size: 1.1rem;
+            color: var(--white);
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        header .icons i:hover { color: var(--primary); }
+
+        /* --- DROPDOWN --- */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 60px; right: 5%;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 150px;
+            overflow: hidden;
+            flex-direction: column;
+            z-index: 1001;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
+            color: var(--primary);
+        }
+
+        /* --- HERO HEADER --- */
+        .page-header {
+            position: relative;
+            height: 40vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/p-6.jpg'); /* Đảm bảo có ảnh hoặc dùng màu nền */
+            background-color: #333;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            margin-bottom: 30px;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        /* --- CONTENT SECTION --- */
+        .container {
+            padding: 0 5% 4rem;
+        }
+
+        .table-container {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        .heading-secondary {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* TABLE STYLES */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            min-width: 1000px; /* Ensure table doesn't squish too much */
+        }
+
+        table th, table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        table th {
+            background-color: var(--primary);
+            color: var(--white);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        table tbody tr:hover {
+            background-color: #f0f9f4;
+        }
+
+        /* BUTTONS */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--white);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+
+        .btn.cancel { background-color: var(--danger); }
+        .btn.pay { background-color: var(--primary); }
+        .btn.choose-flight { background-color: var(--info); }
+        .btn.choose-hotel { background-color: var(--warning); }
+
+        /* PAGINATION */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            gap: 15px;
+        }
+
+        .pagination .btn {
+            padding: 8px 15px;
+            background: #333;
+            font-size: 0.9rem;
+        }
+
+        /* --- MODAL --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            width: 90%;
+            max-width: 450px;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            text-align: center;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-content h2 { margin-bottom: 20px; color: var(--text-dark); }
+        .modal-content img { width: 200px; margin-bottom: 20px; border-radius: 10px; border: 1px solid #ddd; }
+
+        .modal-btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        /* --- FOOTER (ĐỒNG BỘ) --- */
+        .footer { background: #222; color: #fff; padding: 4rem 7%; margin-top: auto; }
+        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+        .footer-col h2 { font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--primary); }
+        .footer-col ul li { list-style: none; margin-bottom: 10px; }
+        .footer-col ul li a, .footer-col p { color: #bbb; font-size: 0.9rem; transition: 0.3s; }
+        .footer-col ul li a:hover { color: var(--primary); padding-left: 5px; }
+        .credit { text-align: center; padding-top: 2rem; margin-top: 2rem; border-top: 1px solid #333; font-size: 1rem; }
+        .credit span { color: var(--primary); }
+
+        @media (max-width: 1200px) {
+            header { padding: 1rem 2rem; }
+            header .bar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="logo"><span>HUST</span>ONEFUTURE</a>
+    <nav class="bar">
+        <a href="home">Home</a>
+        <a href="booking">Booking</a>
+        <a href="hotel">Hotels</a>
+        <a href="flight">Flights</a>
+        <a href="trending">Trending</a>
+        <a href="news">News</a>
+        <a href="package">Packages</a>
+        <a href="services">Services</a>
+        <a href="gallery">Gallery</a>
+        <a href="review">Reviews</a>
+        <a href="contact">Contact</a>
+        <a href="plan-trip" class="indam">Payment</a>
+    </nav>
+    <div class="icons">
+        <i class="fas fa-search" id="search-btn"></i>
+        <i class="fas fa-user" id="user-icon"></i>
+        <div id="user-menu" class="dropdown-menu">
+            <a href="/profile">My Profile</a>
+            <a href="/user">Logout</a>
+        </div>
+    </div>
+</header>
+
+<section class="page-header">
+    <div class="hero-content">
+        <h1>Trip Management</h1>
+    </div>
+</section>
+
+<div class="container">
+    <div class="table-container">
+        <h2 class="heading-secondary">Your Booked Trips</h2>
+        <table id="order-table">
+            <thead>
+            <tr>
+                <th>Select</th>
+                <th>Order ID</th>
+                <th>Destination</th>
+                <th>Guests</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Hotel</th>
+                <th>Rooms</th>
+                <th>Flight Date</th>
+                <th>Total Price</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <button id="prev-page" class="btn">Previous</button>
+            <span id="page-info">Page 1 of 1</span>
+            <button id="next-page" class="btn">Next</button>
+        </div>
+    </div>
+
+    <div class="btn-container">
+        <button class="btn cancel" id="cancel-btn">Cancel Trip</button>
+        <button class="btn pay" id="pay-btn">Payment</button>
+        <button class="btn choose-flight" id="choose-flight-btn">Select Flight</button>
+        <button class="btn choose-hotel" id="choose-hotel-btn">Select Hotel</button>
+    </div>
+</div>
+
+<div id="payment-modal" class="modal">
+    <div class="modal-content">
+        <h2>Scan QR to Pay</h2>
+        <img id="qr-code" src="/images/qr.jpg" alt="QR Code for Payment">
+        <div class="modal-btn-group">
+            <button id="confirm-payment-btn" class="btn pay">Confirm Paid</button>
+            <button id="close-modal-btn" class="btn cancel">Close</button>
+        </div>
+    </div>
+</div>
+
+<section class="footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h2>About Us</h2>
+            <p>Website developed by Group 14. We connect you to the world's most beautiful destinations.</p>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    // --- USER MENU LOGIC ---
+    document.getElementById("user-icon").addEventListener("click", function(event) {
+        event.preventDefault();
+        let menu = document.getElementById("user-menu");
+        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    });
+
+    document.addEventListener("click", function(event) {
+        let userIcon = document.getElementById("user-icon");
+        let menu = document.getElementById("user-menu");
+
+        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
+            menu.style.display = "none";
+        }
+    });
+
+    // --- ORDER & PAYMENT LOGIC ---
+    let currentPage = 0;
+    let totalPages = 1;
+    const userId = localStorage.getItem('userId');
+
+    if (!userId) {
+        alert('Please login to view your trips!');
+        window.location.href = '/user';
+    } else {
+        loadOrders(currentPage, 5);
+    }
+
+    function loadOrders(pageNo, pageSize) {
+        fetch(`/order/${userId}?pageNo=${pageNo}&pageSize=${pageSize}`)
+            .then(response => response.json())
+            .then(result => {
+                if (result.code === 1000 && result.data) {
+                    let { pageNo: currentPageNo, totalPages: totalPagesData, items } = result.data;
+                    currentPage = currentPageNo;
+                    totalPages = totalPagesData;
+                    renderOrders(items.content);
+                    updatePaginationInfo();
+                } else {
+                    console.error('Failed to load orders');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+
+    function renderOrders(orders) {
+        const tbody = document.querySelector('#order-table tbody');
+        tbody.innerHTML = '';
+
+        orders.forEach(order => {
+            const row = document.createElement('tr');
+
+            const selectCell = document.createElement('td');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = order.id;
+            selectCell.appendChild(checkbox);
+            row.appendChild(selectCell);
+
+            row.innerHTML += `
+                <td>${order.id}</td>
+                <td>${order.destination}</td>
+                <td>${order.numberOfPeople}</td>
+                <td>${new Date(order.checkinDate).toLocaleDateString()}</td>
+                <td>${new Date(order.checkoutDate).toLocaleDateString()}</td>
+                <td>${order.hotel ? order.hotel.hotelName : 'N/A'}</td>
+                <td>${order.hotel && order.listBedrooms ? order.listBedrooms : 'N/A'}</td>
+                <td>${order.flight ? new Date(order.flight.checkInDate).toLocaleDateString() : 'N/A'}</td>
+                <td>${order.totalPrice.toLocaleString()} VND</td>
+                <td style="color: ${order.payment && order.payment.status === 'PAID' ? 'var(--primary)' : 'var(--danger)'}; font-weight: 600;">
+                    ${order.payment ? getPaymentStatus(order.payment.status) : 'Unpaid'}
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function updatePaginationInfo() {
+        document.getElementById('page-info').textContent = `Page ${currentPage + 1} of ${totalPages}`;
+    }
+
+    document.getElementById('prev-page').addEventListener('click', () => {
+        if (currentPage > 0) loadOrders(currentPage - 1, 5);
+    });
+
+    document.getElementById('next-page').addEventListener('click', () => {
+        if (currentPage < totalPages - 1) loadOrders(currentPage + 1, 5);
+    });
+
+    // --- BUTTON ACTIONS ---
+    document.getElementById('cancel-btn').addEventListener('click', function () {
+        const selectedRow = document.querySelector('input[type="checkbox"]:checked');
+        if (selectedRow) {
+            if(confirm("Are you sure you want to cancel this trip?")) {
+                const tripId = selectedRow.value;
+                fetch(`/order/${tripId}`, { method: 'DELETE' })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Trip cancelled successfully!');
+                            // Optional: Send email notification logic here
+                            window.location.reload();
+                        } else {
+                            alert('Cannot cancel trip!');
+                        }
+                    });
+            }
+        } else {
+            alert('Please select a trip to cancel!');
+        }
+    });
+
+    document.getElementById('pay-btn').addEventListener('click', function () {
+        const selectedRow = document.querySelector('input[type="checkbox"]:checked');
+        if (selectedRow) {
+            const tripId = selectedRow.value;
+            document.getElementById('payment-modal').style.display = 'flex';
+            document.getElementById('confirm-payment-btn').dataset.tripId = tripId;
+        } else {
+            alert('Please select a trip to pay!');
+        }
+    });
+
+    document.getElementById('confirm-payment-btn').addEventListener('click', function () {
+        const tripId = this.dataset.tripId;
+        fetch(`/order/${tripId}/verifying-payment`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(apiResponse => {
+            if (apiResponse.code === 1000) {
+                alert('Payment verified successfully!');
+                document.getElementById('payment-modal').style.display = 'none';
+                window.location.reload();
+            } else {
+                alert('Payment verification failed: ' + apiResponse.message);
+            }
+        })
+        .catch(error => {
+            console.error('Payment error:', error);
+            alert('Error verifying payment.');
+        });
+    });
+
+    document.getElementById('close-modal-btn').addEventListener('click', function () {
+        document.getElementById('payment-modal').style.display = 'none';
+    });
+
+    document.getElementById('choose-flight-btn').addEventListener('click', function () {
+        const selectedRows = document.querySelectorAll('input[type="checkbox"]:checked');
+        if (selectedRows.length === 0) {
+            alert('Please select a trip to choose flight!');
+            return;
+        }
+        const orderId = Array.from(selectedRows).map(checkbox => checkbox.value);
+        window.location.href = `/flight?orderId=${orderId.join(',')}`;
+    });
+
+    document.getElementById('choose-hotel-btn').addEventListener('click', function () {
+        const selectedRows = document.querySelectorAll('input[type="checkbox"]:checked');
+        if (selectedRows.length === 0) {
+            alert('Please select a trip to choose hotel!');
+            return;
+        }
+        const orderId = Array.from(selectedRows).map(checkbox => checkbox.value);
+        window.location.href = `/hotel?orderId=${orderId.join(',')}`;
+    });
+
+    function getPaymentStatus(status) {
+        switch (status) {
+            case 'PAID': return 'Paid';
+            case 'UNPAID': return 'Unpaid';
+            case 'VERIFYING': return 'Verifying';
+            case 'PAYMENT_FAILED': return 'Failed';
+            default: return 'Unpaid';
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | HUST ONEFUTURE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #29b862;
+            --primary-dark: #1e8544;
+            --text-dark: #1d1d1d;
+            --text-light: #666;
+            --white: #fff;
+            --bg-light: #f9f9f9;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            transition: all .2s linear;
+        }
+
+        body {
+            background-color: var(--bg-light);
+        }
+
+        /* --- HEADER & NAVBAR (ĐỒNG BỘ) --- */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 5%;
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            text-transform: uppercase;
+        }
+
+        header .logo span { color: var(--primary); }
+
+        header .bar {
+            display: flex;
+            gap: 15px;
+        }
+
+        header .bar a {
+            font-size: 0.85rem;
+            color: var(--white);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        header .bar a:hover, header .bar a.indam {
+            color: var(--primary);
+        }
+
+        header .icons {
+            display: flex;
+            align-items: center;
+        }
+
+        header .icons i {
+            font-size: 1.1rem;
+            color: var(--white);
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        header .icons i:hover { color: var(--primary); }
+
+        /* --- DROPDOWN --- */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 60px; right: 5%;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 150px;
+            overflow: hidden;
+            flex-direction: column;
+            z-index: 1001;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
+            color: var(--primary);
+        }
+
+        /* --- SERVICES CONTENT --- */
+        .services-section {
+            padding: 8rem 7% 4rem;
+        }
+
+        .heading {
+            text-align: center;
+            padding-bottom: 3rem;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            font-size: 3.5rem;
+        }
+
+        .heading span {
+            letter-spacing: 5px;
+            display: inline-block;
+            color: var(--primary);
+            text-shadow: 0 5px 10px rgba(0,0,0,.1);
+            transition: .3s;
+        }
+
+        .heading span:hover {
+            transform: translateY(-10px);
+        }
+
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-item {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: 0.3s;
+            border: 1px solid #eee;
+        }
+
+        .service-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            border-color: var(--primary);
+        }
+
+        .service-item i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            background: rgba(41, 184, 98, 0.1);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+        }
+
+        .service-item h3 {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            text-transform: capitalize;
+        }
+
+        .service-item p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* --- FOOTER (ĐỒNG BỘ) --- */
+        .footer { background: #222; color: #fff; padding: 4rem 7%; margin-top: auto; }
+        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+        .footer-col h2 { font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--primary); }
+        .footer-col ul li { list-style: none; margin-bottom: 10px; }
+        .footer-col ul li a, .footer-col p { color: #bbb; font-size: 0.9rem; transition: 0.3s; }
+        .footer-col ul li a:hover { color: var(--primary); padding-left: 5px; }
+        .credit { text-align: center; padding-top: 2rem; margin-top: 2rem; border-top: 1px solid #333; font-size: 1rem; }
+        .credit span { color: var(--primary); }
+
+        @media (max-width: 1200px) {
+            header { padding: 1rem 2rem; }
+            header .bar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="logo"><span>HUST</span>ONEFUTURE</a>
+    <nav class="bar">
+        <a href="home">Home</a>
+        <a href="booking">Booking</a>
+        <a href="hotel">Hotels</a>
+        <a href="flight">Flights</a>
+        <a href="trending">Trending</a>
+        <a href="news">News</a>
+        <a href="package">Packages</a>
+        <a href="services" class="indam">Services</a>
+        <a href="gallery">Gallery</a>
+        <a href="review">Reviews</a>
+        <a href="contact">Contact</a>
+        <a href="plan-trip">Payment</a>
+    </nav>
+    <div class="icons">
+        <i class="fas fa-search" id="search-btn"></i>
+        <i class="fas fa-user" id="user-icon"></i>
+        <div id="user-menu" class="dropdown-menu">
+            <a href="/profile">My Profile</a>
+            <a href="/user">Logout</a>
+        </div>
+    </div>
+</header>
+
+<section class="services-section">
+    <h1 class="heading">
+        <span>s</span>
+        <span>e</span>
+        <span>r</span>
+        <span>v</span>
+        <span>i</span>
+        <span>c</span>
+        <span>e</span>
+        <span>s</span>
+    </h1>
+
+    <div class="services-container">
+        <div class="service-item">
+            <i class="fas fa-hotel"></i>
+            <h3>Affordable Hotels</h3>
+            <p>Quality stays on a budget. We provide a wide range of hotels that fit your wallet without compromising comfort.</p>
+        </div>
+        <div class="service-item">
+            <i class="fas fa-utensils"></i>
+            <h3>Food and Drinks</h3>
+            <p>Explore global flavors and beverages, enriching your cultural palate. Delight in the world of food and drinks!</p>
+        </div>
+        <div class="service-item">
+            <i class="fas fa-bullhorn"></i>
+            <h3>Safety Guide</h3>
+            <p>Prioritize safety in all situations. Our guides ensure you are well-prepared for any emergency during your trip.</p>
+        </div>
+        <div class="service-item">
+            <i class="fas fa-globe-asia"></i>
+            <h3>Around the World</h3>
+            <p>Traveling the world broadens horizons, connects with diversity, and offers unique experiences for every traveler.</p>
+        </div>
+        <div class="service-item">
+            <i class="fas fa-plane"></i>
+            <h3>Fastest Travel</h3>
+            <p>For long distances, commercial air travel is the fastest mode of transportation. We book the best flights for you.</p>
+        </div>
+        <div class="service-item">
+            <i class="fas fa-hiking"></i>
+            <h3>Adventures</h3>
+            <p>Adventures are exciting journeys that push boundaries and create lasting memories. Let's explore the unknown!</p>
+        </div>
+    </div>
+</section>
+
+<section class="footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h2>About Us</h2>
+            <p>Website developed by Group 14. We connect you to the world's most beautiful destinations.</p>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    document.getElementById("user-icon").addEventListener("click", function(event) {
+        event.preventDefault();
+        let menu = document.getElementById("user-menu");
+        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    });
+
+    document.addEventListener("click", function(event) {
+        let userIcon = document.getElementById("user-icon");
+        let menu = document.getElementById("user-menu");
+
+        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
+            menu.style.display = "none";
+        }
+    });
+</script>
+</body>
+</html>

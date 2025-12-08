@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packages | HUST ONEFUTURE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #29b862;
+            --primary-dark: #1e8544;
+            --text-dark: #1d1d1d;
+            --text-light: #666;
+            --white: #fff;
+            --bg-light: #f9f9f9;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            transition: all .2s linear;
+        }
+
+        body {
+            background-color: var(--bg-light);
+        }
+
+        /* --- HEADER & NAVBAR (ĐỒNG BỘ) --- */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 5%;
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            text-transform: uppercase;
+        }
+
+        header .logo span { color: var(--primary); }
+
+        header .bar {
+            display: flex;
+            gap: 15px;
+        }
+
+        header .bar a {
+            font-size: 0.85rem;
+            color: var(--white);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        header .bar a:hover, header .bar a.indam {
+            color: var(--primary);
+        }
+
+        header .icons {
+            display: flex;
+            align-items: center;
+        }
+
+        header .icons i {
+            font-size: 1.1rem;
+            color: var(--white);
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        header .icons i:hover { color: var(--primary); }
+
+        /* --- DROPDOWN --- */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 60px; right: 5%;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 150px;
+            overflow: hidden;
+            flex-direction: column;
+            z-index: 1001;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
+            color: var(--primary);
+        }
+
+        /* --- PACKAGE CONTENT --- */
+        .package-section {
+            padding: 7rem 7% 4rem;
+        }
+
+        .heading {
+            text-align: center;
+            padding-bottom: 2rem;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            font-size: 3.5rem;
+        }
+
+        .heading span {
+            letter-spacing: 5px;
+            display: inline-block;
+            color: var(--primary);
+            text-shadow: 0 5px 10px rgba(0,0,0,.1);
+            transition: .3s;
+        }
+
+        .heading span:hover {
+            transform: translateY(-10px);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .card video {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-content h3 {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .card-content h3 i {
+            color: var(--primary);
+            margin-right: 5px;
+        }
+
+        .card-content p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            margin-bottom: 1rem;
+        }
+
+        .stars i {
+            color: #ffa500;
+            font-size: 1rem;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .price span {
+            font-size: 0.9rem;
+            color: #999;
+            text-decoration: line-through;
+            margin-left: 10px;
+            font-weight: 400;
+        }
+
+        .btn-book {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: var(--primary);
+            color: var(--white);
+            padding: 12px;
+            border-radius: 50px;
+            margin-top: auto;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-book:hover {
+            background: var(--primary-dark);
+        }
+
+        /* --- FOOTER (ĐỒNG BỘ) --- */
+        .footer { background: #222; color: #fff; padding: 4rem 7%; }
+        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+        .footer-col h2 { font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--primary); }
+        .footer-col ul li { list-style: none; margin-bottom: 10px; }
+        .footer-col ul li a, .footer-col p { color: #bbb; font-size: 0.9rem; transition: 0.3s; }
+        .footer-col ul li a:hover { color: var(--primary); padding-left: 5px; }
+        .credit { text-align: center; padding-top: 2rem; margin-top: 2rem; border-top: 1px solid #333; font-size: 1rem; }
+        .credit span { color: var(--primary); }
+
+        @media (max-width: 1200px) {
+            header { padding: 1rem 2rem; }
+            header .bar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="logo"><span>HUST</span>ONEFUTURE</a>
+    <nav class="bar">
+        <a href="home">Home</a>
+        <a href="booking">Booking</a>
+        <a href="hotel">Hotels</a>
+        <a href="flight">Flights</a>
+        <a href="trending">Trending</a>
+        <a href="news">News</a>
+        <a href="package" class="indam">Packages</a>
+        <a href="services">Services</a>
+        <a href="gallery">Gallery</a>
+        <a href="review">Reviews</a>
+        <a href="contact">Contact</a>
+        <a href="plan-trip">Payment</a>
+    </nav>
+    <div class="icons">
+        <i class="fas fa-search" id="search-btn"></i>
+        <i class="fas fa-user" id="user-icon"></i>
+        <div id="user-menu" class="dropdown-menu">
+            <a href="/profile">My Profile</a>
+            <a href="/user">Logout</a>
+        </div>
+    </div>
+</header>
+
+<section class="package-section">
+    <h1 class="heading">
+        <span>p</span>
+        <span>a</span>
+        <span>c</span>
+        <span>k</span>
+        <span>a</span>
+        <span>g</span>
+        <span>e</span>
+        <span>s</span>
+    </h1>
+
+    <div class="grid-container">
+        <div class="card">
+            <video controls loop>
+                <source src="images/vương quốc anh.mp4" type="video/mp4">
+            </video>
+            <div class="card-content">
+                <h3><i class="fas fa-map-marker-alt"></i> United Kingdom</h3>
+                <p>Experience the royal heritage, historic landmarks, and stunning countryside landscapes of the UK. A journey through history and culture.</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                </div>
+                <div class="price">$600.00 <span>$1200.00</span></div>
+                <a href="flight" class="btn-book">Book Now</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <video controls loop>
+                <source src="images/Hawaii.mp4" type="video/mp4">
+            </video>
+            <div class="card-content">
+                <h3><i class="fas fa-map-marker-alt"></i> Hawaii</h3>
+                <p>Hawaii, known for its cultural diversity, tropical climate, and stunning scenery, is a top destination for relaxation and adventure.</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <div class="price">$600.00 <span>$1200.00</span></div>
+                <a href="flight" class="btn-book">Book Now</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <video controls loop>
+                <source src="images/mountain2.mp4" type="video/mp4">
+            </video>
+            <div class="card-content">
+                <h3><i class="fas fa-map-marker-alt"></i> Patagonia</h3>
+                <p>Patagonia's remote towns and settlements provide a unique opportunity to explore the region's rich culture and history.</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                </div>
+                <div class="price">$600.00 <span>$1200.00</span></div>
+                <a href="flight" class="btn-book">Book Now</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <video controls loop>
+                <source src="images/paris_-_16619 (540p).mp4" type="video/mp4">
+            </video>
+            <div class="card-content">
+                <h3><i class="fas fa-map-marker-alt"></i> Paris</h3>
+                <p>Paris offers a unique blend of history, culture, and sophistication. Whether interested in art, fashion, or romance, Paris has it all.</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <div class="price">$600.00 <span>$1200.00</span></div>
+                <a href="flight" class="btn-book">Book Now</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <video controls loop>
+                <source src="images/cherry.mp4" type="video/mp4">
+            </video>
+            <div class="card-content">
+                <h3><i class="fas fa-map-marker-alt"></i> Tokyo</h3>
+                <p>Tokyo, Japan's dynamic capital, gracefully harmonizes modernity with tradition, presenting a unique experience for visitors.</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                </div>
+                <div class="price">$600.00 <span>$1200.00</span></div>
+                <a href="flight" class="btn-book">Book Now</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h2>About Us</h2>
+            <p>Website developed by Group 14. We connect you to the world's most beautiful destinations.</p>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    document.getElementById("user-icon").addEventListener("click", function(event) {
+        event.preventDefault();
+        let menu = document.getElementById("user-menu");
+        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    });
+
+    document.addEventListener("click", function(event) {
+        let userIcon = document.getElementById("user-icon");
+        let menu = document.getElementById("user-menu");
+
+        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
+            menu.style.display = "none";
+        }
+    });
+</script>
+</body>
+</html>

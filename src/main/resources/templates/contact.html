@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | HUST ONEFUTURE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #29b862;
+            --primary-dark: #1e8544;
+            --text-dark: #1d1d1d;
+            --text-light: #666;
+            --white: #fff;
+            --bg-light: #f9f9f9;
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            transition: all .2s linear;
+        }
+
+        body {
+            background-color: var(--bg-light);
+        }
+
+        /* --- HEADER & NAVBAR (ĐỒNG BỘ) --- */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 5%; /* Padding nhỏ để vừa menu */
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            text-transform: uppercase;
+        }
+
+        header .logo span { color: var(--primary); }
+
+        header .bar {
+            display: flex;
+            gap: 15px; /* Khoảng cách nhỏ để vừa 12 mục */
+        }
+
+        header .bar a {
+            font-size: 0.85rem; /* Font nhỏ để vừa menu */
+            color: var(--white);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        header .bar a:hover, header .bar a.indam {
+            color: var(--primary);
+        }
+
+        header .icons {
+            display: flex;
+            align-items: center;
+        }
+
+        header .icons i {
+            font-size: 1.1rem;
+            color: var(--white);
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        header .icons i:hover { color: var(--primary); }
+
+        /* --- DROPDOWN --- */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 60px; right: 5%;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 150px;
+            overflow: hidden;
+            flex-direction: column;
+            z-index: 1001;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
+            color: var(--primary);
+        }
+
+        /* --- CONTACT CONTENT --- */
+        .contact-container {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 80px;
+            background: var(--white);
+        }
+
+        /* Left Side: Info */
+        .contact-info {
+            flex: 1;
+            background: #222;
+            color: var(--white);
+            padding: 5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-info::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* background: url('images/world-map.png'); Optional */
+            opacity: 0.1;
+        }
+
+        .contact-info h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            z-index: 1;
+        }
+
+        .contact-info h1 span { color: var(--primary); }
+
+        .contact-info p {
+            margin-bottom: 3rem;
+            font-weight: 300;
+            opacity: 0.8;
+            z-index: 1;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            z-index: 1;
+        }
+
+        .info-item i {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-right: 20px;
+        }
+
+        .info-item div h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .info-item div span {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Right Side: Form */
+        .contact-form {
+            flex: 1.2;
+            padding: 5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-form h2 {
+            font-size: 2rem;
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+        }
+
+        .input-box {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .input-box input, .input-box textarea {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 1rem;
+            color: var(--text-dark);
+            border: none;
+            border-bottom: 1px solid #ddd;
+            outline: none;
+            background: transparent;
+        }
+
+        .input-box textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        .input-box label {
+            position: absolute;
+            top: 0; left: 0;
+            padding: 10px 0;
+            font-size: 1rem;
+            color: var(--text-light);
+            pointer-events: none;
+            transition: 0.3s;
+        }
+
+        .input-box input:focus ~ label,
+        .input-box input:valid ~ label,
+        .input-box textarea:focus ~ label,
+        .input-box textarea:valid ~ label {
+            top: -20px;
+            left: 0;
+            color: var(--primary);
+            font-size: 0.8rem;
+        }
+
+        .input-box input:focus, .input-box textarea:focus {
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .btn-send {
+            background: var(--primary);
+            color: var(--white);
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            align-self: flex-start;
+            box-shadow: 0 5px 15px rgba(41, 184, 98, 0.3);
+        }
+
+        .btn-send:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* --- FOOTER (ĐỒNG BỘ) --- */
+        .footer { background: #222; color: #fff; padding: 4rem 7%; }
+        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+        .footer-col h2 { font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--primary); }
+        .footer-col ul li { list-style: none; margin-bottom: 10px; }
+        .footer-col ul li a, .footer-col p { color: #bbb; font-size: 0.9rem; transition: 0.3s; }
+        .footer-col ul li a:hover { color: var(--primary); padding-left: 5px; }
+        .credit { text-align: center; padding-top: 2rem; margin-top: 2rem; border-top: 1px solid #333; font-size: 1rem; }
+        .credit span { color: var(--primary); }
+
+        @media (max-width: 991px) {
+            .contact-container { flex-direction: column; }
+            .contact-info, .contact-form { padding: 3rem; }
+        }
+        @media (max-width: 1200px) {
+            header { padding: 1rem 2rem; }
+            header .bar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="logo"><span>HUST</span>ONEFUTURE</a>
+    <nav class="bar">
+        <a href="home">Home</a>
+        <a href="booking">Booking</a>
+        <a href="hotel">Hotels</a>
+        <a href="flight">Flights</a>
+        <a href="trending">Trending</a>
+        <a href="news">News</a>
+        <a href="package">Packages</a>
+        <a href="services">Services</a>
+        <a href="gallery">Gallery</a>
+        <a href="review">Reviews</a>
+        <a href="contact" class="indam">Contact</a>
+        <a href="plan-trip">Payment</a>
+    </nav>
+    <div class="icons">
+        <i class="fas fa-search" id="search-btn"></i>
+        <i class="fas fa-user" id="user-icon"></i>
+        <div id="user-menu" class="dropdown-menu">
+            <a href="/profile">My Profile</a>
+            <a href="/user">Logout</a>
+        </div>
+    </div>
+</header>
+
+<div class="contact-container">
+    <div class="contact-info">
+        <h1>Get In <span>Touch</span></h1>
+        <p>We are here to help you plan your next big adventure. Reach out to us anytime!</p>
+
+        <div class="info-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+                <h3>Address</h3>
+                <span>Hanoi, Vietnam</span>
+            </div>
+        </div>
+        <div class="info-item">
+            <i class="fas fa-envelope"></i>
+            <div>
+                <h3>Email</h3>
+                <span>support@futurewonders.com</span>
+            </div>
+        </div>
+        <div class="info-item">
+            <i class="fas fa-phone"></i>
+            <div>
+                <h3>Phone</h3>
+                <span>+84 987 654 321</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-form">
+        <h2>Send Message</h2>
+        <form action="">
+            <div class="input-box">
+                <input type="text" required>
+                <label>Full Name</label>
+            </div>
+            <div class="input-box">
+                <input type="email" required>
+                <label>Email Address</label>
+            </div>
+            <div class="input-box">
+                <input type="text" required>
+                <label>Subject</label>
+            </div>
+            <div class="input-box">
+                <textarea required></textarea>
+                <label>Message</label>
+            </div>
+            <button type="submit" class="btn-send">Submit</button>
+        </form>
+    </div>
+</div>
+
+<section class="footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h2>About Us</h2>
+            <p>Website developed by Group 14. We connect you to the world's most beautiful destinations.</p>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.getElementById("user-icon").addEventListener("click", function(event) {
+        event.preventDefault();
+        let menu = document.getElementById("user-menu");
+        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    });
+
+    document.addEventListener("click", function(event) {
+        let userIcon = document.getElementById("user-icon");
+        let menu = document.getElementById("user-menu");
+
+        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
+            menu.style.display = "none";
+        }
+    });
+</script>
+</body>
+</html>
