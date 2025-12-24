@@ -47,17 +47,7 @@ public class H2Routines {
         }
     }
 
-    /** Total revenue for a user (course-friendly analytic function). */
-    public static BigDecimal totalRevenuePerUser(Connection conn, long userId) throws SQLException {
-        String sql = "SELECT COALESCE(SUM(total_price), 0) FROM orders WHERE user_id = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setLong(1, userId);
-            try (ResultSet rs = ps.executeQuery()) {
-                rs.next();
-                return rs.getBigDecimal(1);
-            }
-        }
-    }
+    
 
     /**
      * FN_CALCULATE_FLIGHT_PRICE: Calculate dynamic flight price based on demand.
@@ -84,6 +74,19 @@ public class H2Routines {
                 double demandMultiplier = 1.0 + (bookedPercentage * 0.5);
                 
                 return BigDecimal.valueOf(basePrice * demandMultiplier * numSeats);
+            }
+        }
+    }
+
+
+    /** Total revenue for a user (course-friendly analytic function). */
+    public static BigDecimal totalRevenuePerUser(Connection conn, long userId) throws SQLException {
+        String sql = "SELECT COALESCE(SUM(total_price), 0) FROM orders WHERE user_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                return rs.getBigDecimal(1);
             }
         }
     }
