@@ -4,225 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery | HUST ONEFUTURE</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <style>
-        :root {
-            --primary: #29b862;
-            --primary-dark: #1e8544;
-            --text-dark: #1d1d1d;
-            --text-light: #666;
-            --white: #fff;
-            --bg-light: #f9f9f9;
-            --shadow: 0 5px 15px rgba(0,0,0,0.1);
-            --radius: 12px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            text-decoration: none;
-            transition: all .2s linear;
-        }
-
-        body {
-            background-color: var(--bg-light);
-        }
-
-        /* --- HEADER & NAVBAR (ĐỒNG BỘ) --- */
-        header {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 5%;
-        }
-
-        header .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--white);
-            text-transform: uppercase;
-        }
-
-        header .logo span { color: var(--primary); }
-
-        header .bar {
-            display: flex;
-            gap: 15px;
-        }
-
-        header .bar a {
-            font-size: 0.85rem;
-            color: var(--white);
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        header .bar a:hover, header .bar a.indam {
-            color: var(--primary);
-        }
-
-        header .icons {
-            display: flex;
-            align-items: center;
-        }
-
-        header .icons i {
-            font-size: 1.1rem;
-            color: var(--white);
-            cursor: pointer;
-            margin-left: 10px;
-        }
-
-        header .icons i:hover { color: var(--primary); }
-
-        /* --- DROPDOWN --- */
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 60px; right: 5%;
-            background-color: var(--white);
-            border-radius: var(--radius);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            width: 150px;
-            overflow: hidden;
-            flex-direction: column;
-            z-index: 1001;
-        }
-
-        .dropdown-menu a {
-            display: block;
-            padding: 10px 15px;
-            color: var(--text-dark);
-            font-size: 0.9rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .dropdown-menu a:hover {
-            background-color: #f0f0f0;
-            color: var(--primary);
-        }
-
-        /* --- GALLERY CONTENT --- */
-        .gallery-section {
-            padding: 8rem 7% 4rem; /* Padding top lớn để tránh header */
-            text-align: center;
-        }
-
-        .heading {
-            text-align: center;
-            padding-bottom: 2rem;
-            color: var(--text-dark);
-            text-transform: uppercase;
-            font-size: 3.5rem;
-        }
-
-        .heading span {
-            letter-spacing: 5px;
-            display: inline-block;
-            color: var(--primary);
-            text-shadow: 0 5px 10px rgba(0,0,0,.1);
-            transition: .3s;
-        }
-
-        .heading span:hover {
-            transform: translateY(-10px);
-        }
-
-        .gallery-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .gallery-item {
-            overflow: hidden;
-            box-shadow: 0 1rem 2rem rgba(0,0,0,.1);
-            border: 1rem solid #fff;
-            border-radius: .5rem;
-            position: relative;
-            height: 250px;
-        }
-
-        .gallery-item img {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-            transition: .3s linear;
-        }
-
-        .gallery-item .content {
-            position: absolute;
-            top: -100%; left: 0;
-            height: 100%; width: 100%;
-            text-align: center;
-            background: rgba(0,0,0,.7);
-            padding: 2rem;
-            padding-top: 5rem;
-            transition: .3s linear;
-        }
-
-        .gallery-item:hover .content {
-            top: 0;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-
-        .gallery-item .content h3 {
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-
-        .gallery-item .content p {
-            font-size: 0.9rem;
-            color: #eee;
-            padding: 1rem 0;
-        }
-
-        .gallery-item .content .btn {
-            display: inline-block;
-            padding: .5rem 2rem;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            font-size: 1rem;
-            border-radius: 50px;
-            margin-top: 1rem;
-            font-weight: 600;
-        }
-
-        .gallery-item .content .btn:hover {
-            background: var(--primary);
-            color: #fff;
-        }
-
-        /* --- FOOTER (ĐỒNG BỘ) --- */
-        .footer { background: #222; color: #fff; padding: 4rem 7%; }
-        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
-        .footer-col h2 { font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--primary); }
-        .footer-col ul li { list-style: none; margin-bottom: 10px; }
-        .footer-col ul li a, .footer-col p { color: #bbb; font-size: 0.9rem; transition: 0.3s; }
-        .footer-col ul li a:hover { color: var(--primary); padding-left: 5px; }
-        .credit { text-align: center; padding-top: 2rem; margin-top: 2rem; border-top: 1px solid #333; font-size: 1rem; }
-        .credit span { color: var(--primary); }
-
-        @media (max-width: 1200px) {
-            header { padding: 1rem 2rem; }
-            header .bar { display: none; }
-        }
-    </style>
+    <link rel="stylesheet" href="/css/gallery.css">
 </head>
-<body>
+
+<body class="hust-gallery-page">
 
 <header>
     <a href="#" class="logo"><span>HUST</span>ONEFUTURE</a>
@@ -252,86 +41,88 @@
 
 <section class="gallery-section">
     <h1 class="heading">
-        <span>g</span>
-        <span>a</span>
-        <span>l</span>
-        <span>l</span>
-        <span>e</span>
-        <span>r</span>
-        <span>y</span>
+        <span>g</span><span>a</span><span>l</span><span>l</span><span>e</span><span>r</span><span>y</span>
     </h1>
 
     <div class="gallery-container">
         <div class="gallery-item">
-            <img src="images/tokyo.jpg" alt="Canada">
+            <img src="/images/tokyo.jpg" alt="Canada">
             <div class="content">
                 <h3>Nature's Splendor</h3>
                 <p>A Breathtaking Canadian Wonderland.</p>
-                <a href="#" class="btn">See More</a>
+                <a href="#" class="btn btn-see-more">See More</a>
             </div>
         </div>
+
         <div class="gallery-item">
-            <img src="images/tokyo.jpg" alt="Tokyo">
+            <img src="/images/tokyo.jpg" alt="Tokyo">
             <div class="content">
                 <h3>Tokyo Unveiled</h3>
                 <p>Where Tradition Meets Futuristic Marvels.</p>
-                <a href="#" class="btn">See More</a>
+                <a href="#" class="btn btn-see-more">See More</a>
             </div>
         </div>
+
         <div class="gallery-item">
-            <img src="images/Saturnia-ý.jpg" alt="Saturnia">
+            <img src="/images/Saturnia-ý.jpg" alt="Saturnia">
             <div class="content">
                 <h3>Saturnia's Hidden Gem</h3>
                 <p>A Thermal Wonderland in Tuscany.</p>
-                <a href="#" class="btn">See More</a>
+                <a href="#" class="btn btn-see-more">See More</a>
             </div>
         </div>
+
         <div class="gallery-item">
-            <img src="images/p-1.jpg" alt="Mumbai">
+            <img src="/images/p-1.jpg" alt="Mumbai">
             <div class="content">
                 <h3>Mumbai's Enchanting Tapestry</h3>
                 <p>A Vibrant Cultural Melting Pot.</p>
-                <a href="#" class="btn">See More</a>
+                <a href="#" class="btn btn-see-more">See More</a>
             </div>
         </div>
+
         <div class="gallery-item">
-            <img src="images/Hamnoy-nauy.jpg" alt="Hamnoy">
+            <img src="/images/Hamnoy-nauy.jpg" alt="Hamnoy">
             <div class="content">
                 <h3>Hamnoy's Majestic Beauty</h3>
                 <p>Rugged Grandeur in the Heart of Norway.</p>
-                <a href="#" class="btn">See More</a>
+                <a href="#" class="btn btn-see-more">See More</a>
             </div>
         </div>
+
         <div class="gallery-item">
-            <img src="images/Mauri.jpg" alt="Mauritius">
+            <img src="/images/Mauri.jpg" alt="Mauritius">
             <div class="content">
                 <h3>Mauritius' Paradise</h3>
                 <p>A Jewel in the Indian Ocean.</p>
-                <a href="#" class="btn">See More</a>
+                <a href="#" class="btn btn-see-more">See More</a>
             </div>
         </div>
+
         <div class="gallery-item">
-            <img src="images/dia-diem-tho-nhi-ky.jpg" alt="Cappadocia">
+            <img src="/images/dia-diem-tho-nhi-ky.jpg" alt="Cappadocia">
             <div class="content">
                 <h3>Cappadocia's Sky</h3>
                 <p>A Hot Air Balloon Adventure Like No Other.</p>
-                <a href="#" class="btn">See More</a>
+                <a href="#" class="btn btn-see-more">See More</a>
             </div>
         </div>
+
         <div class="gallery-item">
-            <img src="images/Hallstatt.jpg" alt="Hallstatt">
+            <img src="/images/Hallstatt.jpg" alt="Hallstatt">
             <div class="content">
                 <h3>Hallstatt's Charm</h3>
                 <p>A Lakeside Fairy Tale of Unsurpassed Beauty.</p>
-                <a href="#" class="btn">See More</a>
+                <a href="#" class="btn btn-see-more">See More</a>
             </div>
         </div>
+
         <div class="gallery-item">
-            <img src="images/thap-nghieng-Pisa.png" alt="Pisa">
+            <img src="/images/thap-nghieng-Pisa.png" alt="Pisa">
             <div class="content">
                 <h3>Pisa's Wonder</h3>
                 <p>An Icon of Architectural Grandeur.</p>
-                <a href="#" class="btn">See More</a>
+                <a href="#" class="btn btn-see-more">See More</a>
             </div>
         </div>
     </div>
@@ -362,5 +153,6 @@
         }
     });
 </script>
+
 </body>
 </html>

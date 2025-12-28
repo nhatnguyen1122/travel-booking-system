@@ -2,27 +2,29 @@ package edu.hust.travelbookingsystem.entity;
 
 import edu.hust.travelbookingsystem.enums.PaymentStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
-@Table(name = "payment")
+@Table(
+        name = "payment",
+        indexes = { @Index(name = "idx_payment_status", columnList = "status") }
+)
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Payment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
     private PaymentStatus status;
 
     public Payment(PaymentStatus status) {
         this.status = status;
     }
-
 }

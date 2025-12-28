@@ -4,257 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile | HUST ONEFUTURE</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <style>
-        :root {
-            /* Biến màu đồng bộ */
-            --primary: #29b862;
-            --primary-dark: #1e8544;
-            --text-dark: #1d1d1d;
-            --white: #fff;
-            --glass: rgba(255, 255, 255, 0.95);
-            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            --radius: 12px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            text-decoration: none;
-            transition: all .2s linear;
-        }
-
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            background-color: #f9f9f9;
-        }
-
-        /* --- BACKGROUND VIDEO (ĐỒNG BỘ) --- */
-        .video-container {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-        }
-
-        .video-container video {
-            width: 100%; height: 100%;
-            object-fit: cover;
-        }
-
-        /* Lớp phủ tối để dễ đọc chữ hơn */
-        .video-overlay {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 0;
-        }
-
-        /* --- HEADER & NAVBAR (ĐỒNG BỘ) --- */
-        header {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 5%;
-        }
-
-        header .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--white);
-            text-transform: uppercase;
-        }
-
-        header .logo span { color: var(--primary); }
-
-        header .bar {
-            display: flex;
-            gap: 15px;
-        }
-
-        header .bar a {
-            font-size: 0.85rem;
-            color: var(--white);
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        header .bar a:hover { color: var(--primary); }
-
-        header .icons {
-            display: flex;
-            align-items: center;
-        }
-
-        header .icons i {
-            font-size: 1.1rem;
-            color: var(--white);
-            cursor: pointer;
-            margin-left: 10px;
-        }
-
-        header .icons i:hover { color: var(--primary); }
-
-        /* --- USER DROPDOWN --- */
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 60px; right: 5%;
-            background-color: var(--white);
-            border-radius: var(--radius);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            width: 150px;
-            overflow: hidden;
-            flex-direction: column;
-            z-index: 1001;
-        }
-
-        .dropdown-menu a {
-            display: block;
-            padding: 10px 15px;
-            color: var(--text-dark);
-            font-size: 0.9rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .dropdown-menu a:hover {
-            background-color: #f0f0f0;
-            color: var(--primary);
-        }
-
-        /* --- PROFILE CARD STYLE (ĐỒNG BỘ VỚI USER.HTML) --- */
-        .profile-container {
-            position: relative;
-            z-index: 10;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 3rem;
-            border-radius: 20px;
-            width: 500px;
-            max-width: 90%;
-            box-shadow: var(--shadow);
-            text-align: center;
-            margin-top: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-        }
-
-        .profile-header {
-            margin-bottom: 2rem;
-        }
-
-        .avatar-circle {
-            width: 100px;
-            height: 100px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 3.5rem;
-            color: var(--white);
-            border: 4px solid rgba(255,255,255,0.8);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .profile-header h2 {
-            font-size: 1.8rem;
-            color: var(--text-dark);
-            font-weight: 700;
-        }
-
-        .form-group {
-            margin-bottom: 1.2rem;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            outline: none;
-            background: #f9f9f9; /* Đồng bộ với user.html */
-        }
-
-        .form-group input:focus {
-            border-color: var(--primary);
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(41, 184, 98, 0.1);
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 2rem;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-update {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        .btn-update:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(41, 184, 98, 0.3);
-        }
-
-        .btn-password {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-password:hover {
-            background: var(--primary);
-            color: var(--white);
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 1200px) {
-            header { padding: 1rem 2rem; }
-            header .bar { display: none; }
-        }
-
-    </style>
+    <!-- CSS tách ra -->
+    <link rel="stylesheet" href="/css/profile.css">
 </head>
-<body>
+
+<body class="hust-profile-page">
 
 <header>
     <a href="home" class="logo"><span>HUST</span>ONEFUTURE</a>
@@ -284,7 +42,7 @@
 
 <div class="video-container">
     <div class="video-overlay"></div>
-    <video src="images/ocean.mp4" loop autoplay muted></video>
+    <video src="/images/ocean.mp4" loop autoplay muted></video>
 </div>
 
 <div class="profile-container">
@@ -299,14 +57,17 @@
         <label>Full Name</label>
         <input type="text" id="user-fullname">
     </div>
+
     <div class="form-group">
         <label>Phone Number</label>
         <input type="text" id="user-phone">
     </div>
+
     <div class="form-group">
         <label>Email Address</label>
         <input type="text" id="user-email">
     </div>
+
     <div class="form-group">
         <label>Date of Birth</label>
         <input type="text" id="user-birthday" onfocus="(this.type='date')">
@@ -314,8 +75,9 @@
 
     <div class="btn-group">
         <button id="update-btn" class="btn btn-update">Update Info</button>
-        <a href="newPass" style="flex:1; display: block;">
-            <button class="btn btn-password" style="width:100%">Change Password</button>
+
+        <a href="newPass" class="btn-link">
+            <button class="btn btn-password" type="button">Change Password</button>
         </a>
     </div>
 </div>
@@ -353,10 +115,10 @@
             .then(apiResponse => {
                 if (apiResponse.code === 1000) {
                     let user = apiResponse.data;
-                    document.getElementById("user-phone").value = user.phone;
-                    document.getElementById("user-fullname").value = user.fullName;
-                    document.getElementById("user-email").value = user.email;
-                    document.getElementById("user-birthday").value = user.birthday;
+                    document.getElementById("user-phone").value = user.phone || "";
+                    document.getElementById("user-fullname").value = user.fullName || "";
+                    document.getElementById("user-email").value = user.email || "";
+                    document.getElementById("user-birthday").value = user.birthday || "";
                 } else {
                     alert("Could not load user information.");
                 }
@@ -389,5 +151,6 @@
         });
     });
 </script>
+
 </body>
 </html>

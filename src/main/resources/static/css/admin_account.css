@@ -1,401 +1,352 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap');
-:root{
-    --orange:#ffa500;
-    --xanh:#29b862;
-    --red:#ec3535;
-    --xanhbien:#538df0;
-    --trong:#7be0cc;
+/* Scoped styles: chỉ áp dụng cho trang có <body class="hust-admin-account"> */
+body.hust-admin-account {
+  --primary: #29b862;
+  --primary-dark: #1e8544;
+  --text-dark: #1d1d1d;
+  --text-light: #666;
+  --white: #fff;
+  --bg-light: #f9f9f9;
+  --shadow: 0 5px 15px rgba(0,0,0,0.1);
+  --radius: 12px;
+  --danger: #e74c3c;
+  --info: #3498db;
+  --warning: #f39c12;
+
+  margin: 0;
+  background-color: var(--bg-light);
+  padding-top: 80px; /* Space for fixed header */
+  font-family: 'Poppins', sans-serif; /* đặt font ở body để không đè icon font */
 }
 
-*{
-    font-family: 'Nunito', sans-serif;
-    box-sizing: border-box;
-    text-transform: capitalize;
-    outline: none;
-    border:none;
-    text-decoration: none;
-    transition: all .2s linear;
+/* reset nhẹ: KHÔNG set font-family ở đây */
+body.hust-admin-account *,
+body.hust-admin-account *::before,
+body.hust-admin-account *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all .2s linear;
 }
 
-body {
-    margin: 0;
-    padding: 0;
+/* chỉ áp cho link trong scope */
+body.hust-admin-account a { text-decoration: none; }
+
+/* --- HEADER & NAVBAR --- */
+body.hust-admin-account header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 5%;
 }
 
-header{
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: #333;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 35px;
-    height: 50px;
-
-}
-header .logo{
-    margin-left: 30px;
-    font-size: 30px;
-    font-weight: bolder;
-    color: #fff;
-    text-transform: uppercase;
-}
-header .logo span{
-    color: var(--xanh);
-}
-header .bar a{
-    margin-right: 15px;
-    font-size: 18px;
-    color: white;
-}
-header .bar a:hover{
-    color: var(--xanh);
-}
-.bar .indam{
-    color: var(--xanh);
-}
-.icons{
-    margin-right: 90px;
-}
-.icons i{
-    color: white;
-    font-size: 18px;
-
-}
-.icons a i:hover{
-    color: var(--xanh);
-}
-.heading{
-    /* các phần tử trong heading văn bản được căn giữa  */
-    text-align: center;
-    padding:50px;
+body.hust-admin-account header .logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--white);
+  text-transform: uppercase;
 }
 
-.heading span{
-    font-size: 28px;
-    background:rgba(255, 165, 0,.2);
-    color:var(--trong);
-    /* đặt bán kính bo tròn  */
-    border-radius: 8px;
-    padding: 21px 18px;
-    margin-top: 80px;
+body.hust-admin-account header .logo span { color: var(--primary); }
+
+body.hust-admin-account header .bar {
+  display: flex;
+  gap: 20px;
 }
 
-.heading span.space{
-    /* loại bỏ màu nền của pâhnf tử span có lớp space làm cho không có màu nền  */
-    background:none;
-}
-.booking{
-    margin-left: 150px;
-    margin-right: 75px;
-    display: flex;
-    align-items: center;
-}
-.booking img{
-    width: 600px;
-    height: 600px;
-    border-radius: 30px;
+body.hust-admin-account header .bar a {
+  font-size: 0.9rem;
+  color: var(--white);
+  font-weight: 500;
+  white-space: nowrap;
 }
 
-.inputBox{
-    margin-left: 10px;
-    padding: 5px;
-}
-.inputBox input{
-    width: 500px;
-    height: 30px;
-    border: 1px solid gainsboro;
-    border-radius: 20px;
+body.hust-admin-account header .bar a:hover,
+body.hust-admin-account header .bar a.indam {
+  color: var(--primary);
 }
 
-.submit{
-    margin-left: 10px;
-    margin-top: 10px;
-    background-color: #51cd82 ;
-    border-radius: 10px;
-    height: 30px   ;
-    cursor: pointer;
-}
-.submit:hover{
-    background-color: antiquewhite;
+body.hust-admin-account header .icons {
+  display: flex;
+  align-items: center;
 }
 
-
-.footer{
-    margin-top: 30px;
-    background:#333;
-}
-.footer .container-footer{
-    margin-left: 30px;
-    display: flex;
-}
-.footer .container-footer .footer-preview{
-    width: 25%;
-    color: white;
-}
-.footer .container-footer .footer-preview a{
-    text-decoration: none;
-    color: white;
-}
-.footer .container-footer .footer-preview ul{
-    list-style: none;
-}
-.footer .container-footer .footer-preview a:hover{
-    color: var(--orange);
-    text-decoration: underline;
-}
-.credit{
-    border-top: 2px solid white;
-    padding-top: 5px;
-    text-align: center;
-    font-size: 18px;
-    color: white;
-}
-.credit span{
-    color: var(--orange);
-    background-color: #333;
-}
-/* General container layout */
-.container {
-    margin-top: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    border-left: 5px solid #28b862;
-    background-color: #fff;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    top: auto;
+body.hust-admin-account header .icons i {
+  font-size: 1.1rem;
+  color: var(--white);
+  cursor: pointer;
+  margin-left: 15px;
 }
 
-.left {
-    font-size: 20px;
-    color: #003366;
+body.hust-admin-account header .icons i:hover { color: var(--primary); }
+
+/* --- DROPDOWN --- */
+body.hust-admin-account .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 60px; right: 5%;
+  background-color: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  width: 150px;
+  overflow: hidden;
+  flex-direction: column;
+  z-index: 1001;
 }
 
-.right {
-    font-size: 16px;
-    color: #333;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+body.hust-admin-account .dropdown-menu a {
+  display: block;
+  padding: 10px 15px;
+  color: var(--text-dark);
+  font-size: 0.9rem;
+  border-bottom: 1px solid #eee;
 }
 
-.right i {
-    color: black;
-    margin-right: 5px;
-}
-/* nuts*/
-.btn-group {
-    margin: 20px;
+body.hust-admin-account .dropdown-menu a:hover {
+  background-color: #f0f0f0;
+  color: var(--primary);
 }
 
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    margin-right: 10px;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-    text-decoration: none;
+/* --- MAIN CONTAINER --- */
+body.hust-admin-account .container {
+  padding: 2rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.btn-create {
-    background-color: #7CFC00; /* Light green */
-    color: black;
+body.hust-admin-account .container .left p {
+  font-size: 1.5rem;
+  color: var(--text-dark);
 }
 
-.btn-upload {
-    background-color: #F0E68C; /* Khaki */
-    color: black;
+body.hust-admin-account .container .right {
+  color: var(--text-light);
+  font-size: 0.9rem;
 }
 
-.btn-print {
-    background-color: #DDA0DD; /* Plum */
-    color: blue;
+/* --- BUTTON GROUPS --- */
+body.hust-admin-account .btn-group {
+  padding: 0 5%;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
-.btn-copy {
-    background-color: #DDA0DD; /* Plum */
-    color: blue;
+body.hust-admin-account .btn {
+  padding: 10px 15px;
+  border-radius: 5px;
+  color: var(--white);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
 }
 
-.btn-excel {
-    background-color: #7CFC00; /* Light green */
-    color: black;
+body.hust-admin-account .btn-create { background-color: var(--primary); }
+body.hust-admin-account .btn-upload { background-color: var(--info); }
+body.hust-admin-account .btn-print { background-color: #95a5a6; }
+body.hust-admin-account .btn-copy { background-color: #34495e; }
+body.hust-admin-account .btn-excel { background-color: #27ae60; }
+body.hust-admin-account .btn-pdf { background-color: #e74c3c; }
+body.hust-admin-account .btn-delete-all { background-color: #c0392b; }
+
+body.hust-admin-account .btn:hover { opacity: 0.9; }
+
+/* --- FILTER & SEARCH --- */
+body.hust-admin-account .filter-container {
+  padding: 0 5%;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-.btn-pdf {
-    background-color: #FF6347; /* Tomato red */
+body.hust-admin-account .toggle-btn {
+  margin-left: 5%;
+  margin-bottom: 10px;
+  background: none;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
-.btn-delete-all {
-    background-color: #D3D3D3; /* Light gray */
-    color: black;
+body.hust-admin-account .search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.btn i {
-    margin-right: 5px;
-}
-/* timkiem
- */
-.filter-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 20px 0;
+body.hust-admin-account .search-box input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
 }
 
-/* Dropdown (number of items per page) */
-.items-per-page {
-    display: flex;
-    align-items: center;
-    font-size: 16px;
+body.hust-admin-account .search-box button {
+  padding: 8px 15px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.items-per-page select {
-    margin-left: 10px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+/* --- TABLE --- */
+body.hust-admin-account h2 {
+  padding: 0 5%;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: var(--text-dark);
 }
 
-/* Search box */
-/* Khung chứa cho dropdown và ô tìm kiếm */
-.filter-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+body.hust-admin-account table {
+  width: 90%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background: var(--white);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  overflow: hidden;
 }
 
-/* Dropdown (chọn số danh mục hiển thị) */
-.items-per-page {
-    display: flex;
-    align-items: center;
-    font-size: 16px;
+body.hust-admin-account th,
+body.hust-admin-account td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
 }
 
-.items-per-page select {
-    margin-left: 10px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+body.hust-admin-account th {
+  background-color: var(--primary);
+  color: var(--white);
+  font-weight: 500;
 }
 
-/* Ô tìm kiếm */
-.search-box {
-    display: flex;
-    align-items: center;
-    font-size: 16px;
+body.hust-admin-account tr:hover { background-color: #f1f1f1; }
+
+body.hust-admin-account .action-buttons button {
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 0.8rem;
 }
 
-.search-box input[type="text"] {
-    margin-left: 10px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 200px;
+body.hust-admin-account .toggle-status-btn { background-color: var(--info); }
+
+/* --- PAGINATION --- */
+body.hust-admin-account .pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 10px;
 }
 
-/* Nút để thu/nhả */
-.toggle-btn {
-    margin: 20px;
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+body.hust-admin-account .pagination button {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
-.toggle-btn:hover {
-    background-color: #0056b3;
-}
-/*  */
-h2 {
-    margin-left: 20px;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-left: 20px;
+body.hust-admin-account .pagination button.active,
+body.hust-admin-account .pagination button:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
 }
 
-th, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+/* --- MODAL --- */
+body.hust-admin-account .modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
 }
 
-th {
-    background-color: #f2f2f2;
+body.hust-admin-account .modal-content {
+  background-color: white;
+  padding: 0;
+  border-radius: 12px;
+  width: 450px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  animation: hustAccFadeIn 0.3s ease-in-out;
+  overflow: hidden;
 }
 
-td img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
+@keyframes hustAccFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.action-buttons {
-    display: flex;
-    gap: 5px;
+body.hust-admin-account .modal-header {
+  background-color: var(--primary);
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.edit-btn, .delete-btn {
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
+body.hust-admin-account .modal-header .close {
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
 }
 
-.edit-btn {
-    background-color: #f0ad4e;
-    color: white;
+body.hust-admin-account .modal-body { padding: 20px; }
+
+body.hust-admin-account .form-group { margin-bottom: 15px; }
+
+body.hust-admin-account .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+  font-size: 0.9rem;
 }
 
-.delete-btn {
-    background-color: #d9534f;
-    color: white;
+body.hust-admin-account .form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
-.edit-btn:hover {
-    background-color: #ec971f;
+body.hust-admin-account .form-group input:focus {
+  border-color: var(--primary);
+  outline: none;
 }
 
-.delete-btn:hover {
-    background-color: #c9302c;
+body.hust-admin-account .btn-primary {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
 }
 
-.pagination {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.pagination button {
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-}
-
-.pagination button:hover {
-    background-color: #0056b3;
-}
-
-.pagination button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
+body.hust-admin-account .btn-primary:hover {
+  background-color: var(--primary-dark);
 }

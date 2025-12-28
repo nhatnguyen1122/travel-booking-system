@@ -7,10 +7,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
+
 @Repository
 public interface HotelRepository extends JpaRepository<Hotel, Long> {
-    Optional<Hotel> findById(Long id);
-    @Query(value = "SELECT * FROM hotels h WHERE REPLACE(h.address, ' ', '') LIKE CONCAT('%', REPLACE(:destination, ' ', ''), '%')", nativeQuery = true)
+
+    @Query(value = "SELECT * FROM hotels h " +
+            "WHERE LOWER(REPLACE(h.address, ' ', '')) " +
+            "LIKE CONCAT('%', LOWER(REPLACE(:destination, ' ', '')), '%')",
+            nativeQuery = true)
     List<Hotel> findByDestination(@Param("destination") String destination);
 }

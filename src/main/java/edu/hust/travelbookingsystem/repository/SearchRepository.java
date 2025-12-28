@@ -5,122 +5,182 @@ import edu.hust.travelbookingsystem.entity.User;
 import edu.hust.travelbookingsystem.model.response.PageResponse;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Repository
 public class SearchRepository {
+
     @PersistenceContext
-    private EntityManager entityManager; // inject vao de co the tuong tac voi co so du lieu
+    private EntityManager entityManager;
 
-    // tim kiem theo destination
-    public  PageResponse getAllOrderWithSortByMultipleColumsAndSearch(int pageNo, int pageSize, String search, String sortBy){
-        StringBuilder sqlQuery = new StringBuilder("select o from Order o where 1=1 ");
-        if(StringUtils.hasLength(search)){
-            // tim kiem theo destination
-            sqlQuery.append(" and lower(o.destination) like lower(:destination) "); // :destination : tham so dong duoc gan sau bang setParameter
-        }
-        if(StringUtils.hasLength(sortBy)){
-            // totalPrice:desc
-            Pattern pattern = Pattern.compile("(\\w+?)(:)(.*)");
-            Matcher matcher = pattern.matcher(sortBy);
-            if(matcher.find()) {
-                sqlQuery.append(String.format("order by o.%s %s",matcher.group(1) ,matcher.group(3)));
-            }
-        }
-        Query selectQuery = entityManager.createQuery(sqlQuery.toString());
-        // pageNo : so trang bat dau tim
-        // pageSize : moi trang chua toi da pageSize ban ghi
-        selectQuery.setFirstResult(pageNo*pageSize); // tim bat dau tu dong pageNo*pageSize
-        selectQuery.setMaxResults(pageSize);
-        if(StringUtils.hasLength(search)){
-            //selectQuery.setParameter("destination", String.format("%%%s%%", search));
-            selectQuery.setParameter("destination", "%"+search+"%");
-        }
-        List<Order> orders = (List<Order>) selectQuery.getResultList();
-        System.out.println("orders: " + orders);
+    private static final Pattern SORT_TOKEN =
+            Pattern.compile("^([A-Za-z][A-Za-z0-9_]*)\\s*(?::\\s*(asc|desc))?\\s*$", Pattern.CASE_INSENSITIVE);
 
-        // query ra so item
-        StringBuilder sqlCountQuery = new StringBuilder("select count(*) from Order o where 1=1 ");
-        if(StringUtils.hasLength(search)){
-            // tim kiem theo destination
-            sqlCountQuery.append(" and lower(o.destination) like lower(:destination) "); // :destination : tham so dong duoc gan sau bang setParameter
+    private static final Set<String> ORDER_SORT_FIELDS = Set.of(
+            "id",
+            "destination",
+            "numberOfPeople",
+            "orderDate",
+            "checkinDate",
+            "checkoutDate",
+            "startHotel",
+            "endHotel",
+            "totalPrice"
+    );
+
+    private static final Set<String> USER_SORT_FIELDS = Set.of(
+            "id",
+            "phone",
+            "fullName",
+            "email",
+            "birthday",
+            "status"
+    );
+
+    public PageResponse getAllOrderWithSortByMultipleColumsAndSearch(int pageNo,
+                                                                     int pageSize,
+                                                                     String search,
+                                                                     String sortBy) {
+        int safePageNo = Math.max(pageNo, 0);
+        int safePageSize = pageSize > 0 ? pageSize : 10;
+
+        String keyword = StringUtils.hasText(search) ? search.trim().toLowerCase(Locale.ROOT) : null;
+
+        StringBuilder jpql = new StringBuilder("select o from Order o where 1=1");
+        if (keyword != null) {
+            jpql.append(" and lower(o.destination) like :destination");
         }
-        Query selectCountQuery = entityManager.createQuery(sqlCountQuery.toString());
-        if(StringUtils.hasLength(search)){
-            //selectQuery.setParameter("destination", String.format("%%%s%%", search));
-            selectCountQuery.setParameter("destination", "%"+search+"%");
+
+        String orderByClause = buildOrderByClause("o", sortBy, ORDER_SORT_FIELDS);
+        if (orderByClause != null) {
+            jpql.append(" ").append(orderByClause);
         }
-        Long totalElements = (Long) selectCountQuery.getSingleResult();
-        System.out.println("total elements: " + totalElements);
-        // tính total page
-        int totalPages = 0 ;
-        if(totalElements % pageSize == 0){
-            totalPages = (int) (totalElements/pageSize);
-        }else {
-            totalPages = (int) (totalElements/pageSize) + 1;
+
+        TypedQuery<Order> selectQuery = entityManager.createQuery(jpql.toString(), Order.class);
+        if (keyword != null) {
+            selectQuery.setParameter("destination", "%" + keyword + "%");
         }
+        selectQuery.setFirstResult(safePageNo * safePageSize);
+        selectQuery.setMaxResults(safePageSize);
+
+        List<Order> orders = selectQuery.getResultList();
+
+        StringBuilder countJpql = new StringBuilder("select count(o) from Order o where 1=1");
+        if (keyword != null) {
+            countJpql.append(" and lower(o.destination) like :destination");
+        }
+
+        TypedQuery<Long> countQuery = entityManager.createQuery(countJpql.toString(), Long.class);
+        if (keyword != null) {
+            countQuery.setParameter("destination", "%" + keyword + "%");
+        }
+
+        Long totalElements = countQuery.getSingleResult();
+        int totalPages = (totalElements == 0) ? 0 : (int) ((totalElements + safePageSize - 1) / safePageSize);
+
         return PageResponse.builder()
-                .pageNo(pageNo)
-                .pageSize(pageSize)
+                .pageNo(safePageNo)
+                .pageSize(safePageSize)
                 .totalPages(totalPages)
                 .items(orders)
                 .build();
     }
-    public PageResponse advanceSearchOrder(int pageNo, int pageSize, String sortBy, String... search){
-        return null ;
+
+    public PageResponse advanceSearchOrder(int pageNo, int pageSize, String sortBy, String... search) {
+        String keyword = null;
+        if (search != null && search.length > 0 && StringUtils.hasText(search[0])) {
+            keyword = search[0].trim();
+        }
+        return getAllOrderWithSortByMultipleColumsAndSearch(pageNo, pageSize, keyword, sortBy);
     }
 
-    public PageResponse findBySearch(int pageNo, int pageSize, String search){
-        StringBuilder sqlQuery = new StringBuilder("select u from User u where 1=1 ");
-        if(StringUtils.hasLength(search)){
-            sqlQuery.append(" and (lower(u.fullName) like lower(:name)" +
-                            " or u.phone like :phone "+
-                         " or lower(u.email) like lower(:email))");
-        }
-        Query selectQuery = entityManager.createQuery(sqlQuery.toString());
-        System.out.println("selectQuery: " + selectQuery);
-        if(StringUtils.hasLength(search)){
-            selectQuery.setParameter("name", "%"+search+"%");
-            selectQuery.setParameter("phone", "%"+search+"%");
-            selectQuery.setParameter("email", "%"+search+"%");
-        }
-        selectQuery.setFirstResult(pageNo*pageSize);
-        selectQuery.setMaxResults(pageSize);
-        List<User> users = (List<User>) selectQuery.getResultList();
-        System.out.println("users: " + users);
+    public PageResponse findBySearch(int pageNo, int pageSize, String search) {
+        int safePageNo = Math.max(pageNo, 0);
+        int safePageSize = pageSize > 0 ? pageSize : 10;
 
-        // query so item de tra ve total page
-        StringBuilder sqlCountQuery = new StringBuilder("select count(*) from User u where 1=1 ");
-        if(StringUtils.hasLength(search)){
-            sqlCountQuery.append(" and lower(u.fullName) like lower(:name)" +
-                    " or u.phone like :phone "+
-                    " or lower(u.email) like lower(:email)");
+        String keyword = StringUtils.hasText(search) ? search.trim().toLowerCase(Locale.ROOT) : null;
+
+        StringBuilder jpql = new StringBuilder("select u from User u where 1=1");
+        if (keyword != null) {
+            jpql.append(" and (lower(u.fullName) like :kw")
+                    .append(" or u.phone like :kwPhone")
+                    .append(" or lower(u.email) like :kw)");
         }
-        Query selectCountQuery = entityManager.createQuery(sqlCountQuery.toString());
-        if(StringUtils.hasLength(search)){
-            selectCountQuery.setParameter("name", "%"+search+"%");
-            selectCountQuery.setParameter("phone", "%"+search+"%");
-            selectCountQuery.setParameter("email", "%"+search+"%");
+
+        TypedQuery<User> selectQuery = entityManager.createQuery(jpql.toString(), User.class);
+        if (keyword != null) {
+            selectQuery.setParameter("kw", "%" + keyword + "%");
+            selectQuery.setParameter("kwPhone", "%" + search.trim() + "%");
         }
-        Long totalElements = (Long) selectCountQuery.getSingleResult();
-        int totalPages = 0 ;
-        if(totalElements % pageSize == 0){
-            totalPages = (int) (totalElements/pageSize);
-        }else {
-            totalPages = (int) (totalElements/pageSize) + 1;
+        selectQuery.setFirstResult(safePageNo * safePageSize);
+        selectQuery.setMaxResults(safePageSize);
+
+        List<User> users = selectQuery.getResultList();
+
+        StringBuilder countJpql = new StringBuilder("select count(u) from User u where 1=1");
+        if (keyword != null) {
+            countJpql.append(" and (lower(u.fullName) like :kw")
+                    .append(" or u.phone like :kwPhone")
+                    .append(" or lower(u.email) like :kw)");
         }
-        System.out.println("total elements: " + totalElements);
+
+        TypedQuery<Long> countQuery = entityManager.createQuery(countJpql.toString(), Long.class);
+        if (keyword != null) {
+            countQuery.setParameter("kw", "%" + keyword + "%");
+            countQuery.setParameter("kwPhone", "%" + search.trim() + "%");
+        }
+
+        Long totalElements = countQuery.getSingleResult();
+        int totalPages = (totalElements == 0) ? 0 : (int) ((totalElements + safePageSize - 1) / safePageSize);
+
         return PageResponse.builder()
-                .pageNo(pageNo)
-                .pageSize(pageSize)
+                .pageNo(safePageNo)
+                .pageSize(safePageSize)
                 .totalPages(totalPages)
                 .items(users)
                 .build();
+    }
+
+    private String buildOrderByClause(String alias, String sortBy, Set<String> allowedFields) {
+        if (!StringUtils.hasText(sortBy)) {
+            return null;
+        }
+
+        String[] tokens = sortBy.split(",");
+        List<String> orderParts = new ArrayList<>();
+
+        for (String rawToken : tokens) {
+            if (!StringUtils.hasText(rawToken)) continue;
+
+            String token = rawToken.trim();
+            Matcher matcher = SORT_TOKEN.matcher(token);
+            if (!matcher.matches()) {
+                continue;
+            }
+
+            String field = matcher.group(1);
+            if (!allowedFields.contains(field)) {
+                continue;
+            }
+
+            String direction = (matcher.group(2) != null) ? matcher.group(2).toLowerCase(Locale.ROOT) : "asc";
+            if (!direction.equals("asc") && !direction.equals("desc")) {
+                direction = "asc";
+            }
+
+            orderParts.add(alias + "." + field + " " + direction);
+        }
+
+        if (orderParts.isEmpty()) {
+            return null;
+        }
+
+        return "order by " + String.join(", ", orderParts);
     }
 }

@@ -12,9 +12,12 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    public List<Order> findByUserId(Long userId);
+
+    List<Order> findByUserId(Long userId);
 
     Page<Order> findByUser(User user, Pageable pageable);
+
+    Page<Order> findByUserId(Long userId, Pageable pageable);
 
     List<Order> findByFlight(Flight flight);
 }

@@ -2,41 +2,45 @@ package edu.hust.travelbookingsystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Table(name = "hotels")
+@Table(
+        name = "hotels",
+        indexes = {
+                @Index(name = "idx_hotels_name", columnList = "hotel_name"),
+                @Index(name = "idx_hotels_address", columnList = "address")
+        }
+)
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Hotel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "hotel_name")
+    @Column(name = "hotel_name", nullable = false, length = 255)
     private String hotelName;
 
-    @Column(name = "hotel_price")
+    @Column(name = "hotel_price", nullable = false)
     private double hotelPriceFrom;
 
-    @Column(name = "address")
-    private String address ;
+    @Column(name = "address", nullable = false, length = 500)
+    private String address;
 
-    @Column(name = "number_floor")
+    @Column(name = "number_floor", nullable = false)
     private int numberFloor;
 
-    @OneToMany(mappedBy = "hotel" , cascade = CascadeType.ALL , fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<HotelBedroom> hotelBedrooms;
 
-    @OneToMany(mappedBy = "hotel",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Order> orders;
 
@@ -44,5 +48,4 @@ public class Hotel {
         this.hotelName = hotelName;
         this.hotelPriceFrom = hotelPrice;
     }
-
 }

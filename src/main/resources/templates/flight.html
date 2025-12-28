@@ -4,303 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flight | HUST ONEFUTURE</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <style>
-        :root {
-            --primary: #29b862;
-            --primary-dark: #1e8544;
-            --text-dark: #1d1d1d;
-            --text-light: #666;
-            --white: #fff;
-            --bg-light: #f9f9f9;
-            --shadow: 0 5px 15px rgba(0,0,0,0.1);
-            --radius: 12px;
-
-            /* Thêm biến riêng cho trang Flight (màu xanh trời) */
-            --secondary: #3498db;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            text-decoration: none;
-            transition: all .2s linear;
-        }
-
-        body {
-            background-color: var(--bg-light);
-            overflow-x: hidden;
-        }
-
-        /* --- HEADER & NAVBAR (ĐỒNG BỘ VỚI HOME) --- */
-        header {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 5%; /* Padding nhỏ hơn để vừa menu */
-        }
-
-        header .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--white);
-            text-transform: uppercase;
-        }
-
-        header .logo span {
-            color: var(--primary);
-        }
-
-        header .bar {
-            display: flex;
-            gap: 15px; /* Khoảng cách nhỏ để vừa 12 mục */
-        }
-
-        header .bar a {
-            font-size: 0.85rem; /* Font nhỏ để vừa menu */
-            color: var(--white);
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        header .bar a:hover, header .bar a.indam {
-            color: var(--primary);
-        }
-
-        header .icons {
-            display: flex;
-            align-items: center;
-        }
-
-        header .icons i {
-            font-size: 1.1rem;
-            color: var(--white);
-            cursor: pointer;
-            margin-left: 10px;
-        }
-
-        header .icons i:hover {
-            color: var(--primary);
-        }
-
-        /* --- USER DROPDOWN (ĐỒNG BỘ) --- */
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 60px;
-            right: 5%;
-            background-color: var(--white);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            width: 150px;
-            overflow: hidden;
-            flex-direction: column;
-            z-index: 1001;
-        }
-
-        .dropdown-menu a {
-            display: block;
-            padding: 10px 15px;
-            color: var(--text-dark);
-            font-size: 0.9rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .dropdown-menu a:hover {
-            background-color: #f0f0f0;
-            color: var(--primary);
-        }
-
-        /* --- PHẦN RIÊNG CỦA TRANG FLIGHT --- */
-        .page-header {
-            position: relative;
-            height: 50vh;
-            /* Gradient pha trộn giữa màu Flight và màu Home */
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--white);
-            margin-bottom: 50px;
-            padding-top: 60px; /* Bù cho header fixed */
-        }
-
-        .page-header::before {
-            content: '\f5b0'; /* Icon máy bay */
-            font-family: "Font Awesome 5 Free";
-            font-weight: 900;
-            position: absolute;
-            font-size: 15rem;
-            color: rgba(255,255,255,0.1);
-            transform: rotate(-15deg);
-            right: 10%;
-        }
-
-        .hero-content { z-index: 1; }
-
-        .hero-content h1 {
-            font-size: 3.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            margin-bottom: 10px;
-        }
-
-        .hero-content p {
-            font-size: 1.2rem;
-            font-weight: 300;
-            opacity: 0.95;
-        }
-
-        .container {
-            padding: 0 7% 4rem;
-        }
-
-        .section-heading {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-heading h1 {
-            font-size: 2.5rem;
-            color: var(--text-dark);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .section-heading span { color: var(--secondary); } /* Dùng màu xanh dương cho điểm nhấn flight */
-
-        .flight-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .flight-list > div {
-            background: var(--white);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            border: 1px solid #e1e8ed;
-        }
-
-        .flight-list > div:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(52, 152, 219, 0.2);
-            border-color: var(--secondary);
-        }
-
-        .flight-list > div::before {
-            content: '';
-            display: block;
-            height: 80px;
-            background: linear-gradient(to right, var(--secondary), #2980b9);
-            width: 100%;
-            position: absolute;
-            top: 0; left: 0;
-            z-index: 0;
-        }
-
-        .flight-list > div:not(:has(img))::after {
-            content: '\f5af';
-            font-family: "Font Awesome 5 Free";
-            font-weight: 900;
-            position: absolute;
-            top: 20px; right: 20px;
-            font-size: 2.5rem;
-            color: rgba(255,255,255,0.3);
-            z-index: 1;
-        }
-
-        .flight-list > div h3,
-        .flight-list > div strong {
-            position: relative;
-            z-index: 1;
-            color: var(--white);
-            margin: 25px 20px 35px 20px;
-            font-size: 1.4rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .flight-list > div p,
-        .flight-list > div div {
-            padding: 5px 20px;
-            color: var(--text-light);
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .flight-list > div p:nth-of-type(1)::before {
-            content: '\f017'; /* Icon đồng hồ */
-            font-family: "Font Awesome 5 Free";
-            font-weight: 900;
-            color: var(--secondary);
-        }
-
-        .flight-list > div p:last-of-type,
-        .flight-list > div p:nth-last-child(2) {
-            color: var(--primary); /* Giá tiền dùng màu Primary */
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-top: 10px;
-        }
-
-        /* Nút Đặt Vé */
-        .flight-list > div button {
-            margin: 20px;
-            padding: 14px;
-            background: var(--white);
-            color: var(--secondary);
-            border: 2px solid var(--secondary);
-            border-radius: 50px;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.3s;
-            text-align: center;
-        }
-
-        .flight-list > div button:hover {
-            background: var(--secondary);
-            color: var(--white);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
-        }
-
-        /* --- FOOTER (ĐỒNG BỘ VỚI HOME) --- */
-        .footer { background: #222; color: #fff; padding: 4rem 7%; margin-top: auto; }
-        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
-        .footer-col h2 { font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--primary); }
-        .footer-col ul li { list-style: none; margin-bottom: 10px; }
-        .footer-col ul li a, .footer-col p { color: #bbb; font-size: 0.9rem; transition: 0.3s; }
-        .footer-col ul li a:hover { color: var(--primary); padding-left: 5px; }
-        .credit { text-align: center; padding-top: 2rem; margin-top: 2rem; border-top: 1px solid #333; font-size: 1rem; }
-        .credit span { color: var(--primary); }
-
-        @media (max-width: 1200px) {
-            header { padding: 1rem 2rem; }
-            header .bar { display: none; }
-        }
-    </style>
+    <!-- CSS ở /css/ -->
+    <link rel="stylesheet" href="/css/flight.css">
 </head>
-<body>
+
+<body class="hust-flight-page">
 
 <header>
     <a href="#" class="logo"><span>HUST</span>ONEFUTURE</a>
@@ -340,8 +52,7 @@
         <h1>Available <span>Flights</span></h1>
     </div>
 
-    <div id="flight-list" class="flight-list">
-    </div>
+    <div id="flight-list" class="flight-list"></div>
 </div>
 
 <section class="footer">
@@ -371,11 +82,12 @@
     });
 
     const flightDateInput = document.querySelector('input[name="flightDate"]');
-    if(flightDateInput) {
+    if (flightDateInput) {
         flightDateInput.addEventListener('change', function () {
             localStorage.setItem('flightDate', this.value);
         });
     }
 </script>
+
 </body>
 </html>

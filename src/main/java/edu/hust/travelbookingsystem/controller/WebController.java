@@ -53,7 +53,7 @@ public class WebController {
     }
     @GetMapping("/plan-trip")
     public String planTripPage() {
-        return "plan-trip";
+        return "plan_trip";
     }
     @GetMapping("/flight")
     public String flightPage() {
@@ -68,11 +68,11 @@ public class WebController {
         return "admin_account";
     }
     @GetMapping("/admin_flights")
-    public String adminFlightsPage() {return "admin_flights";}
+    public String adminFlightsPage() {return "admin_flight";}
     @GetMapping("/admin_hotel")
     public String adminHotelPage() {return "admin_hotel";}
     @GetMapping("/profile")
     public String profilePage() {return "profile";}
     @GetMapping("/newPass")
-    public String newPassPage() {return "changePassWord";}
+    public String newPassPage() {return "change_password";}
 }

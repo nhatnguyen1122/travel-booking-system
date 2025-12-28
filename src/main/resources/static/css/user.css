@@ -1,186 +1,259 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap');
-:root {
-    --orange: #ffa500;
-    --xanh: #29b862;
-    --red: #ec3535;
-    --xanhbien: #538df0;
-    --trong: #7be0cc;
+/* FIX nền trắng + đảm bảo full màn */
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-* {
-    font-family: 'Nunito', sans-serif;
-    box-sizing: border-box;
-    /*text-transform: capitalize;*/
-    outline: none;
-    border: none;
-    text-decoration: none;
-    transition: all .2s linear;
+body.hust-auth-page {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+
+  /* Variables scoped để không ảnh hưởng project tổng thể */
+  --primary: #29b862;
+  --primary-hover: #1e8544;
+  --text-dark: #1d1d1d;
+  --white: #fff;
+  --glass: rgba(255, 255, 255, 0.95);
+  --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --radius: 12px;
+
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-body {
-    margin: 0;
-    padding: 0;
+/* Reset chỉ trong trang này để không đụng CSS khác */
+body.hust-auth-page * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  text-decoration: none;
+  transition: all .2s linear;
 }
 
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: #333;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 35px;
-    height: 50px;
+/* Background video FIX: dùng fixed để phủ full viewport */
+body.hust-auth-page .video-container {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 
-header .logo {
-    margin-left: 30px;
-    font-size: 30px;
-    font-weight: bolder;
-    color: #fff;
-    text-transform: uppercase;
+body.hust-auth-page .video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-header .logo span {
-    color: var(--xanh);
+body.hust-auth-page .video-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 0;
 }
 
-header .bar a {
-    margin-right: 15px;
-    font-size: 18px;
-    color: white;
+/* Header */
+body.hust-auth-page header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 5%;
 }
 
-header .bar a:hover {
-    color: var(--xanh);
+body.hust-auth-page header .logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--white);
+  text-transform: uppercase;
 }
 
-.icons {
-    margin-right: 90px;
+body.hust-auth-page header .logo span {
+  color: var(--primary);
 }
 
-.icons i {
-    color: white;
-    font-size: 18px;
+body.hust-auth-page header .bar {
+  display: flex;
+  gap: 15px;
 }
 
-.icons a i:hover {
-    color: var(--xanh);
+body.hust-auth-page header .bar a {
+  font-size: 0.85rem;
+  color: var(--white);
+  font-weight: 500;
+  white-space: nowrap;
 }
 
-.heading {
-    /* các phần tử trong heading văn bản được căn giữa  */
-    text-align: center;
-    padding: 50px;
+body.hust-auth-page header .bar a:hover {
+  color: var(--primary);
 }
 
-.heading span {
-    font-size: 28px;
-    background: rgba(255, 165, 0, .2);
-    color: var(--trong);
-    /* đặt bán kính bo tròn  */
-    border-radius: 8px;
-    padding: 21px 18px;
-    margin-top: 80px;
+/* Auth Card */
+body.hust-auth-page .auth-container {
+  position: relative;
+  z-index: 10;
+  background: var(--glass);
+  backdrop-filter: blur(8px);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  width: 450px;
+  max-width: 90%;
+  padding: 2.5rem 2rem;
+  margin-top: 60px; /* bù header */
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-.heading span.space {
-    /* loại bỏ màu nền của pâhnf tử span có lớp space làm cho không có màu nền  */
-    background: none;
+/* Toggle */
+body.hust-auth-page .form-toggle {
+  display: flex;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #eee;
 }
 
-form {
-    margin-left: 2%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+body.hust-auth-page .form-toggle button {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #888;
+  cursor: pointer;
+  position: relative;
 }
 
-form .sign {
-    display: flex;
-    padding: 10px;
+body.hust-auth-page .form-toggle button.active {
+  color: var(--primary);
 }
 
-form table {
-    margin-top: 100px;
-    border-radius: 30px;
-    padding: 20px;
-    height: 500px;
-    width: 400px;
+body.hust-auth-page .form-toggle button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--primary);
 }
 
-form table input[type="text"],
-form table input[type="tel"],
-form table input[type="password"],
-form table input[type="email"] {
-    border: 1px solid var(--trong);
-    width: 400px;
-    height: 50px;
-    border-radius: 30px;
-    padding: 15px;
+/* Inputs */
+body.hust-auth-page .input-group {
+  margin-bottom: 1.5rem;
+  position: relative;
 }
 
-form table button {
-    height: 50px;
-    width: 200px;
-    border: 1px solid var(--trong);
-    border-radius: 30px;
+body.hust-auth-page .input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #f9f9f9;
+  outline: none;
 }
 
-form table input[type="submit"] {
-    border: 1px solid var(--trong);
-    width: 200px;
-    height: 50px;
-    border-radius: 30px;
-    padding: 15px;
+body.hust-auth-page .input-group input:focus {
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(41, 184, 98, 0.1);
 }
 
-input[type="submit"]:hover {
-    cursor: pointer;
-    background-color: #7be0cc;
+/* Submit */
+body.hust-auth-page input[type="submit"] {
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
 }
 
-button:hover {
-    cursor: pointer;
-    background-color: #7be0cc;
+body.hust-auth-page input[type="submit"]:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(41, 184, 98, 0.3);
 }
 
-.indam {
-    background-color: #7be0cc;
-}
-.hidden {
-    display: none;
-}
-.video-container video{
-    position: absolute;
-    top:0; left: 0;
-    z-index: -1;
-    height: 100%;
-    width:100%;
-    object-fit: cover;
+/* Helpers */
+body.hust-auth-page .hidden {
+  display: none;
 }
 
-
-form table input[type="date"] {
-    border: 1px solid var(--trong);
-    width: 400px;
-    height: 50px;
-    border-radius: 30px;
-    padding: 10px;
-    font-size: 16px;
-    text-align: center;
-    background: white;
-    color: #333;
-    cursor: pointer;
+body.hust-auth-page .animate-in {
+  animation: fadeIn 0.4s ease;
 }
 
-form table input[type="date"]:hover {
-    background-color: #e0f2f1;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-form table input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(50%);
-    cursor: pointer;
+/* Modal */
+body.hust-auth-page .modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0; top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  justify-content: center;
+  align-items: center;
+}
+
+body.hust-auth-page .modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  width: 350px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+body.hust-auth-page .modal-content h2 {
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+body.hust-auth-page .modal-content p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+body.hust-auth-page .modal-content button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+body.hust-auth-page .modal-content button:hover {
+  background: var(--primary-hover);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  body.hust-auth-page header { padding: 1rem 2rem; }
+  body.hust-auth-page header .bar { display: none; }
 }

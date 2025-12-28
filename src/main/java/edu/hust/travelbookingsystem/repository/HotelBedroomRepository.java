@@ -1,7 +1,9 @@
 package edu.hust.travelbookingsystem.repository;
 
 import edu.hust.travelbookingsystem.entity.HotelBedroom;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface HotelBedroomRepository extends CrudRepository<HotelBedroom, Long> {
+@Repository
+public interface HotelBedroomRepository extends JpaRepository<HotelBedroom, Long> {
 }

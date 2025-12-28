@@ -4,228 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News | HUST ONEFUTURE</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <style>
-        :root {
-            --primary: #29b862;
-            --primary-dark: #1e8544;
-            --text-dark: #1d1d1d;
-            --text-light: #666;
-            --white: #fff;
-            --bg-light: #f9f9f9;
-            --shadow: 0 5px 15px rgba(0,0,0,0.1);
-            --radius: 12px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            text-decoration: none;
-            transition: all .2s linear;
-        }
-
-        body {
-            background-color: var(--bg-light);
-        }
-
-        /* --- HEADER & NAVBAR (ĐỒNG BỘ) --- */
-        header {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 5%;
-        }
-
-        header .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--white);
-            text-transform: uppercase;
-        }
-
-        header .logo span { color: var(--primary); }
-
-        header .bar {
-            display: flex;
-            gap: 15px;
-        }
-
-        header .bar a {
-            font-size: 0.85rem;
-            color: var(--white);
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        header .bar a:hover, header .bar a.indam {
-            color: var(--primary);
-        }
-
-        header .icons {
-            display: flex;
-            align-items: center;
-        }
-
-        header .icons i {
-            font-size: 1.1rem;
-            color: var(--white);
-            cursor: pointer;
-            margin-left: 10px;
-        }
-
-        header .icons i:hover { color: var(--primary); }
-
-        /* --- DROPDOWN --- */
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 60px; right: 5%;
-            background-color: var(--white);
-            border-radius: var(--radius);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            width: 150px;
-            overflow: hidden;
-            flex-direction: column;
-            z-index: 1001;
-        }
-
-        .dropdown-menu a {
-            display: block;
-            padding: 10px 15px;
-            color: var(--text-dark);
-            font-size: 0.9rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .dropdown-menu a:hover {
-            background-color: #f0f0f0;
-            color: var(--primary);
-        }
-
-        /* --- NEWS CONTENT --- */
-        .news-section {
-            padding: 7rem 7% 4rem;
-        }
-
-        .heading {
-            text-align: center;
-            padding-bottom: 2rem;
-            color: var(--text-dark);
-            text-transform: uppercase;
-            font-size: 3.5rem;
-        }
-
-        .heading span {
-            letter-spacing: 5px;
-            display: inline-block;
-            color: var(--primary);
-            text-shadow: 0 5px 10px rgba(0,0,0,.1);
-            transition: .3s;
-        }
-
-        .heading span:hover {
-            transform: translateY(-10px);
-        }
-
-        .news-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .news-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .news-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .news-card img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-        }
-
-        .news-content {
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .news-content h2 {
-            font-size: 1.2rem;
-            color: var(--text-dark);
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
-
-        .news-content p {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            margin-bottom: 15px;
-            line-height: 1.6;
-            flex-grow: 1; /* Đẩy ngày tháng xuống dưới cùng */
-        }
-
-        .news-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
-            border-top: 1px solid #eee;
-            padding-top: 15px;
-        }
-
-        .read-more {
-            color: var(--primary);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .read-more:hover {
-            text-decoration: underline;
-        }
-
-        .date {
-            font-size: 0.8rem;
-            color: #999;
-        }
-
-        /* --- FOOTER (ĐỒNG BỘ) --- */
-        .footer { background: #222; color: #fff; padding: 4rem 7%; }
-        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
-        .footer-col h2 { font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--primary); }
-        .footer-col ul li { list-style: none; margin-bottom: 10px; }
-        .footer-col ul li a, .footer-col p { color: #bbb; font-size: 0.9rem; transition: 0.3s; }
-        .footer-col ul li a:hover { color: var(--primary); padding-left: 5px; }
-        .credit { text-align: center; padding-top: 2rem; margin-top: 2rem; border-top: 1px solid #333; font-size: 1rem; }
-        .credit span { color: var(--primary); }
-
-        @media (max-width: 1200px) {
-            header { padding: 1rem 2rem; }
-            header .bar { display: none; }
-        }
-    </style>
+    <!-- CSS tách ra -->
+    <link rel="stylesheet" href="/css/news.css">
 </head>
-<body>
+
+<body class="hust-news-page">
 
 <header>
     <a href="#" class="logo"><span>HUST</span>ONEFUTURE</a>
@@ -263,7 +50,7 @@
 
     <div class="news-container">
         <div class="news-card">
-            <img src="images/costa-rica.jpg" alt="Costa Rica">
+            <img src="/images/costa-rica.jpg" alt="Costa Rica">
             <div class="news-content">
                 <h2>Discover Wild Beauty in Costa Rica</h2>
                 <p>A journey through rainforests and beautiful beaches of Costa Rica brings you closer to wild nature, rare animals, and stunning landscapes.</p>
@@ -275,7 +62,7 @@
         </div>
 
         <div class="news-card">
-            <img src="images/p-1.jpg" alt="India">
+            <img src="/images/p-1.jpg" alt="India">
             <div class="news-content">
                 <h2>Perfect Itinerary for India Holiday</h2>
                 <p>With rich culture, history, and food, India is a perfect destination. This article offers advice for a complete and exciting itinerary in India.</p>
@@ -287,7 +74,7 @@
         </div>
 
         <div class="news-card">
-            <img src="images/Kilimanjaro.jpg" alt="Kilimanjaro">
+            <img src="/images/Kilimanjaro.jpg" alt="Kilimanjaro">
             <div class="news-content">
                 <h2>Conquering the Top: Mount Kilimanjaro</h2>
                 <p>A unique journey to the peak of Kilimanjaro in Tanzania, one of Africa's highest mountains, will challenge you and provide memorable experiences.</p>
@@ -299,7 +86,7 @@
         </div>
 
         <div class="news-card">
-            <img src="images/p-4.jpg" alt="Paris">
+            <img src="/images/p-4.jpg" alt="Paris">
             <div class="news-content">
                 <h2>Enjoy Delicious Tastes in Paris, France</h2>
                 <p>Paris is not only famous for the Eiffel Tower but also a culinary paradise. Discover delicious dishes and famous restaurants in the City of Light.</p>
@@ -311,7 +98,7 @@
         </div>
 
         <div class="news-card">
-            <img src="images/Lapland.jpg" alt="Lapland">
+            <img src="/images/Lapland.jpg" alt="Lapland">
             <div class="news-content">
                 <h2>Winter Holiday in Lapland, Finland</h2>
                 <p>If you want to experience the magic of winter, Lapland is the place to be. Join the journey through stunning landscapes and winter activities.</p>
@@ -333,7 +120,6 @@
     </div>
 </section>
 
-
 <script>
     document.getElementById("user-icon").addEventListener("click", function(event) {
         event.preventDefault();
@@ -350,5 +136,6 @@
         }
     });
 </script>
+
 </body>
 </html>

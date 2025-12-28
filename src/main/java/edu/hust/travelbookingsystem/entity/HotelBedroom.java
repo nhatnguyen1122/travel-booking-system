@@ -8,24 +8,31 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "hotel_bedroom")
+@Table(
+        name = "hotel_bedroom",
+        indexes = {
+                @Index(name = "idx_bedroom_hotel_id", columnList = "hotel_id"),
+                @Index(name = "idx_bedroom_room_number", columnList = "room_number")
+        }
+)
 @Entity
 public class HotelBedroom {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id ;
+    private Long id;
 
-    @Column(name = "room_number")
-    private Long roomNumber ;
+    @Column(name = "room_number", nullable = false)
+    private Long roomNumber;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private Double price;
 
-    @Column(name = "room_type")
-    private String roomType ;
+    @Column(name = "room_type", nullable = false, length = 100)
+    private String roomType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hotel_id")
+    @JoinColumn(name = "hotel_id", nullable = false)
     @JsonIgnore
-    private Hotel hotel ;
+    private Hotel hotel;
 }

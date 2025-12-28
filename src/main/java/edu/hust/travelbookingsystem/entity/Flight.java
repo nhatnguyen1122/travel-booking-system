@@ -3,49 +3,64 @@ package edu.hust.travelbookingsystem.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.hust.travelbookingsystem.enums.TicketClass;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
 
-
 @Entity
-@Table(name = "flight")
+@Table(
+        name = "flight",
+        indexes = {
+                @Index(name = "idx_flight_check_in", columnList = "check_in_date"),
+                @Index(name = "idx_flight_check_out", columnList = "check_out_date"),
+                @Index(name = "idx_flight_ticket_class", columnList = "ticket_class"),
+                @Index(name = "idx_flight_airline", columnList = "airline_name")
+        }
+)
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Flight {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id ;
-    @Column(name = "ticket_class")
+    private Long id;
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "ticket_class", nullable = false, length = 30)
     private TicketClass ticketClass;
-    @Column(name = "airline_name")
-    private String airlineName ;
-    @Column(name = "price")
+
+    @Column(name = "airline_name", nullable = false, length = 200)
+    private String airlineName;
+
+    @Column(name = "price", nullable = false)
     private double price;
-    @Column(name = "check_in_date")
-    @DateTimeFormat
-    private Date checkInDate ;
-    @Column(name = "check_out_date")
-    @DateTimeFormat
-    private Date checkOutDate ;
-    @Column(name = "numberOfChairs")
-    private int numberOfChairs ;
-    @Column(name = "seatAvailable")
-    private int seatAvailable ;
 
-    @OneToMany(mappedBy = "flight" ,cascade = CascadeType.PERSIST)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "check_in_date", nullable = false)
+    @DateTimeFormat
+    private Date checkInDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "check_out_date", nullable = false)
+    @DateTimeFormat
+    private Date checkOutDate;
+
+    @Column(name = "numberOfChairs", nullable = false)
+    private int numberOfChairs;
+
+    @Column(name = "seatAvailable", nullable = false)
+    private int seatAvailable;
+
+    @Version
     @JsonIgnore
-    private List<Order> orders ;
+    private Long version;
 
-
+    @OneToMany(mappedBy = "flight", cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    private List<Order> orders;
 }

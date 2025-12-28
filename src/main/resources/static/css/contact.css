@@ -1,137 +1,319 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap');
-:root{
-    --orange:#ffa500;
-    --xanh:#29b862;
-    --red:#ec3535;
-    --xanhbien:#538df0;
-    --trong:#7be0cc;
+/* Scoped styles: chỉ áp dụng cho trang có <body class="hust-contact-page"> */
+body.hust-contact-page {
+  --primary: #29b862;
+  --primary-dark: #1e8544;
+  --text-dark: #1d1d1d;
+  --text-light: #666;
+  --white: #fff;
+  --bg-light: #f9f9f9;
+  --radius: 12px;
+
+  margin: 0;
+  background-color: var(--bg-light);
+  font-family: 'Poppins', sans-serif; /* set ở body để không đè icon font */
 }
 
-*{
-    font-family: 'Nunito', sans-serif;
-    box-sizing: border-box;
-    text-transform: capitalize;
-    outline: none;
-    border:none;
-    text-decoration: none;
-    transition: all .2s linear;
+/* reset nhẹ: KHÔNG set font-family ở đây */
+body.hust-contact-page *,
+body.hust-contact-page *::before,
+body.hust-contact-page *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all .2s linear;
 }
 
-body {
-    margin: 0;
-    padding: 0;
+body.hust-contact-page a { text-decoration: none; }
+
+/* --- HEADER & NAVBAR --- */
+body.hust-contact-page header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 5%;
 }
 
-header{
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: #333;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 35px;
-    height: 50px;
-
-}
-header .logo{
-    margin-left: 30px;
-    font-size: 30px;
-    font-weight: bolder;
-    color: #fff;
-    text-transform: uppercase;
-}
-header .logo span{
-    color: var(--xanh);
-}
-header .bar a{
-    margin-right: 15px;
-    font-size: 18px;
-    color: white;
-}
-header .bar a:hover{
-    color: var(--xanh);
-}
-.icons{
-    margin-right: 90px;
-}
-.icons i{
-    color: white;
-    font-size: 18px;
-
-}
-.icons a i:hover{
-    color: var(--xanh);
-}
-.heading{
-    /* các phần tử trong heading văn bản được căn giữa  */
-    text-align: center;
-    padding:50px;
+body.hust-contact-page header .logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--white);
+  text-transform: uppercase;
 }
 
-.heading span{
-    font-size: 28px;
-    background:rgba(255, 165, 0,.2);
-    color:var(--trong);
-    /* đặt bán kính bo tròn  */
-    border-radius: 8px;
-    padding: 21px 18px;
-    margin-top: 80px;
+body.hust-contact-page header .logo span { color: var(--primary); }
+
+body.hust-contact-page header .bar {
+  display: flex;
+  gap: 15px;
 }
 
-.heading span.space{
-    /* loại bỏ màu nền của pâhnf tử span có lớp space làm cho không có màu nền  */
-    background:none;
+body.hust-contact-page header .bar a {
+  font-size: 0.85rem;
+  color: var(--white);
+  font-weight: 500;
+  white-space: nowrap;
 }
-.contact{
-    margin-top: 20px;
-    margin-left: 370px;
-}
-.form{
-    display: flex;
-    flex-direction: column;
-    padding: auto;
-}
-.form input[type="text"]{
-    height: 50px;
-    width: 70%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 30px;
-    margin-bottom: 10px;
-}
-.form input[type="tel"]{
-    height: 50px;
-    width: 70%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 30px;
-    margin-bottom: 10px;
-}
-textarea{
-    height: 100px;
-    width: 70%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 30px;
-    margin-bottom: 10px;
 
+body.hust-contact-page header .bar a:hover,
+body.hust-contact-page header .bar a.indam {
+  color: var(--primary);
 }
-.form input[type="submit"]{
-    height: 50px;
-    width: 30%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 30px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    background-color: var(--xanh); /* Màu nền mặc định */
+
+body.hust-contact-page header .icons {
+  display: flex;
+  align-items: center;
 }
-.form input[type="submit"]:hover {
-    background-color: var(--orange); /* Màu nền khi di chuột vào */
-    color: var(--trong); /* Màu chữ khi di chuột vào */
+
+body.hust-contact-page header .icons i {
+  font-size: 1.1rem;
+  color: var(--white);
+  cursor: pointer;
+  margin-left: 10px;
 }
-.bar .indam{
-    color: var(--xanh);
+
+body.hust-contact-page header .icons i:hover { color: var(--primary); }
+
+/* --- DROPDOWN --- */
+body.hust-contact-page .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 60px;
+  right: 5%;
+  background-color: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  width: 150px;
+  overflow: hidden;
+  flex-direction: column;
+  z-index: 1001;
+}
+
+body.hust-contact-page .dropdown-menu a {
+  display: block;
+  padding: 10px 15px;
+  color: var(--text-dark);
+  font-size: 0.9rem;
+  border-bottom: 1px solid #eee;
+}
+
+body.hust-contact-page .dropdown-menu a:hover {
+  background-color: #f0f0f0;
+  color: var(--primary);
+}
+
+/* --- CONTACT CONTENT --- */
+body.hust-contact-page .contact-container {
+  display: flex;
+  min-height: 100vh;
+  padding-top: 80px;
+  background: var(--white);
+}
+
+/* Left Side: Info */
+body.hust-contact-page .contact-info {
+  flex: 1;
+  background: #222;
+  color: var(--white);
+  padding: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+body.hust-contact-page .contact-info::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  /* nếu bạn có ảnh map: background: url('/images/world-map.png') no-repeat center/cover; */
+  opacity: 0.1;
+}
+
+body.hust-contact-page .contact-info h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  z-index: 1;
+}
+
+body.hust-contact-page .contact-info h1 span { color: var(--primary); }
+
+body.hust-contact-page .contact-info p {
+  margin-bottom: 3rem;
+  font-weight: 300;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+body.hust-contact-page .info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  z-index: 1;
+}
+
+body.hust-contact-page .info-item i {
+  width: 50px;
+  height: 50px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-size: 1.2rem;
+  margin-right: 20px;
+}
+
+body.hust-contact-page .info-item div h3 {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+body.hust-contact-page .info-item div span {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* Right Side: Form */
+body.hust-contact-page .contact-form {
+  flex: 1.2;
+  padding: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+body.hust-contact-page .contact-form h2 {
+  font-size: 2rem;
+  color: var(--text-dark);
+  margin-bottom: 2rem;
+}
+
+body.hust-contact-page .input-box {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+body.hust-contact-page .input-box input,
+body.hust-contact-page .input-box textarea {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 1rem;
+  color: var(--text-dark);
+  border: none;
+  border-bottom: 1px solid #ddd;
+  outline: none;
+  background: transparent;
+}
+
+body.hust-contact-page .input-box textarea {
+  height: 100px;
+  resize: none;
+}
+
+body.hust-contact-page .input-box label {
+  position: absolute;
+  top: 0; left: 0;
+  padding: 10px 0;
+  font-size: 1rem;
+  color: var(--text-light);
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+body.hust-contact-page .input-box input:focus ~ label,
+body.hust-contact-page .input-box input:valid ~ label,
+body.hust-contact-page .input-box textarea:focus ~ label,
+body.hust-contact-page .input-box textarea:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: var(--primary);
+  font-size: 0.8rem;
+}
+
+body.hust-contact-page .input-box input:focus,
+body.hust-contact-page .input-box textarea:focus {
+  border-bottom: 2px solid var(--primary);
+}
+
+body.hust-contact-page .btn-send {
+  background: var(--primary);
+  color: var(--white);
+  padding: 15px 40px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-start;
+  box-shadow: 0 5px 15px rgba(41, 184, 98, 0.3);
+}
+
+body.hust-contact-page .btn-send:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+/* --- FOOTER --- */
+body.hust-contact-page .footer {
+  background: #222;
+  color: #fff;
+  padding: 4rem 7%;
+}
+
+body.hust-contact-page .footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+body.hust-contact-page .footer-col h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+}
+
+body.hust-contact-page .footer-col ul li {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+body.hust-contact-page .footer-col ul li a,
+body.hust-contact-page .footer-col p {
+  color: #bbb;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+body.hust-contact-page .footer-col ul li a:hover {
+  color: var(--primary);
+  padding-left: 5px;
+}
+
+body.hust-contact-page .credit {
+  text-align: center;
+  padding-top: 2rem;
+  margin-top: 2rem;
+  border-top: 1px solid #333;
+  font-size: 1rem;
+}
+
+body.hust-contact-page .credit span { color: var(--primary); }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 991px) {
+  body.hust-contact-page .contact-container { flex-direction: column; }
+  body.hust-contact-page .contact-info,
+  body.hust-contact-page .contact-form { padding: 3rem; }
+}
+
+@media (max-width: 1200px) {
+  body.hust-contact-page header { padding: 1rem 2rem; }
+  body.hust-contact-page header .bar { display: none; }
 }

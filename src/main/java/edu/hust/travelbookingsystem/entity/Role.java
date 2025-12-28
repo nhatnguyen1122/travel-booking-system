@@ -3,34 +3,36 @@ package edu.hust.travelbookingsystem.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import edu.hust.travelbookingsystem.enums.RoleCode;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Table(name = "roles")
+@Table(
+        name = "roles",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uq_roles_role_code", columnNames = "role_code")
+        }
+)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id ;
+    private Long id;
 
-    @Enumerated(EnumType.STRING) // lưu db ở dạng chuỗi
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
     private RoleCode roleCode;
 
-    @OneToMany(mappedBy = "role" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<User> users;
 
     public Role(RoleCode roleCode) {
         this.roleCode = roleCode;
     }
-
 }
