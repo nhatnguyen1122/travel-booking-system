@@ -165,14 +165,22 @@ public class H2Routines {
     }
     
     public static String formatPriceUSDollar(double price) {
-        java.text.NumberFormat formatter = java.text.NumberFormat.getInstance(new java.util.Locale("us", "US"));
-        return formatter.format(price) + " $";
-    }
-    
+            java.text.NumberFormat formatter =
+            java.text.NumberFormat.getNumberInstance(new java.util.Locale("en", "US"));
+            return formatter.format(price) + " $";
+}
+
     public static String formatPriceNDT(double price) {
-        java.text.NumberFormat formatter = java.text.NumberFormat.getInstance(new java.util.Locale("ch", "CH"));
-        return formatter.format(price) + " NDT";
+        java.text.NumberFormat formatter =
+            java.text.NumberFormat.getNumberInstance(new java.util.Locale("zh", "CN"));
+    return formatter.format(price) + " NDT";
     }
+    public static String formatPriceEuro(double price) {
+        java.text.NumberFormat formatter =
+                java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("fr", "FR"));
+        return formatter.format(price);
+    }
+
 
     /**
      * FN_VALIDATE_EMAIL: Validate email format using regex.
