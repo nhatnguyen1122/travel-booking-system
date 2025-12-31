@@ -357,9 +357,9 @@ INSERT INTO contacts (full_name, email, subject, message, created_at, is_read) V
 -- =========================================================
 
 UPDATE flight SET seats_available = seats_available - 2 WHERE id = 1;
+UPDATE flight SET seats_available = seats_available - 4 WHERE id = 13;
 UPDATE flight SET seats_available = seats_available - 2 WHERE id = 3;
 UPDATE flight SET seats_available = seats_available - 2 WHERE id = 15;
-UPDATE flight SET seats_available = seats_available - 4 WHERE id = 13;
 
 -- =========================================================
 -- 14) PROMOTIONS seed data (discount codes and campaigns)
