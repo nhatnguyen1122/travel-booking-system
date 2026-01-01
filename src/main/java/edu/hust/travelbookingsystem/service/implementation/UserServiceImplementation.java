@@ -17,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImplementation implements UserService {
@@ -27,8 +29,11 @@ public class UserServiceImplementation implements UserService {
     private RoleRepository roleRepository;
     @Autowired
     private SearchRepository searchRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public User createUser(UserCreateDTO userCreateDTO) {
         // CHECK MATCH PASSWORD
         if(!userCreateDTO.getPassword().equals(userCreateDTO.getPasswordConfirm())){
@@ -42,7 +47,7 @@ public class UserServiceImplementation implements UserService {
         User user = new User();
 
         user.setPhone(userCreateDTO.getPhone());
-        user.setPassword(userCreateDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userCreateDTO.getPassword()));
         user.setFullName(userCreateDTO.getFullName());
         user.setEmail(userCreateDTO.getEmail());
         user.setBirthday(userCreateDTO.getBirthday());
@@ -56,6 +61,7 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User loginUser(UserLoginDTO userLoginDTO) {
         User user = userRepository.findByPhone(userLoginDTO.getPhone())
                 .orElseThrow(() -> new AppException(ErrorCode.PHONE_NOT_EXISTS));
@@ -64,7 +70,7 @@ public class UserServiceImplementation implements UserService {
             throw new AppException(ErrorCode.ACCOUNT_NOT_ACTIVE);
         }
         String password = userLoginDTO.getPassword();
-        if(!user.getPassword().equals(password)){
+        if(!passwordEncoder.matches(password, user.getPassword())){
            throw new AppException(ErrorCode.PASSWORD_MISMATCH) ;
         }else{
             return user;
@@ -72,6 +78,7 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    @Transactional
     public void changePassword(ChangePassDTO changePassDTO) {
         if(!changePassDTO.getNewPassword().equals(changePassDTO.getConfirmPassword())){
             throw new AppException(ErrorCode.PASSWORD_MISMATCH) ;
@@ -80,15 +87,16 @@ public class UserServiceImplementation implements UserService {
         User user = userRepository.findByPhone(changePassDTO.getPhone()).
                     orElseThrow(()-> new AppException(ErrorCode.USER_NOT_EXISTS));
 
-        if(!user.getPassword().equals(changePassDTO.getPassword())){
+        if(!passwordEncoder.matches(changePassDTO.getPassword(), user.getPassword())){
             throw new AppException(ErrorCode.WRONG_PASSWORD) ;
         }
 
-        user.setPassword(changePassDTO.getNewPassword());
+        user.setPassword(passwordEncoder.encode(changePassDTO.getNewPassword()));
         userRepository.save(user);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PageResponse getAllUsers(int pageNo , int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<User> users = userRepository.findAll(pageable);
@@ -102,6 +110,7 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    @Transactional
     public User changeStatus(Long id) {
         User user = userRepository.findById(id).orElseThrow(()-> new AppException(ErrorCode.USER_NOT_EXISTS));
         if(user.getRole().getRoleCode().equals(RoleCode.ADMIN)){
@@ -112,16 +121,19 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PageResponse findUserBySearch(int pageNo, int pageSize, String search) {
         return searchRepository.findBySearch(pageNo,pageSize,search) ;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User findUserById(Long id) {
         return userRepository.findById(id).orElseThrow(()-> new AppException(ErrorCode.USER_NOT_EXISTS));
     }
 
     @Override
+    @Transactional
     public User updateUser(Long id, UserUpdateRequest userUpdateRequest) {
         User user = userRepository.findById(id).orElseThrow(()-> new AppException(ErrorCode.USER_NOT_EXISTS));
         user.setFullName(userUpdateRequest.getFullName());
@@ -132,6 +144,7 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    @Transactional
     public User createAdmin(UserCreateDTO userCreateDTO) {
         // CHECK MATCH PASSWORD
         if(!userCreateDTO.getPassword().equals(userCreateDTO.getPasswordConfirm())){
@@ -143,7 +156,7 @@ public class UserServiceImplementation implements UserService {
         }
         User user = new User();
         user.setPhone(userCreateDTO.getPhone());
-        user.setPassword(userCreateDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userCreateDTO.getPassword()));
         user.setFullName(userCreateDTO.getFullName());
         user.setEmail(userCreateDTO.getEmail());
         user.setBirthday(userCreateDTO.getBirthday());

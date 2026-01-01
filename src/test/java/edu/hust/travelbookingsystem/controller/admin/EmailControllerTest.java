@@ -1,7 +1,7 @@
 package edu.hust.travelbookingsystem.controller.admin;
 
 import edu.hust.travelbookingsystem.model.request.EmailDTO;
-import edu.hust.travelbookingsystem.model.response.ApiReponse;
+import edu.hust.travelbookingsystem.model.response.ApiResponse;
 import edu.hust.travelbookingsystem.service.implementation.EmailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

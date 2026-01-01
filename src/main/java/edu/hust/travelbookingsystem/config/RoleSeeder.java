@@ -51,6 +51,7 @@ import edu.hust.travelbookingsystem.repository.RoleRepository;
 import edu.hust.travelbookingsystem.repository.UserRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import jakarta.transaction.Transactional;
@@ -63,10 +64,12 @@ public class RoleSeeder implements ApplicationRunner {
 
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public RoleSeeder(RoleRepository roleRepository, UserRepository userRepository) {
+    public RoleSeeder(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -85,22 +88,54 @@ public class RoleSeeder implements ApplicationRunner {
             LocalDate localDate = LocalDate.of(2000, 10, 10);
             Date birthday = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-            User adminUser = new User("0123456789", "123456", "ADMIN", "a@gmail.com", birthday, true);
+            User adminUser = new User("0123456789", passwordEncoder.encode("123456"), "ADMIN", "a@gmail.com", birthday, true);
             adminUser.setRole(adminRole);
             userRepository.save(adminUser);
+
+            // Create demo users
+            createDemoUsers(userRole);
         } else {
             // Nếu bảng roles đã có dữ liệu, kiểm tra và tạo user admin nếu chưa tồn tại
             Role adminRole = roleRepository.findByRoleCode(RoleCode.ADMIN)
                     .orElseThrow(() -> new RuntimeException("Role ADMIN not found"));
+            Role userRole = roleRepository.findByRoleCode(RoleCode.USER)
+                    .orElseThrow(() -> new RuntimeException("Role USER not found"));
 
             if (userRepository.findByPhone("0123456789").isEmpty()) {
                 LocalDate localDate = LocalDate.of(2000, 10, 10);
                 Date birthday = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-                User adminUser = new User("0123456789", "123456", "ADMIN", "a@gmail.com", birthday, true);
+                User adminUser = new User("0123456789", passwordEncoder.encode("123456"), "ADMIN", "a@gmail.com", birthday, true);
                 adminUser.setRole(adminRole);
                 userRepository.save(adminUser);
             }
+
+            // Create demo users if they don't exist
+            if (userRepository.findByPhone("0901234567").isEmpty()) {
+                createDemoUsers(userRole);
+            }
         }
+    }
+
+    private void createDemoUsers(Role userRole) {
+        String encodedPassword = passwordEncoder.encode("123456");
+
+        // Demo user 1
+        User user1 = new User("0901234567", encodedPassword, "Nguyen Van A", "nguyenvana@gmail.com",
+                Date.from(LocalDate.of(1990, 5, 15).atStartOfDay(ZoneId.systemDefault()).toInstant()), true);
+        user1.setRole(userRole);
+        userRepository.save(user1);
+
+        // Demo user 2
+        User user2 = new User("0912345678", encodedPassword, "Tran Thi B", "tranthib@gmail.com",
+                Date.from(LocalDate.of(1992, 8, 20).atStartOfDay(ZoneId.systemDefault()).toInstant()), true);
+        user2.setRole(userRole);
+        userRepository.save(user2);
+
+        // Demo user 3
+        User user3 = new User("0923456789", encodedPassword, "Le Van C", "levanc@gmail.com",
+                Date.from(LocalDate.of(1988, 12, 10).atStartOfDay(ZoneId.systemDefault()).toInstant()), true);
+        user3.setRole(userRole);
+        userRepository.save(user3);
     }
 }

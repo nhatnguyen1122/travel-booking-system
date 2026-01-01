@@ -3,19 +3,19 @@ package edu.hust.travelbookingsystem.model.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiReponse<T> {
+public class ApiResponse<T> {
     private int code = 1000 ;
     private String message ;
     private T data ;
 
-    public ApiReponse() {}
+    public ApiResponse() {}
 
-    public ApiReponse(int code, String message) {
+    public ApiResponse(int code, String message) {
         this.code = code;
         this.message = message;
     }
 
-    public ApiReponse(int code, String message, T data) {
+    public ApiResponse(int code, String message, T data) {
         this.code = code;
         this.message = message;
         this.data = data;

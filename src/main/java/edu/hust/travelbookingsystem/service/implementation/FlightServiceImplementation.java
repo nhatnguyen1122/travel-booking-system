@@ -29,7 +29,7 @@ public class FlightServiceImplementation implements FlightService {
         }
         // ngày check in phải trước check out
         if(!flightDTO.getCheckInDate().before(flightDTO.getCheckOutDate())){
-            throw new IllegalArgumentException(String.valueOf(ErrorCode.DATE_TIME_NOT_VALID));
+            throw new AppException(ErrorCode.DATE_TIME_NOT_VALID);
         }
         Flight flight = new Flight();
 
@@ -67,7 +67,7 @@ public class FlightServiceImplementation implements FlightService {
         }
         // ngày check in phải trước check out
         if(!flightDTO.getCheckInDate().before(flightDTO.getCheckOutDate())){
-            throw new IllegalArgumentException(String.valueOf(ErrorCode.DATE_TIME_NOT_VALID));
+            throw new AppException(ErrorCode.DATE_TIME_NOT_VALID);
         }
         // tính lại số ghế thừa
 

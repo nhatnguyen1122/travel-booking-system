@@ -3,7 +3,7 @@ package edu.hust.travelbookingsystem.controller.admin;
 import edu.hust.travelbookingsystem.entity.Hotel;
 import edu.hust.travelbookingsystem.entity.Order;
 import edu.hust.travelbookingsystem.model.request.HotelDTO;
-import edu.hust.travelbookingsystem.model.response.ApiReponse;
+import edu.hust.travelbookingsystem.model.response.ApiResponse;
 import edu.hust.travelbookingsystem.repository.OrderRepository;
 import edu.hust.travelbookingsystem.service.HotelService;
 import jakarta.validation.Valid;
@@ -23,47 +23,47 @@ public class HotelController {
     private OrderRepository orderRepository;
 
     @PostMapping("/createHotel")
-    public ApiReponse<Hotel> createHotel(@Valid @RequestBody HotelDTO hotelDTO) {
+    public ApiResponse<Hotel> createHotel(@Valid @RequestBody HotelDTO hotelDTO) {
         log.info("Create hotelDTO: {}", hotelDTO);
-        ApiReponse<Hotel> apiReponse = new ApiReponse<>();
-        apiReponse.setData(hotelService.createHotel(hotelDTO));
-        log.info("Created hotel successfully: {}", apiReponse.getData());
-        return apiReponse;
+        ApiResponse<Hotel> apiResponse = new ApiResponse<>();
+        apiResponse.setData(hotelService.createHotel(hotelDTO));
+        log.info("Created hotel successfully: {}", apiResponse.getData());
+        return apiResponse;
     }
     @GetMapping("/getAllHotels")
-    public ApiReponse<List<Hotel>> getAllHotels() {
+    public ApiResponse<List<Hotel>> getAllHotels() {
         log.info(("Get all hotels "));
-        ApiReponse<List<Hotel>> apiReponse = new ApiReponse<>();
-        apiReponse.setData(hotelService.getAllHotels());
-        apiReponse.setMessage("Success");
-        log.info("Get all hotels successfully: {}", apiReponse.getData());
-        return apiReponse;
+        ApiResponse<List<Hotel>> apiResponse = new ApiResponse<>();
+        apiResponse.setData(hotelService.getAllHotels());
+        apiResponse.setMessage("Success");
+        log.info("Get all hotels successfully: {}", apiResponse.getData());
+        return apiResponse;
     }
     @GetMapping("/hotel-in-destination")
-    public ApiReponse<List<Hotel>> getHotelInDestination(@RequestParam Long orderId) {
+    public ApiResponse<List<Hotel>> getHotelInDestination(@RequestParam Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(()->new RuntimeException("Order not found"));
         String destination = order.getDestination();
-        ApiReponse<List<Hotel>> apiReponse = new ApiReponse<>();
-        apiReponse.setData(hotelService.getHotelsByDestination(destination));
-        apiReponse.setMessage("Success");
-        log.info("Get hotels successfully: {}", apiReponse.getData());
-        return apiReponse;
+        ApiResponse<List<Hotel>> apiResponse = new ApiResponse<>();
+        apiResponse.setData(hotelService.getHotelsByDestination(destination));
+        apiResponse.setMessage("Success");
+        log.info("Get hotels successfully: {}", apiResponse.getData());
+        return apiResponse;
     }
     @PutMapping("/updateHotel/{id}")
-    public  ApiReponse<Hotel> updateHotel(@Valid @RequestBody HotelDTO hotelDTO,@PathVariable Long id) {
+    public  ApiResponse<Hotel> updateHotel(@Valid @RequestBody HotelDTO hotelDTO,@PathVariable Long id) {
         log.info("Update hotelDTO id =  : {}", id);
-        ApiReponse<Hotel> apiReponse = new ApiReponse<>();
-        apiReponse.setData(hotelService.updateHotel(hotelDTO,id));
+        ApiResponse<Hotel> apiResponse = new ApiResponse<>();
+        apiResponse.setData(hotelService.updateHotel(hotelDTO,id));
         log.info("Update hotel successfully id = : {}", id);
-        return apiReponse;
+        return apiResponse;
     }
     @DeleteMapping("/{id}")
-    public ApiReponse<Hotel> deleteHotel(@PathVariable Long id) {
+    public ApiResponse<Hotel> deleteHotel(@PathVariable Long id) {
         log.info("Delete hotel id =  : {}", id);
-        ApiReponse<Hotel> apiReponse = new ApiReponse<>();
+        ApiResponse<Hotel> apiResponse = new ApiResponse<>();
         hotelService.deleteHotel(id);
-        apiReponse.setMessage("Delete Success");
+        apiResponse.setMessage("Delete Success");
         log.info("Delete hotel successfully id = : {}", id);
-        return apiReponse;
+        return apiResponse;
     }
 }

@@ -2,7 +2,7 @@ package edu.hust.travelbookingsystem.controller.admin;
 
 import edu.hust.travelbookingsystem.entity.Flight;
 import edu.hust.travelbookingsystem.model.request.FlightDTO;
-import edu.hust.travelbookingsystem.model.response.ApiReponse;
+import edu.hust.travelbookingsystem.model.response.ApiResponse;
 import edu.hust.travelbookingsystem.service.FlightService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -14,44 +14,44 @@ import java.util.List;
 @RestController
 @RequestMapping("/flight")
 @Slf4j
-public class FLightController {
+public class FlightController {
     @Autowired
     private FlightService flightService;
     @PostMapping("/create")
-    public ApiReponse<Flight> createFlight(@Valid @RequestBody FlightDTO flightDTO) {
+    public ApiResponse<Flight> createFlight(@Valid @RequestBody FlightDTO flightDTO) {
         log.info("Create flightDTO: {}", flightDTO);
-        ApiReponse<Flight> apiReponse = new ApiReponse<>();
+        ApiResponse<Flight> apiResponse = new ApiResponse<>();
         Flight flight = flightService.createFlight(flightDTO);
-        apiReponse.setData(flight);
-        apiReponse.setMessage("Flight created");
+        apiResponse.setData(flight);
+        apiResponse.setMessage("Flight created");
         log.info("Flight created successfully: {}", flight);
-        return apiReponse;
+        return apiResponse;
     }
     @DeleteMapping("/delete/{id}")
-    public ApiReponse<Flight> deleteFlight(@PathVariable Long id) {
+    public ApiResponse<Flight> deleteFlight(@PathVariable Long id) {
         log.info("Delete flight id = : {}", id);
-        ApiReponse<Flight> apiReponse = new ApiReponse<>();
+        ApiResponse<Flight> apiResponse = new ApiResponse<>();
         flightService.deleteFlight(id);
-        apiReponse.setMessage("Flight deleted");
+        apiResponse.setMessage("Flight deleted");
         log.info("Flight deleted successfully id = : {}", id);
-        return apiReponse;
+        return apiResponse;
     }
     @PatchMapping("/update/{id}")
-    public ApiReponse<Flight> updateFlight(@PathVariable Long id,@Valid @RequestBody FlightDTO flightDTO) {
+    public ApiResponse<Flight> updateFlight(@PathVariable Long id,@Valid @RequestBody FlightDTO flightDTO) {
         log.info("Update flight id = {}", id);
-        ApiReponse<Flight> apiReponse = new ApiReponse<>();
-        apiReponse.setData(flightService.updateFlight(id, flightDTO));
-        apiReponse.setMessage("Flight updated");
+        ApiResponse<Flight> apiResponse = new ApiResponse<>();
+        apiResponse.setData(flightService.updateFlight(id, flightDTO));
+        apiResponse.setMessage("Flight updated");
         log.info("Flight updated successfully id = {}", id);
-        return apiReponse;
+        return apiResponse;
     }
     @GetMapping("/getAll")
-    public ApiReponse<List<Flight>> getAllFlights() {
+    public ApiResponse<List<Flight>> getAllFlights() {
         log.info("Get all flights");
-        ApiReponse<List<Flight>> apiReponse = new ApiReponse<>();
-        apiReponse.setData(flightService.getAllFlights());
-        apiReponse.setMessage("success");
+        ApiResponse<List<Flight>> apiResponse = new ApiResponse<>();
+        apiResponse.setData(flightService.getAllFlights());
+        apiResponse.setMessage("success");
         log.info("Get all success");
-        return apiReponse;
+        return apiResponse;
     }
 }

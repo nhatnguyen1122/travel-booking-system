@@ -1,7 +1,7 @@
 package edu.hust.travelbookingsystem.controller.admin;
 
 import edu.hust.travelbookingsystem.model.request.UserCreateDTO;
-import edu.hust.travelbookingsystem.model.response.ApiReponse;
+import edu.hust.travelbookingsystem.model.response.ApiResponse;
 import edu.hust.travelbookingsystem.service.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +18,10 @@ public class AdminController {
     @Autowired
     private UserService userService;
     @PostMapping("/acc")
-    public ApiReponse createAdmin(@RequestBody @Valid UserCreateDTO userCreateDTO) {
+    public ApiResponse createAdmin(@RequestBody @Valid UserCreateDTO userCreateDTO) {
         log.info("Start createAdmin : {}", userCreateDTO);
-        ApiReponse apiReponse = new ApiReponse();
-        apiReponse.setData(userService.createAdmin(userCreateDTO));
-        return apiReponse;
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setData(userService.createAdmin(userCreateDTO));
+        return apiResponse;
     }
 }

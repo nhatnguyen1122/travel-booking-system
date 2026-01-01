@@ -1,7 +1,7 @@
 package edu.hust.travelbookingsystem.controller.admin;
 
 import edu.hust.travelbookingsystem.model.request.EmailDTO;
-import edu.hust.travelbookingsystem.model.response.ApiReponse;
+import edu.hust.travelbookingsystem.model.response.ApiResponse;
 import edu.hust.travelbookingsystem.service.implementation.EmailService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -16,58 +16,58 @@ public class EmailController {
     private EmailService emailService;
 
     @PostMapping()
-    public ApiReponse sendEmail(@RequestBody @Valid  EmailDTO emailDTO) {
-        ApiReponse apiReponse = new ApiReponse();
+    public ApiResponse sendEmail(@RequestBody @Valid  EmailDTO emailDTO) {
+        ApiResponse apiResponse = new ApiResponse();
         try {
-            apiReponse.setData(emailService.sendEmail(emailDTO));
-            return apiReponse;
+            apiResponse.setData(emailService.sendEmail(emailDTO));
+            return apiResponse;
         } catch (Exception e) {
             log.error(e.getMessage());
-            return new ApiReponse(7777, e.getMessage());
+            return new ApiResponse(7777, e.getMessage());
         }
     }
     @PostMapping("/{orderId}/announce")
-    public ApiReponse announceEmail(@PathVariable Long orderId) {
-        ApiReponse apiReponse = new ApiReponse();
+    public ApiResponse announceEmail(@PathVariable Long orderId) {
+        ApiResponse apiResponse = new ApiResponse();
         try{
-            apiReponse.setData(emailService.sendAnnounceEmail(orderId)) ;
-            return apiReponse;
+            apiResponse.setData(emailService.sendAnnounceEmail(orderId)) ;
+            return apiResponse;
         } catch (Exception e) {
             log.error(e.getMessage());
-            return new ApiReponse(7777, e.getMessage());
+            return new ApiResponse(7777, e.getMessage());
         }
     }
     @PostMapping("/{orderId}/announce-pay-success")
-    public ApiReponse announceEmailPaySuccess(@PathVariable Long orderId) {
-        ApiReponse apiReponse = new ApiReponse();
+    public ApiResponse announceEmailPaySuccess(@PathVariable Long orderId) {
+        ApiResponse apiResponse = new ApiResponse();
         try{
-            apiReponse.setData(emailService.sendAnnouncePaySuccessEmail(orderId)) ;
-            return apiReponse;
+            apiResponse.setData(emailService.sendAnnouncePaySuccessEmail(orderId)) ;
+            return apiResponse;
         } catch (Exception e) {
             log.error(e.getMessage());
-            return new ApiReponse(7777, e.getMessage());
+            return new ApiResponse(7777, e.getMessage());
         }
     }
     @PostMapping("/{orderId}/announce-pay-falled")
-    public ApiReponse announceEmailPayFalled(@PathVariable Long orderId) {
-        ApiReponse apiReponse = new ApiReponse();
+    public ApiResponse announceEmailPayFalled(@PathVariable Long orderId) {
+        ApiResponse apiResponse = new ApiResponse();
         try{
-            apiReponse.setData(emailService.sendAnnouncePayFalledEmail(orderId)) ;
-            return apiReponse;
+            apiResponse.setData(emailService.sendAnnouncePayFalledEmail(orderId)) ;
+            return apiResponse;
         } catch (Exception e) {
             log.error(e.getMessage());
-            return new ApiReponse(7777, e.getMessage());
+            return new ApiResponse(7777, e.getMessage());
         }
     }
     @PostMapping("/{orderId}/announce-cancel")
-    public ApiReponse announceEmailCancel(@PathVariable Long orderId) {
-        ApiReponse apiReponse = new ApiReponse();
+    public ApiResponse announceEmailCancel(@PathVariable Long orderId) {
+        ApiResponse apiResponse = new ApiResponse();
         try{
-            apiReponse.setData(emailService.sendAnnouceCancel(orderId));
-            return apiReponse;
+            apiResponse.setData(emailService.sendAnnouceCancel(orderId));
+            return apiResponse;
         } catch (Exception e) {
             log.error(e.getMessage());
-            return new ApiReponse(7777, e.getMessage());
+            return new ApiResponse(7777, e.getMessage());
         }
     }
 }
