@@ -189,7 +189,8 @@
                             ? Number(currentPageNo)
                             : 0;
 
-                    const list = (items && items.content) ? items.content : [];
+                    // items is already a list of orders, not a Page object
+                    const list = items || [];
 
                     renderOrders(list);
                     updatePaginationInfo();

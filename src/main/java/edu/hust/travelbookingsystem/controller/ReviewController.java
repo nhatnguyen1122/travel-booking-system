@@ -56,6 +56,15 @@ public class ReviewController {
         return response;
     }
 
+    @GetMapping("/all")
+    public ApiResponse<PageResponse> getAllReviews(
+            @RequestParam(defaultValue = "0") int pageNo,
+            @RequestParam(defaultValue = "10") int pageSize) {
+        log.info("Getting all reviews");
+        PageResponse<?> reviews = reviewService.getAllReviews(pageNo, pageSize);
+        return new ApiResponse<>(1000, "get all reviews success", reviews);
+    }
+
     @GetMapping("/hotel/{hotelId}")
     public ApiResponse<PageResponse> getReviewsByHotel(
             @PathVariable Long hotelId,

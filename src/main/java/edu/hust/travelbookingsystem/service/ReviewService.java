@@ -12,6 +12,8 @@ public interface ReviewService {
 
     void deleteReview(Long reviewId, Long userId);
 
+    PageResponse<?> getAllReviews(int pageNo, int pageSize);
+
     PageResponse<?> getReviewsByHotel(Long hotelId, int pageNo, int pageSize);
 
     PageResponse<?> getReviewsByUser(Long userId, int pageNo, int pageSize);

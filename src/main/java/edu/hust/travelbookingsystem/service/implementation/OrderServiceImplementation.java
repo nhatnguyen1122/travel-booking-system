@@ -202,14 +202,15 @@ public class OrderServiceImplementation implements OrderService {
     @Transactional(readOnly = true)
     public PageResponse getOrdersByUserId(Long userId , int pageNo , int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTS));
         Page<Order> orders = orderRepository.findByUser(user,pageable) ;
 
         return PageResponse.builder()
                 .pageNo(pageNo)
                 .pageSize(pageSize)
                 .totalPages(orders.getTotalPages())
-                .items(orders)
+                .items(orders.getContent())
                 .build();
     }
 

@@ -115,9 +115,22 @@ public class ReviewServiceImplementation implements ReviewService {
     }
 
     @Override
+    public PageResponse<?> getAllReviews(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdAt").descending());
+        Page<Review> reviews = reviewRepository.findAll(pageable);
+
+        return PageResponse.builder()
+                .pageNo(pageNo)
+                .pageSize(pageSize)
+                .totalPages(reviews.getTotalPages())
+                .items(reviews.getContent())
+                .build();
+    }
+
+    @Override
     public PageResponse<?> getReviewsByHotel(Long hotelId, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdAt").descending());
-        Page<Review> reviews = reviewRepository.findByHotelId(hotelId, pageable);
+        Page<Review> reviews = reviewRepository.findByHotel_Id(hotelId, pageable);
 
         return PageResponse.builder()
                 .pageNo(pageNo)
@@ -130,7 +143,7 @@ public class ReviewServiceImplementation implements ReviewService {
     @Override
     public PageResponse<?> getReviewsByUser(Long userId, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdAt").descending());
-        Page<Review> reviews = reviewRepository.findByUserId(userId, pageable);
+        Page<Review> reviews = reviewRepository.findByUser_Id(userId, pageable);
 
         return PageResponse.builder()
                 .pageNo(pageNo)
