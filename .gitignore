@@ -27,4 +27,8 @@ build/
 
 .vscode/
 
+# Uncomment the line below if you want to exclude application.properties from git
 src/main/resources/application.properties
+
+# H2 database files
+data/
