@@ -2,11 +2,14 @@ package edu.hust.travelbookingsystem.controller;
 
 import edu.hust.travelbookingsystem.entity.User;
 import edu.hust.travelbookingsystem.model.request.ChangePassDTO;
+import edu.hust.travelbookingsystem.model.request.ForgotPasswordDTO;
+import edu.hust.travelbookingsystem.model.request.ResetPasswordDTO;
 import edu.hust.travelbookingsystem.model.request.UserCreateDTO;
 import edu.hust.travelbookingsystem.model.request.UserLoginDTO;
 import edu.hust.travelbookingsystem.model.request.UserUpdateRequest;
 import edu.hust.travelbookingsystem.model.response.ApiResponse;
 import edu.hust.travelbookingsystem.model.response.PageResponse;
+import edu.hust.travelbookingsystem.service.PasswordResetService;
 import edu.hust.travelbookingsystem.service.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +22,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PasswordResetService passwordResetService;
 
     @PostMapping("/create")
     public ApiResponse<User> createUser(@Valid  @RequestBody UserCreateDTO userCreateDTO) {
@@ -103,5 +109,25 @@ public class UserController {
         apiResponse.setMessage("update user success");
         log.info("User update success");
         return apiResponse;
+    }
+
+    @PostMapping("/forgot-password")
+    public ApiResponse<Void> forgotPassword(@Valid @RequestBody ForgotPasswordDTO forgotPasswordDTO) {
+        log.info("Password reset requested for email: {}", forgotPasswordDTO.getEmail());
+        passwordResetService.requestPasswordReset(forgotPasswordDTO.getEmail());
+        return new ApiResponse<>(1000, "If an account exists with this email, a reset link has been sent.");
+    }
+
+    @GetMapping("/validate-reset-token")
+    public ApiResponse<Boolean> validateResetToken(@RequestParam String token) {
+        boolean isValid = passwordResetService.validateToken(token);
+        return new ApiResponse<>(1000, isValid ? "Token is valid" : "Token is invalid or expired", isValid);
+    }
+
+    @PostMapping("/reset-password")
+    public ApiResponse<Void> resetPassword(@Valid @RequestBody ResetPasswordDTO resetPasswordDTO) {
+        log.info("Password reset attempt with token");
+        passwordResetService.resetPassword(resetPasswordDTO);
+        return new ApiResponse<>(1000, "Password reset successful");
     }
 }

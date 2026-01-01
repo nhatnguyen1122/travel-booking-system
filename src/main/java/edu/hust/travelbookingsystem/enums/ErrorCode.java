@@ -39,6 +39,22 @@ public enum ErrorCode {
     HOTEL_DATE_EXCEEDS_CHECKOUT(1032,"Hotel stay cannot exceed order checkout date", HttpStatus.BAD_REQUEST),
     FLIGHT_DATE_EXCEEDS_CHECKOUT(1033,"Flight date cannot be after order checkout date", HttpStatus.BAD_REQUEST),
     NOT_ENOUGH_SEATS(1034,"Not enough seats available on this flight", HttpStatus.BAD_REQUEST),
+
+    // Room Management
+    ROOM_NOT_FOUND(1040, "room not found", HttpStatus.BAD_REQUEST),
+    ROOM_NUMBER_EXISTS(1041, "room number already exists in this hotel", HttpStatus.BAD_REQUEST),
+
+    // Reviews
+    REVIEW_NOT_FOUND(1042, "review not found", HttpStatus.BAD_REQUEST),
+    RATING_NOT_VALID(1043, "rating must be between 1 and 5", HttpStatus.BAD_REQUEST),
+    UNAUTHORIZED_REVIEW(1044, "cannot modify others' reviews", HttpStatus.FORBIDDEN),
+    DUPLICATE_REVIEW(1045, "already reviewed this order", HttpStatus.BAD_REQUEST),
+    ORDER_NOT_COMPLETED(1046, "can only review completed orders", HttpStatus.BAD_REQUEST),
+
+    // Password Reset
+    EMAIL_NOT_FOUND(1047, "no account found with this email", HttpStatus.BAD_REQUEST),
+    INVALID_RESET_TOKEN(1048, "invalid or expired reset token", HttpStatus.BAD_REQUEST),
+    TOKEN_ALREADY_USED(1049, "reset token already used", HttpStatus.BAD_REQUEST),
     ;
     private int code ;
     private String message;

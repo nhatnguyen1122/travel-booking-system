@@ -171,6 +171,24 @@ body.hust-auth-page .input-group input:focus {
   box-shadow: 0 0 0 4px rgba(41, 184, 98, 0.1);
 }
 
+/* Forgot Password Link */
+body.hust-auth-page .forgot-password-link {
+  text-align: right;
+  margin-bottom: 1rem;
+  margin-top: -0.5rem;
+}
+
+body.hust-auth-page .forgot-password-link a {
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+body.hust-auth-page .forgot-password-link a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
 /* Submit */
 body.hust-auth-page input[type="submit"] {
   width: 100%;

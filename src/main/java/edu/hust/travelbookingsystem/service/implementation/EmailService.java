@@ -142,4 +142,28 @@ public class EmailService {
 
         return sendEmail(emailDTO);
     }
+
+    public void sendPasswordResetEmail(String toEmail, String resetLink) {
+        EmailDTO emailDTO = new EmailDTO();
+        emailDTO.setToEmail(toEmail);
+        emailDTO.setSubject("HUST WONDER - Password Reset Request");
+
+        String body = "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>" +
+                "<h2 style='color: #29b862;'>Password Reset Request</h2>" +
+                "<p>You have requested to reset your password for your HUST WONDER account.</p>" +
+                "<p>Click the button below to reset your password. This link will expire in <b>1 hour</b>.</p>" +
+                "<div style='text-align: center; margin: 30px 0;'>" +
+                "<a href='" + resetLink + "' style='background-color: #29b862; color: white; padding: 12px 30px; " +
+                "text-decoration: none; border-radius: 5px; font-weight: bold;'>Reset Password</a>" +
+                "</div>" +
+                "<p>If you did not request this password reset, please ignore this email.</p>" +
+                "<p>If the button doesn't work, copy and paste this link into your browser:</p>" +
+                "<p style='word-break: break-all; color: #666;'>" + resetLink + "</p>" +
+                "<hr style='margin: 30px 0; border: none; border-top: 1px solid #eee;'>" +
+                "<p style='color: #999; font-size: 12px;'>This is an automated email from HUST WONDER. Please do not reply.</p>" +
+                "</div>";
+        emailDTO.setBody(body);
+
+        sendEmail(emailDTO);
+    }
 }

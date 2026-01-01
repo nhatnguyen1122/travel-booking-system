@@ -71,8 +71,14 @@ public class WebController {
     public String adminFlightsPage() {return "admin_flight";}
     @GetMapping("/admin_hotel")
     public String adminHotelPage() {return "admin_hotel";}
+    @GetMapping("/admin_room")
+    public String adminRoomPage() {return "admin_room";}
     @GetMapping("/profile")
     public String profilePage() {return "profile";}
     @GetMapping("/newPass")
     public String newPassPage() {return "change_password";}
+    @GetMapping("/forgot-password")
+    public String forgotPasswordPage() {return "forgot_password";}
+    @GetMapping("/reset-password")
+    public String resetPasswordPage() {return "reset_password";}
 }
