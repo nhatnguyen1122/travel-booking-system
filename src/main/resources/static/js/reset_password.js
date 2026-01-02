@@ -7,11 +7,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeModalBtn = document.getElementById("close-modal-button");
   const errorMsgEl = document.getElementById("error-message");
 
-  if (!loadingState || !invalidToken || !resetForm || !successMessage || !modal || !closeModalBtn || !errorMsgEl) {
+  if (
+    !loadingState ||
+    !invalidToken ||
+    !resetForm ||
+    !successMessage ||
+    !modal ||
+    !closeModalBtn ||
+    !errorMsgEl
+  ) {
     return;
   }
 
-  // Get token from URL
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
 
@@ -27,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function openErrorModal(message) {
     errorMsgEl.textContent = message || "An error occurred.";
-    // Keep current behavior: use display flex for modal
+
     modal.classList.remove("hidden");
     modal.style.display = "flex";
   }
@@ -36,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.style.display = "none";
   }
 
-  // Validate token on page load
   async function validateToken() {
     if (!token) {
       showInvalidToken();
@@ -44,7 +50,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const response = await fetch(`/user/validate-reset-token?token=${encodeURIComponent(token)}`);
+      const response = await fetch(
+        `/user/validate-reset-token?token=${encodeURIComponent(token)}`
+      );
+
       const result = await response.json();
 
       if (result.code === 1000 && result.data === true) {
@@ -57,12 +66,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Handle form submission
-  resetForm.addEventListener("submit", async function (e) {
-    e.preventDefault();
+  resetForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-    const newPassword = document.getElementById("new-password")?.value || "";
-    const confirmPassword = document.getElementById("confirm-password")?.value || "";
+    const newPassword =
+      document.getElementById("new-password")?.value || "";
+    const confirmPassword =
+      document.getElementById("confirm-password")?.value || "";
 
     if (newPassword !== confirmPassword) {
       openErrorModal("Passwords do not match.");
@@ -77,12 +87,14 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const response = await fetch("/user/reset-password", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
           token: token,
           newPassword: newPassword,
-          confirmPassword: confirmPassword,
-        }),
+          confirmPassword: confirmPassword
+        })
       });
 
       const result = await response.json();
@@ -101,9 +113,10 @@ document.addEventListener("DOMContentLoaded", () => {
   closeModalBtn.addEventListener("click", closeErrorModal);
 
   window.addEventListener("click", function (event) {
-    if (event.target === modal) closeErrorModal();
+    if (event.target === modal) {
+      closeErrorModal();
+    }
   });
 
-  // Start validation on page load
   validateToken();
 });

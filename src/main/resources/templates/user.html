@@ -1,24 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    />
+
     <title>Welcome | HUST ONEFUTURE</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="/css/user.css">
+    <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+    />
+
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <link
+            rel="stylesheet"
+            href="/css/user.css"
+    />
 </head>
 
 <body class="hust-auth-page">
 
 <div class="video-container">
     <div class="video-overlay"></div>
-    <video src="images/waves.mp4" id="video-slider" loop autoplay muted></video>
+
+    <video
+            src="images/waves.mp4"
+            id="video-slider"
+            loop
+            autoplay
+            muted
+    ></video>
 </div>
 
 <header>
-    <a href="home" class="logo"><span>HUST</span>ONEFUTURE</a>
+    <a href="home" class="logo">
+        <span>HUST</span>ONEFUTURE
+    </a>
+
     <nav class="bar">
         <a href="home">Home</a>
         <a href="booking">Booking</a>
@@ -37,68 +63,169 @@
 
 <div class="auth-container">
 
-    <form id="sign-in-form" class="animate-in">
+    <form
+            id="sign-in-form"
+            class="animate-in"
+    >
         <div class="form-toggle">
-            <button type="button" id="sign-in-button" class="active">Login</button>
-            <button type="button" id="sign-up-button">Register</button>
+            <button
+                    type="button"
+                    id="sign-in-button"
+                    class="active"
+            >
+                Login
+            </button>
+
+            <button
+                    type="button"
+                    id="sign-up-button"
+            >
+                Register
+            </button>
         </div>
 
         <div class="input-group">
-            <input type="tel" placeholder="Phone number" id="login-phone" required>
+            <input
+                    type="tel"
+                    placeholder="Phone number"
+                    id="login-phone"
+                    required
+            />
         </div>
+
         <div class="input-group">
-            <input type="password" placeholder="Password" id="login-password" required>
+            <input
+                    type="password"
+                    placeholder="Password"
+                    id="login-password"
+                    required
+            />
         </div>
 
         <div class="forgot-password-link">
             <a href="/forgot-password">Forgot Password?</a>
         </div>
 
-        <input type="submit" value="Login now">
+        <input
+                type="submit"
+                value="Login now"
+        />
     </form>
 
-    <form id="sign-up-form" class="hidden">
+    <form
+            id="sign-up-form"
+            class="hidden"
+    >
         <div class="form-toggle">
-            <button type="button" id="sign-in-button1">Login</button>
-            <button type="button" id="sign-up-button1" class="active">Register</button>
+            <button
+                    type="button"
+                    id="sign-in-button1"
+            >
+                Login
+            </button>
+
+            <button
+                    type="button"
+                    id="sign-up-button1"
+                    class="active"
+            >
+                Register
+            </button>
         </div>
 
         <div class="input-group">
-            <input type="text" placeholder="Full name" id="signup-name" required>
-        </div>
-        <div class="input-group">
-            <input type="email" placeholder="Email" id="signup-email" required>
-        </div>
-        <div class="input-group">
-            <input type="tel" placeholder="Phone number" id="signup-phone" required>
-        </div>
-        <div class="input-group">
-            <input type="text" onfocus="(this.type='date')" placeholder="Date of birth" id="birthday" required>
-        </div>
-        <div class="input-group">
-            <input type="password" placeholder="Password" id="signup-password" required>
-        </div>
-        <div class="input-group">
-            <input type="password" placeholder="Re-enter password" id="signup-confirm-password" required>
+            <input
+                    type="text"
+                    placeholder="Full name"
+                    id="signup-name"
+                    required
+            />
         </div>
 
-        <input type="submit" value="Register now">
+        <div class="input-group">
+            <input
+                    type="email"
+                    placeholder="Email"
+                    id="signup-email"
+                    required
+            />
+        </div>
+
+        <div class="input-group">
+            <input
+                    type="tel"
+                    placeholder="Phone number"
+                    id="signup-phone"
+                    required
+            />
+        </div>
+
+        <div class="input-group">
+            <input
+                    type="text"
+                    onfocus="(this.type='date')"
+                    placeholder="Date of birth"
+                    id="birthday"
+                    required
+            />
+        </div>
+
+        <div class="input-group">
+            <input
+                    type="password"
+                    placeholder="Password"
+                    id="signup-password"
+                    required
+            />
+        </div>
+
+        <div class="input-group">
+            <input
+                    type="password"
+                    placeholder="Re-enter password"
+                    id="signup-confirm-password"
+                    required
+            />
+        </div>
+
+        <input
+                type="submit"
+                value="Register now"
+        />
     </form>
 
 </div>
 
-<div id="error-modal" class="modal hidden">
+<div
+        id="error-modal"
+        class="modal hidden"
+>
     <div class="modal-content">
-        <span class="close-modal" style="display:none;">&times;</span>
+        <span
+                class="close-modal"
+                style="display:none;"
+        >
+            &times;
+        </span>
+
         <h2>Notification</h2>
+
         <p id="error-message"></p>
-        <button id="close-modal-button">Close</button>
+
+        <button id="close-modal-button">
+            Close
+        </button>
     </div>
 </div>
 
-<a href="/chatbot" class="chatbot-float" title="AI Travel Assistant">
+<a
+        href="/chatbot"
+        class="chatbot-float"
+        title="AI Travel Assistant"
+>
     <i class="fas fa-robot"></i>
 </a>
+
 <style>
     .chatbot-float {
         position: fixed;
@@ -119,6 +246,7 @@
         z-index: 1000;
         text-decoration: none;
     }
+
     .chatbot-float:hover {
         transform: scale(1.1);
         box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);

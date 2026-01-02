@@ -1,4 +1,3 @@
-/* FIX nền trắng + đảm bảo full màn */
 html {
   height: 100%;
   margin: 0;
@@ -11,7 +10,6 @@ body.hust-auth-page {
   padding: 0;
   overflow: hidden;
 
-  /* Variables scoped để không ảnh hưởng project tổng thể */
   --primary: #29b862;
   --primary-hover: #1e8544;
   --text-dark: #1d1d1d;
@@ -21,23 +19,24 @@ body.hust-auth-page {
   --radius: 12px;
 
   min-height: 100vh;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   position: relative;
 }
 
-/* Reset chỉ trong trang này để không đụng CSS khác */
 body.hust-auth-page * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   text-decoration: none;
-  transition: all .2s linear;
+  transition: all 0.2s linear;
 }
 
-/* Background video FIX: dùng fixed để phủ full viewport */
+/* Background video */
 body.hust-auth-page .video-container {
   position: fixed;
   inset: 0;
@@ -64,13 +63,18 @@ body.hust-auth-page .video-overlay {
 /* Header */
 body.hust-auth-page header {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
+
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(10px);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   padding: 1rem 5%;
 }
 
@@ -101,22 +105,26 @@ body.hust-auth-page header .bar a:hover {
   color: var(--primary);
 }
 
-/* Auth Card */
+/* Auth card */
 body.hust-auth-page .auth-container {
   position: relative;
   z-index: 10;
+
   background: var(--glass);
   backdrop-filter: blur(8px);
+
   border-radius: 20px;
   box-shadow: var(--shadow);
+
   width: 450px;
   max-width: 90%;
   padding: 2.5rem 2rem;
-  margin-top: 60px; /* bù header */
+  margin-top: 60px;
+
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-/* Toggle */
+/* Form toggle */
 body.hust-auth-page .form-toggle {
   display: flex;
   margin-bottom: 2rem;
@@ -128,9 +136,11 @@ body.hust-auth-page .form-toggle button {
   background: none;
   border: none;
   padding: 1rem;
+
   font-size: 1.1rem;
   font-weight: 600;
   color: #888;
+
   cursor: pointer;
   position: relative;
 }
@@ -140,10 +150,11 @@ body.hust-auth-page .form-toggle button.active {
 }
 
 body.hust-auth-page .form-toggle button.active::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px;
   left: 0;
+
   width: 100%;
   height: 2px;
   background: var(--primary);
@@ -151,15 +162,17 @@ body.hust-auth-page .form-toggle button.active::after {
 
 /* Inputs */
 body.hust-auth-page .input-group {
-  margin-bottom: 1.5rem;
   position: relative;
+  margin-bottom: 1.5rem;
 }
 
 body.hust-auth-page .input-group input {
   width: 100%;
   padding: 12px 15px;
+
   border: 1px solid #ddd;
   border-radius: 8px;
+
   font-size: 0.95rem;
   background: #f9f9f9;
   outline: none;
@@ -171,7 +184,7 @@ body.hust-auth-page .input-group input:focus {
   box-shadow: 0 0 0 4px rgba(41, 184, 98, 0.1);
 }
 
-/* Forgot Password Link */
+/* Forgot password */
 body.hust-auth-page .forgot-password-link {
   text-align: right;
   margin-bottom: 1rem;
@@ -194,11 +207,14 @@ body.hust-auth-page input[type="submit"] {
   width: 100%;
   background: var(--primary);
   color: #fff;
+
   padding: 12px;
   border: none;
   border-radius: 8px;
+
   font-size: 1.1rem;
   font-weight: 600;
+
   cursor: pointer;
   margin-top: 0.5rem;
 }
@@ -209,7 +225,7 @@ body.hust-auth-page input[type="submit"]:hover {
   box-shadow: 0 5px 15px rgba(41, 184, 98, 0.3);
 }
 
-/* Helpers */
+/* Utilities */
 body.hust-auth-page .hidden {
   display: none;
 }
@@ -219,20 +235,27 @@ body.hust-auth-page .animate-in {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Modal */
 body.hust-auth-page .modal {
   display: none;
   position: fixed;
+  inset: 0;
   z-index: 2000;
-  left: 0; top: 0;
-  width: 100%;
-  height: 100%;
+
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(5px);
+
   justify-content: center;
   align-items: center;
 }
@@ -240,10 +263,12 @@ body.hust-auth-page .modal {
 body.hust-auth-page .modal-content {
   background: white;
   padding: 2rem;
+
   border-radius: 15px;
   text-align: center;
+
   width: 350px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 body.hust-auth-page .modal-content h2 {
@@ -259,9 +284,11 @@ body.hust-auth-page .modal-content p {
 body.hust-auth-page .modal-content button {
   background: var(--primary);
   color: white;
+
   border: none;
   padding: 10px 30px;
   border-radius: 50px;
+
   cursor: pointer;
   font-weight: 600;
 }
@@ -272,5 +299,7 @@ body.hust-auth-page .modal-content button:hover {
 
 /* Responsive */
 @media (max-width: 1200px) {
-  body.hust-auth-page header { padding: 1rem 2rem; }
+  body.hust-auth-page header {
+    padding: 1rem 2rem;
+  }
 }
