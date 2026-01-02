@@ -22,6 +22,9 @@ public class ContactServiceImplementation implements ContactService {
     @Autowired
     private ContactRepository contactRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     @Transactional
     public Contact createContact(ContactDTO contactDTO) {
@@ -36,6 +39,35 @@ public class ContactServiceImplementation implements ContactService {
 
         Contact savedContact = contactRepository.save(contact);
         log.info("Contact created successfully with ID: {}", savedContact.getId());
+
+        // Send confirmation email to user
+        try {
+            emailService.sendContactConfirmationEmail(
+                savedContact.getEmail(),
+                savedContact.getFullName(),
+                savedContact.getSubject(),
+                savedContact.getMessage()
+            );
+            log.info("Confirmation email sent to: {}", savedContact.getEmail());
+        } catch (Exception e) {
+            log.error("Failed to send confirmation email to user: {}", e.getMessage());
+            // Don't fail the whole operation if email fails
+        }
+
+        // Send notification email to admin
+        try {
+            emailService.sendContactNotificationToAdmin(
+                savedContact.getFullName(),
+                savedContact.getEmail(),
+                savedContact.getSubject(),
+                savedContact.getMessage(),
+                savedContact.getId()
+            );
+            log.info("Notification email sent to admin");
+        } catch (Exception e) {
+            log.error("Failed to send notification email to admin: {}", e.getMessage());
+            // Don't fail the whole operation if email fails
+        }
 
         return savedContact;
     }

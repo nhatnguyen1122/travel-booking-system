@@ -33,6 +33,9 @@ public class EmailService {
     @Value("${app.email.sender}")
     private String senderEmail;
 
+    @Value("${app.email.admin}")
+    private String adminEmail;
+
     public String sendEmail(EmailDTO emailDTO) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try{
@@ -161,6 +164,72 @@ public class EmailService {
                 "<p style='word-break: break-all; color: #666;'>" + resetLink + "</p>" +
                 "<hr style='margin: 30px 0; border: none; border-top: 1px solid #eee;'>" +
                 "<p style='color: #999; font-size: 12px;'>This is an automated email from HUST WONDER. Please do not reply.</p>" +
+                "</div>";
+        emailDTO.setBody(body);
+
+        sendEmail(emailDTO);
+    }
+
+    public void sendContactConfirmationEmail(String toEmail, String fullName, String subject, String message) {
+        EmailDTO emailDTO = new EmailDTO();
+        emailDTO.setToEmail(toEmail);
+        emailDTO.setSubject("Thank you for contacting HUST ONEFUTURE");
+
+        String body = "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;'>" +
+                "<div style='background-color: #29b862; padding: 20px; text-align: center; border-radius: 10px 10px 0 0;'>" +
+                "<h1 style='color: white; margin: 0;'>HUST ONEFUTURE</h1>" +
+                "</div>" +
+                "<div style='background-color: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;'>" +
+                "<h2 style='color: #29b862;'>Thank You for Reaching Out!</h2>" +
+                "<p>Dear <b>" + fullName + "</b>,</p>" +
+                "<p>We have received your message and appreciate you taking the time to contact us.</p>" +
+                "<div style='background-color: white; padding: 20px; margin: 20px 0; border-left: 4px solid #29b862; border-radius: 5px;'>" +
+                "<p style='margin: 0 0 10px 0;'><b>Subject:</b> " + subject + "</p>" +
+                "<p style='margin: 0;'><b>Your Message:</b></p>" +
+                "<p style='color: #666; margin-top: 10px;'>" + message.replace("\n", "<br>") + "</p>" +
+                "</div>" +
+                "<p>Our team will review your inquiry and get back to you as soon as possible, typically within 24-48 hours.</p>" +
+                "<p>If your matter is urgent, please call us at <b>+84 987 654 321</b>.</p>" +
+                "<hr style='margin: 30px 0; border: none; border-top: 1px solid #ddd;'>" +
+                "<p style='color: #666; font-size: 14px;'>Best regards,<br><b>HUST ONEFUTURE Team</b></p>" +
+                "<p style='color: #999; font-size: 12px; margin-top: 20px;'>This is an automated confirmation email. Please do not reply to this message.</p>" +
+                "</div>" +
+                "</div>";
+        emailDTO.setBody(body);
+
+        sendEmail(emailDTO);
+    }
+
+    public void sendContactNotificationToAdmin(String userName, String userEmail, String subject, String message, Long contactId) {
+        EmailDTO emailDTO = new EmailDTO();
+        emailDTO.setToEmail(adminEmail);
+        emailDTO.setSubject("New Contact Message from " + userName);
+
+        String body = "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;'>" +
+                "<div style='background-color: #3498db; padding: 20px; text-align: center; border-radius: 10px 10px 0 0;'>" +
+                "<h1 style='color: white; margin: 0;'>New Contact Message</h1>" +
+                "</div>" +
+                "<div style='background-color: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;'>" +
+                "<h2 style='color: #3498db;'>You have a new message!</h2>" +
+                "<div style='background-color: white; padding: 20px; margin: 20px 0; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);'>" +
+                "<p style='margin: 0 0 10px 0;'><b>From:</b> " + userName + "</p>" +
+                "<p style='margin: 0 0 10px 0;'><b>Email:</b> <a href='mailto:" + userEmail + "' style='color: #3498db;'>" + userEmail + "</a></p>" +
+                "<p style='margin: 0 0 10px 0;'><b>Subject:</b> " + subject + "</p>" +
+                "<p style='margin: 0 0 10px 0;'><b>Contact ID:</b> #" + contactId + "</p>" +
+                "<hr style='margin: 15px 0; border: none; border-top: 1px solid #eee;'>" +
+                "<p style='margin: 0 0 5px 0;'><b>Message:</b></p>" +
+                "<div style='background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 10px;'>" +
+                "<p style='color: #333; white-space: pre-wrap; margin: 0;'>" + message + "</p>" +
+                "</div>" +
+                "</div>" +
+                "<div style='text-align: center; margin: 30px 0;'>" +
+                "<a href='http://localhost:8080/admin_contact' style='background-color: #29b862; color: white; padding: 12px 30px; " +
+                "text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;'>View in Admin Panel</a>" +
+                "</div>" +
+                "<p style='color: #666; font-size: 14px;'>Please respond to this inquiry as soon as possible.</p>" +
+                "<hr style='margin: 30px 0; border: none; border-top: 1px solid #ddd;'>" +
+                "<p style='color: #999; font-size: 12px;'>This is an automated notification from HUST ONEFUTURE Contact System.</p>" +
+                "</div>" +
                 "</div>";
         emailDTO.setBody(body);
 
