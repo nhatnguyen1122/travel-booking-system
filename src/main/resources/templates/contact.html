@@ -71,24 +71,24 @@
 
     <div class="contact-form">
         <h2>Send Message</h2>
-        <form action="">
+        <form id="contact-form">
             <div class="input-box">
-                <input type="text" required />
+                <input type="text" id="fullName" name="fullName" required />
                 <label>Full Name</label>
             </div>
 
             <div class="input-box">
-                <input type="email" required />
+                <input type="email" id="email" name="email" required />
                 <label>Email Address</label>
             </div>
 
             <div class="input-box">
-                <input type="text" required />
+                <input type="text" id="subject" name="subject" required />
                 <label>Subject</label>
             </div>
 
             <div class="input-box">
-                <textarea required></textarea>
+                <textarea id="message" name="message" required></textarea>
                 <label>Message</label>
             </div>
 
@@ -105,6 +105,18 @@
         </div>
     </div>
 </section>
+
+<!-- Success/Error Modal -->
+<div id="contact-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+            <i id="modal-icon" class="fas fa-check-circle"></i>
+            <p id="modal-message">Message sent successfully!</p>
+            <button class="modal-button">OK</button>
+        </div>
+    </div>
+</div>
 
 <!-- JS ở /js/ -->
 <script src="/js/contact.js"></script>

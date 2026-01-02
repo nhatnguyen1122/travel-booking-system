@@ -55,6 +55,9 @@ public enum ErrorCode {
     EMAIL_NOT_FOUND(1047, "no account found with this email", HttpStatus.BAD_REQUEST),
     INVALID_RESET_TOKEN(1048, "invalid or expired reset token", HttpStatus.BAD_REQUEST),
     TOKEN_ALREADY_USED(1049, "reset token already used", HttpStatus.BAD_REQUEST),
+
+    // Contact
+    CONTACT_NOT_FOUND(1050, "contact not found", HttpStatus.BAD_REQUEST),
     ;
     private int code ;
     private String message;

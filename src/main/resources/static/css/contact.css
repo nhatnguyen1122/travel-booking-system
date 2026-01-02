@@ -306,6 +306,85 @@ body.hust-contact-page .credit {
 
 body.hust-contact-page .credit span { color: var(--primary); }
 
+/* --- MODAL --- */
+body.hust-contact-page .modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  align-items: center;
+  justify-content: center;
+}
+
+body.hust-contact-page .modal-content {
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: var(--radius);
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+}
+
+body.hust-contact-page .modal .close {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+body.hust-contact-page .modal .close:hover,
+body.hust-contact-page .modal .close:focus {
+  color: #000;
+}
+
+body.hust-contact-page .modal-body {
+  padding: 1rem 0;
+}
+
+body.hust-contact-page .modal-body i {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+body.hust-contact-page .modal-body p {
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+}
+
+body.hust-contact-page .modal-button {
+  background: var(--primary);
+  color: var(--white);
+  padding: 10px 40px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(41, 184, 98, 0.3);
+}
+
+body.hust-contact-page .modal-button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+body.hust-contact-page .btn-send:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 /* --- RESPONSIVE --- */
 @media (max-width: 991px) {
   body.hust-contact-page .contact-container { flex-direction: column; }
