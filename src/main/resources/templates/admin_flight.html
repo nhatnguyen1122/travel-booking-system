@@ -66,8 +66,12 @@
         </thead>
         <tbody></tbody>
     </table>
+
+    <!-- Pagination giống admin_booking/admin_account -->
+    <div id="pagination" class="pagination"></div>
 </div>
 
+<!-- ADD MODAL -->
 <div id="addFlightModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -77,9 +81,10 @@
         <div class="modal-body">
             <div class="form-group">
                 <label>Ticket Class</label>
+                <!-- UI: ECONOMY / BUSINESS -->
                 <select id="ticketClass" class="form-control">
-                    <option value="BUSINESS_CLASS">BUSINESS_CLASS</option>
-                    <option value="NORMAL_CLASS">NORMAL_CLASS</option>
+                    <option value="ECONOMY">ECONOMY</option>
+                    <option value="BUSINESS">BUSINESS</option>
                 </select>
             </div>
             <div class="form-group">
@@ -109,6 +114,7 @@
     </div>
 </div>
 
+<!-- UPDATE MODAL -->
 <div id="updateFlightModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -120,8 +126,8 @@
             <div class="form-group">
                 <label>Ticket Class</label>
                 <select id="updateTicketClass" class="form-control">
-                    <option value="BUSINESS_CLASS">BUSINESS_CLASS</option>
-                    <option value="NORMAL_CLASS">NORMAL_CLASS</option>
+                    <option value="ECONOMY">ECONOMY</option>
+                    <option value="BUSINESS">BUSINESS</option>
                 </select>
             </div>
             <div class="form-group">
@@ -151,164 +157,6 @@
     </div>
 </div>
 
-<script>
-    // --- UTILS: TIME & MENU ---
-    function updateTime() {
-        const now = new Date();
-        document.getElementById('currentDate').innerText = now.toLocaleDateString();
-        document.getElementById('currentTime').innerText = now.toLocaleTimeString();
-    }
-    setInterval(updateTime, 1000);
-    updateTime();
-
-    document.getElementById("user-icon").addEventListener("click", function(event) {
-        event.preventDefault();
-        let menu = document.getElementById("user-menu");
-        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-    });
-
-    document.addEventListener("click", function(event) {
-        let userIcon = document.getElementById("user-icon");
-        let menu = document.getElementById("user-menu");
-        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
-            menu.style.display = "none";
-        }
-    });
-
-    // --- MODAL LOGIC ---
-    function openAddModal() {
-        document.getElementById('addFlightModal').style.display = 'flex';
-    }
-
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
-
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal')) {
-            event.target.style.display = 'none';
-        }
-    }
-
-    // --- FLIGHT API LOGIC ---
-    let allFlights = [];
-
-    function fetchFlights() {
-        fetch("/flight/getAll")
-            .then(response => response.json())
-            .then(data => {
-                if (data.code === 1000) {
-                    allFlights = data.data;
-                    renderFlightTable(allFlights);
-                }
-            })
-            .catch(error => console.error("Error fetching flights:", error));
-    }
-
-    function renderFlightTable(flights) {
-        const tableBody = document.querySelector("#flight-table tbody");
-        tableBody.innerHTML = "";
-        flights.forEach(flight => {
-            const row = `<tr>
-                <td>${flight.id}</td>
-                <td>${flight.ticketClass}</td>
-                <td>${flight.airlineName}</td>
-                <td>${flight.price}</td>
-                <td>${new Date(flight.checkInDate).toLocaleDateString()}</td>
-                <td>${new Date(flight.checkOutDate).toLocaleDateString()}</td>
-                <td>${flight.numberOfChairs}</td>
-                <td>${flight.seatAvailable}</td>
-                <td>
-                    <button class='btn btn-edit' onclick='openUpdateModal(${flight.id})'>Edit</button>
-                    <button class='btn btn-delete' onclick='deleteFlight(${flight.id})'>Delete</button>
-                </td>
-            </tr>`;
-            tableBody.innerHTML += row;
-        });
-    }
-
-    function createFlight() {
-        const newFlight = {
-            ticketClass: document.getElementById("ticketClass").value,
-            airlineName: document.getElementById("airlineName").value,
-            price: document.getElementById("price").value,
-            checkInDate: document.getElementById("checkInDate").value,
-            checkOutDate: document.getElementById("checkOutDate").value,
-            numberOfChairs: document.getElementById("numberOfChairs").value
-        };
-
-        fetch("/flight/create", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(newFlight)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.code === 1000) {
-                alert("Flight added successfully!");
-                fetchFlights();
-                closeModal('addFlightModal');
-            } else {
-                alert("Error: " + data.message);
-            }
-        })
-        .catch(error => console.error("Error adding flight:", error));
-    }
-
-    function deleteFlight(flightId) {
-        if (confirm("Are you sure you want to delete this flight?")) {
-            fetch(`/flight/delete/${flightId}`, { method: "DELETE" })
-                .then(response => response.json())
-                .then(() => { fetchFlights(); })
-                .catch(error => console.error("Error deleting flight:", error));
-        }
-    }
-
-    function openUpdateModal(flightId) {
-        const flight = allFlights.find(f => f.id === flightId);
-        if(!flight) return;
-
-        document.getElementById("updateFlightId").value = flight.id;
-        document.getElementById("updateTicketClass").value = flight.ticketClass;
-        document.getElementById("updateAirlineName").value = flight.airlineName;
-        document.getElementById("updatePrice").value = flight.price;
-        document.getElementById("updateCheckInDate").value = flight.checkInDate.split("T")[0];
-        document.getElementById("updateCheckOutDate").value = flight.checkOutDate.split("T")[0];
-        document.getElementById("updateNumberOfChairs").value = flight.numberOfChairs;
-
-        document.getElementById('updateFlightModal').style.display = 'flex';
-    }
-
-    function saveUpdatedFlight() {
-        const flightId = document.getElementById("updateFlightId").value;
-        const updatedFlight = {
-            ticketClass: document.getElementById("updateTicketClass").value,
-            airlineName: document.getElementById("updateAirlineName").value,
-            price: document.getElementById("updatePrice").value,
-            checkInDate: document.getElementById("updateCheckInDate").value,
-            checkOutDate: document.getElementById("updateCheckOutDate").value,
-            numberOfChairs: document.getElementById("updateNumberOfChairs").value
-        };
-
-        fetch(`/flight/update/${flightId}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updatedFlight)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.code === 1000) {
-                alert("Flight updated successfully!");
-                fetchFlights();
-                closeModal('updateFlightModal');
-            } else {
-                alert("Failed to update flight: " + data.message);
-            }
-        })
-        .catch(error => console.error("Error updating flight:", error));
-    }
-
-    document.addEventListener("DOMContentLoaded", fetchFlights);
-</script>
+<script src="/js/admin_flight.js"></script>
 </body>
 </html>

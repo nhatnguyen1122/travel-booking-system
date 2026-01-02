@@ -115,7 +115,6 @@ body.hust-booking-page .booking-section {
 
 body.hust-booking-page .booking-image {
   flex: 1;
-  /* FIX: dùng absolute path từ root */
   background: url('/images/igeat.jpg') no-repeat center center / cover;
   position: relative;
   min-height: 500px;

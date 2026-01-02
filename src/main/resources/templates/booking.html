@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Booking | HUST ONEFUTURE</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
-    <link rel="stylesheet" href="/css/booking.css">
+    <link rel="stylesheet" href="/css/booking.css" />
 </head>
 
 <body class="hust-booking-page">
@@ -32,7 +32,6 @@
     </nav>
 
     <div class="icons">
-        <i class="fas fa-search" id="search-btn"></i>
         <i class="fas fa-user" id="user-icon"></i>
         <div id="user-menu" class="dropdown-menu">
             <a href="/profile">My Profile</a>
@@ -58,26 +57,26 @@
         <form id="booking-form">
             <div class="input-group">
                 <label>Destination</label>
-                <input type="text" name="palaceName" id="palaceName" placeholder="Where do you want to go?" required>
+                <input type="text" name="palaceName" id="palaceName" placeholder="Where do you want to go?" required />
             </div>
 
             <div class="input-group">
                 <label>Number of Guests</label>
-                <input type="number" name="numberOfPeople" id="numberOfPeople" placeholder="How many people?" required min="1">
+                <input type="number" name="numberOfPeople" id="numberOfPeople" placeholder="How many people?" required min="1" />
             </div>
 
             <div class="input-row">
                 <div class="input-group">
                     <label>Check-in Date</label>
-                    <input type="date" name="checkinTime" id="checkinTime" required>
+                    <input type="date" name="checkinTime" id="checkinTime" required />
                 </div>
                 <div class="input-group">
                     <label>Check-out Date</label>
-                    <input type="date" name="checkoutTime" id="checkoutTime" required>
+                    <input type="date" name="checkoutTime" id="checkoutTime" required />
                 </div>
             </div>
 
-            <input type="submit" value="Book Now" class="btn-submit">
+            <input type="submit" value="Book Now" class="btn-submit" />
         </form>
 
         <p id="booking-message" class="booking-message"></p>
@@ -95,29 +94,14 @@
 
 <div id="error-modal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close" aria-label="Close">&times;</span>
         <h2>Notification</h2>
         <p id="error-message"></p>
-        <button class="modal-button">Close</button>
+        <button class="modal-button" type="button">Close</button>
     </div>
 </div>
 
+<!-- Chỉ nhúng JS ngoài -->
 <script src="/js/booking.js"></script>
-<script>
-    document.getElementById("user-icon").addEventListener("click", function(event) {
-        event.preventDefault();
-        let menu = document.getElementById("user-menu");
-        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-    });
-
-    document.addEventListener("click", function(event) {
-        let userIcon = document.getElementById("user-icon");
-        let menu = document.getElementById("user-menu");
-
-        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
-            menu.style.display = "none";
-        }
-    });
-</script>
 </body>
 </html>

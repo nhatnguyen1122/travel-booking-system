@@ -63,6 +63,9 @@
         </thead>
         <tbody id="hotelTableBody"></tbody>
     </table>
+
+    <!-- Pagination giống admin_booking/admin_account -->
+    <div id="pagination" class="pagination"></div>
 </div>
 
 <div id="hotelModal" class="modal">
@@ -97,144 +100,6 @@
     </div>
 </div>
 
-<script>
-    // --- UTILS: TIME & MENU ---
-    function updateTime() {
-        const now = new Date();
-        document.getElementById('currentDate').innerText = now.toLocaleDateString();
-        document.getElementById('currentTime').innerText = now.toLocaleTimeString();
-    }
-    setInterval(updateTime, 1000);
-    updateTime();
-
-    document.getElementById("user-icon").addEventListener("click", function(event) {
-        event.preventDefault();
-        let menu = document.getElementById("user-menu");
-        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-    });
-
-    document.addEventListener("click", function(event) {
-        let userIcon = document.getElementById("user-icon");
-        let menu = document.getElementById("user-menu");
-        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
-            menu.style.display = "none";
-        }
-    });
-
-    // --- MODAL LOGIC ---
-    function openAddModal() {
-        document.getElementById("modalTitle").innerText = "Add Hotel";
-        document.getElementById("hotelId").value = "";
-        document.getElementById("hotelName").value = "";
-        document.getElementById("priceFrom").value = "";
-        document.getElementById("address").value = "";
-        document.getElementById("numberFloor").value = "";
-        document.getElementById("saveHotelBtn").onclick = createHotel;
-        document.getElementById('hotelModal').style.display = 'flex';
-    }
-
-    function openEditModal(hotel) {
-        document.getElementById("modalTitle").innerText = "Update Hotel";
-        document.getElementById("hotelId").value = hotel.id;
-        document.getElementById("hotelName").value = hotel.hotelName;
-        document.getElementById("priceFrom").value = hotel.hotelPriceFrom;
-        document.getElementById("address").value = hotel.address;
-        document.getElementById("numberFloor").value = hotel.numberFloor;
-        document.getElementById("saveHotelBtn").onclick = updateHotel;
-        document.getElementById('hotelModal').style.display = 'flex';
-    }
-
-    function closeModal() {
-        document.getElementById('hotelModal').style.display = 'none';
-    }
-
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal')) {
-            event.target.style.display = 'none';
-        }
-    }
-
-    // --- HOTEL API LOGIC ---
-    document.addEventListener("DOMContentLoaded", fetchHotels);
-
-    function fetchHotels() {
-        fetch("/admin/getAllHotels")
-            .then(res => res.json())
-            .then(data => {
-                if (data.code === 1000) {
-                    const tableBody = document.getElementById("hotelTableBody");
-                    tableBody.innerHTML = "";
-                    data.data.forEach(hotel => {
-                        const hotelString = JSON.stringify(hotel).replace(/"/g, '&quot;');
-                        tableBody.innerHTML += `
-                            <tr>
-                                <td>${hotel.id}</td>
-                                <td>${hotel.hotelName}</td>
-                                <td>${hotel.hotelPriceFrom}</td>
-                                <td>${hotel.address}</td>
-                                <td>${hotel.numberFloor}</td>
-                                <td>
-                                    <button class="btn btn-edit" onclick="openEditModal(${hotelString})">Edit</button>
-                                </td>
-                            </tr>`;
-                    });
-                }
-            })
-            .catch(err => console.error("Error fetching hotels:", err));
-    }
-
-    function createHotel() {
-        const newHotel = {
-            hotelName: document.getElementById("hotelName").value,
-            priceFrom: parseFloat(document.getElementById("priceFrom").value),
-            address: document.getElementById("address").value,
-            numberFloor: parseInt(document.getElementById("numberFloor").value)
-        };
-
-        fetch("/admin/createHotel", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(newHotel)
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.code === 1000) {
-                alert("Hotel added successfully!");
-                fetchHotels();
-                closeModal();
-            } else {
-                alert("Failed to add hotel: " + data.message);
-            }
-        })
-        .catch(err => console.error("Error creating hotel:", err));
-    }
-
-    function updateHotel() {
-        const id = document.getElementById("hotelId").value;
-        const updatedHotel = {
-            hotelName: document.getElementById("hotelName").value,
-            priceFrom: parseFloat(document.getElementById("priceFrom").value),
-            address: document.getElementById("address").value,
-            numberFloor: parseInt(document.getElementById("numberFloor").value)
-        };
-
-        fetch(`/admin/updateHotel/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updatedHotel)
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.code === 1000) {
-                alert("Hotel updated successfully!");
-                fetchHotels();
-                closeModal();
-            } else {
-                alert("Failed to update hotel: " + data.message);
-            }
-        })
-        .catch(err => console.error("Error updating hotel:", err));
-    }
-</script>
+<script src="/js/admin_hotel.js"></script>
 </body>
 </html>

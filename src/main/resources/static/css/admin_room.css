@@ -197,7 +197,7 @@ body.hust-admin-room .btn-cancel { background-color: #95a5a6; }
 /* --- TABLE --- */
 body.hust-admin-room .table-wrapper {
   padding: 0 5%;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 
 body.hust-admin-room table {
@@ -230,6 +230,35 @@ body.hust-admin-room .empty-message {
   text-align: center;
   color: var(--text-light);
   font-style: italic;
+}
+
+/* --- PAGINATION giống admin_account/booking --- */
+body.hust-admin-room .pagination {
+  display: flex;
+  justify-content: center;
+  margin: 18px 0 30px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+body.hust-admin-room .pagination button {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+body.hust-admin-room .pagination button.active,
+body.hust-admin-room .pagination button:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+body.hust-admin-room .pagination button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 /* --- MODAL --- */

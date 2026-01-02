@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Account Management | HUST ONEFUTURE</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
     <!-- Scoped CSS -->
-    <link rel="stylesheet" href="/css/admin_account.css">
+    <link rel="stylesheet" href="/css/admin_account.css" />
 </head>
 
 <body class="hust-admin-account">
@@ -34,7 +34,7 @@
 
 <div class="container">
     <div class="left">
-        <p><b>Customer Management</b></p>
+        <p><b>Account Management</b></p>
     </div>
     <div class="right">
         <span><i class="fas fa-calendar-alt"></i> <span id="currentDate"></span></span> |
@@ -46,25 +46,17 @@
     <a href="#" class="btn btn-create" onclick="openModal()">
         <i class="fa fa-plus"></i> Create New Staff
     </a>
-    <a href="#" class="btn btn-upload"><i class="fa fa-upload"></i> Upload File</a>
-    <a href="#" class="btn btn-print"><i class="fa fa-print"></i> Print</a>
-    <a href="#" class="btn btn-copy"><i class="fa fa-copy"></i> Copy</a>
-    <a href="#" class="btn btn-excel"><i class="fa fa-file-excel"></i> Excel</a>
-    <a href="#" class="btn btn-pdf"><i class="fa fa-file-pdf"></i> PDF</a>
-    <a href="#" class="btn btn-delete-all"><i class="fa fa-trash"></i> Delete All</a>
 </div>
 
-<button class="toggle-btn" onclick="toggleFilter()">Toggle Filter</button>
-
+<!-- Search (giống admin_booking: không toggle, không clear) -->
 <div class="filter-container" id="filterContainer">
     <div class="search-box">
-        <label for="search">Search:</label>
-        <input type="text" id="search" name="search" placeholder="Enter keyword...">
+        <input type="text" id="search" name="search" placeholder="Enter keyword..." />
         <button onclick="searchUsers()">Search</button>
     </div>
 </div>
 
-<h2>Customer Information Table</h2>
+<h2>Account Information Table</h2>
 
 <table id="userTable">
     <thead>
@@ -80,11 +72,8 @@
     <tbody></tbody>
 </table>
 
-<div class="pagination">
-    <button disabled>Prev</button>
-    <button>1</button>
-    <button>Next</button>
-</div>
+<!-- Pagination giống admin_booking -->
+<div class="pagination"></div>
 
 <div id="createStaffModal" class="modal">
     <div class="modal-content">
@@ -96,27 +85,27 @@
             <form id="createStaffForm">
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
-                    <input type="text" id="phone" placeholder="Enter phone number" required>
+                    <input type="text" id="phone" placeholder="Enter phone number" required />
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter password" required>
+                    <input type="password" id="password" placeholder="Enter password" required />
                 </div>
                 <div class="form-group">
                     <label for="passwordConfirm">Confirm Password</label>
-                    <input type="password" id="passwordConfirm" placeholder="Confirm password" required>
+                    <input type="password" id="passwordConfirm" placeholder="Confirm password" required />
                 </div>
                 <div class="form-group">
                     <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" placeholder="Enter full name" required>
+                    <input type="text" id="fullName" placeholder="Enter full name" required />
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="Enter email" required>
+                    <input type="email" id="email" placeholder="Enter email" required />
                 </div>
                 <div class="form-group">
                     <label for="birthday">Birthday</label>
-                    <input type="date" id="birthday" required>
+                    <input type="date" id="birthday" required />
                 </div>
                 <button type="submit" class="btn-primary">Add Staff</button>
             </form>
@@ -124,214 +113,6 @@
     </div>
 </div>
 
-<script>
-    // Header Time Script
-    function updateTime() {
-        const now = new Date();
-        document.getElementById('currentDate').innerText = now.toLocaleDateString();
-        document.getElementById('currentTime').innerText = now.toLocaleTimeString();
-    }
-    setInterval(updateTime, 1000);
-    updateTime();
-
-    // User Menu Toggle
-    document.getElementById("user-icon").addEventListener("click", function(event) {
-        event.preventDefault();
-        let menu = document.getElementById("user-menu");
-        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-    });
-
-    document.addEventListener("click", function(event) {
-        let userIcon = document.getElementById("user-icon");
-        let menu = document.getElementById("user-menu");
-        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
-            menu.style.display = "none";
-        }
-    });
-
-    // Modal Logic
-    function openModal() {
-        document.getElementById('createStaffModal').style.display = 'flex';
-    }
-
-    function closeModal() {
-        document.getElementById('createStaffModal').style.display = 'none';
-    }
-
-    window.onclick = function(event) {
-        const modal = document.getElementById('createStaffModal');
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    }
-
-    // Toggle Filter
-    function toggleFilter() {
-        const filter = document.getElementById('filterContainer');
-        filter.style.display = filter.style.display === 'none' ? 'flex' : 'none';
-    }
-
-    // Data Loading Logic
-    let currentPage = 0;
-    const pageSize = 5;
-
-    document.addEventListener("DOMContentLoaded", function () {
-        loadUsers(currentPage, pageSize);
-    });
-
-    function loadUsers(pageNo, pageSize) {
-        fetch(`/user/allUsers?pageNo=${pageNo}&pageSize=${pageSize}`)
-            .then(response => {
-                if (!response.ok) throw new Error("Network response was not ok");
-                return response.json();
-            })
-            .then(data => {
-                if (data.code === 1000) {
-                    renderUserTable(data.data.items);
-                    renderPagination(data.data.totalPages);
-                } else {
-                    console.error("Error fetching users: ", data.message);
-                }
-            })
-            .catch(error => console.error("Error fetching users:", error));
-    }
-
-    function renderUserTable(users) {
-        const tableBody = document.querySelector("#userTable tbody");
-        tableBody.innerHTML = "";
-        users.forEach(user => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${user.fullName}</td>
-                <td>${user.phone}</td>
-                <td>${user.birthday}</td>
-                <td>${user.email}</td>
-                <td>${user.status ? "Active" : "Locked"}</td>
-                <td>
-                    <div class="action-buttons">
-                        <button class="toggle-status-btn" onclick="toggleStatus(${user.id})">
-                            ${user.status ? "Lock" : "Unlock"}
-                        </button>
-                    </div>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        });
-    }
-
-    function renderPagination(totalPages) {
-        const paginationContainer = document.querySelector(".pagination");
-        paginationContainer.innerHTML = "";
-
-        const prevButton = document.createElement("button");
-        prevButton.textContent = "Prev";
-        prevButton.disabled = currentPage === 0;
-        prevButton.onclick = function () {
-            if (currentPage > 0) {
-                currentPage--;
-                loadUsers(currentPage, pageSize);
-            }
-        };
-        paginationContainer.appendChild(prevButton);
-
-        for (let i = 0; i < totalPages; i++) {
-            const pageButton = document.createElement("button");
-            pageButton.textContent = i + 1;
-            pageButton.classList.toggle("active", i === currentPage);
-            pageButton.onclick = function () {
-                currentPage = i;
-                loadUsers(currentPage, pageSize);
-            };
-            paginationContainer.appendChild(pageButton);
-        }
-
-        const nextButton = document.createElement("button");
-        nextButton.textContent = "Next";
-        nextButton.disabled = currentPage >= totalPages - 1;
-        nextButton.onclick = function () {
-            if (currentPage < totalPages - 1) {
-                currentPage++;
-                loadUsers(currentPage, pageSize);
-            }
-        };
-        paginationContainer.appendChild(nextButton);
-    }
-
-    function toggleStatus(userId) {
-        if (confirm("Are you sure you want to change the status of this account?")) {
-            fetch(`/user/changeStatus/${userId}`, { method: "PATCH" })
-                .then(response => {
-                    if (!response.ok) throw new Error("Network response was not ok");
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.code === 1000) {
-                        alert("Status changed successfully!");
-                        loadUsers(currentPage, pageSize);
-                    } else {
-                        alert("Failed to change status: " + data.message);
-                    }
-                })
-                .catch(error => console.error("Error toggling status:", error));
-        }
-    }
-
-    function searchUsers() {
-        const searchKeyword = document.getElementById("search").value.trim();
-        currentPage = 0;
-
-        fetch(`/user/searchUser?pageNo=${currentPage}&pageSize=${pageSize}&search=${encodeURIComponent(searchKeyword)}`)
-            .then(response => {
-                if (!response.ok) throw new Error("Network response was not ok");
-                return response.json();
-            })
-            .then(data => {
-                if (data.code === 1000) {
-                    renderUserTable(data.data.items);
-                    renderPagination(data.data.totalPages);
-                } else {
-                    console.error("Error fetching search results: ", data.message);
-                }
-            })
-            .catch(error => console.error("Error searching users:", error));
-    }
-
-    // Create Staff Form
-    document.getElementById('createStaffForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const formData = {
-            phone: document.getElementById("phone").value,
-            password: document.getElementById("password").value,
-            passwordConfirm: document.getElementById("passwordConfirm").value,
-            fullName: document.getElementById("fullName").value,
-            email: document.getElementById("email").value,
-            birthday: document.getElementById("birthday").value
-        };
-
-        if (formData.password !== formData.passwordConfirm) {
-            alert("Confirm password does not match!");
-            return;
-        }
-
-        fetch("/admin/acc", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.code === 1000) {
-                alert("Staff created successfully!");
-                document.getElementById("createStaffForm").reset();
-                closeModal();
-                loadUsers(currentPage, pageSize);
-            } else {
-                alert("Error: " + data.message);
-            }
-        })
-        .catch(error => console.error("Error creating staff:", error));
-    });
-</script>
+<script src="/js/admin_account.js"></script>
 </body>
 </html>

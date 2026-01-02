@@ -33,7 +33,6 @@
     </nav>
 
     <div class="icons">
-        <i class="fas fa-search" id="search-btn"></i>
         <i class="fas fa-user" id="user-icon"></i>
         <div id="user-menu" class="dropdown-menu">
             <a href="/profile">My Profile</a>
@@ -52,29 +51,13 @@
         <p>New journeys are waiting for you</p>
     </div>
 
-    <form action="" class="booking-bar">
-        <div class="booking-item">
-            <label>Location</label>
-            <input type="text" placeholder="Where are you going?">
-        </div>
-        <div class="booking-item">
-            <label>Guests</label>
-            <input type="number" placeholder="Add guests" min="1">
-        </div>
-        <div class="booking-item">
-            <label>Check in</label>
-            <input type="text" onfocus="(this.type='date')" placeholder="Add dates">
-        </div>
-        <div class="booking-item">
-            <label>Check out</label>
-            <input type="text" onfocus="(this.type='date')" placeholder="Add dates">
-        </div>
-        <div class="booking-item booking-item-btn">
-            <button type="submit" class="btn-search">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </form>
+    <!-- ✅ Replaced booking form with a clean CTA -->
+    <div class="booking-cta">
+        <button type="button" class="btn-start-booking" id="go-booking-btn">
+            Start Booking <i class="fas fa-arrow-right"></i>
+        </button>
+        <p class="booking-cta__hint">Continue to the Booking page to complete your trip details.</p>
+    </div>
 
     <div class="controls">
         <span class="vid-btn active" data-src="/images/ocean.mp4"></span>
@@ -89,9 +72,13 @@
     <div class="section-heading">
         <h1>Top <span>Trending</span></h1>
     </div>
+
     <div class="grid-container">
-        <div class="card">
-            <a href=""><img src="/images/dia-diem-hampshire-anh.jpg" alt=""></a>
+        <!-- ✅ Click card -> booking + prefill -->
+        <div class="card js-booking-card" data-destination="Wakehurst Forest, UK">
+            <a href="booking" class="js-booking-link">
+                <img src="/images/dia-diem-hampshire-anh.jpg" alt="">
+            </a>
             <div class="card-content">
                 <h3>Wakehurst Forest, UK</h3>
                 <div class="card-meta">
@@ -101,8 +88,10 @@
             </div>
         </div>
 
-        <div class="card">
-            <a href=""><img src="/images/g-9.jpg" alt=""></a>
+        <div class="card js-booking-card" data-destination="Pyramids">
+            <a href="booking" class="js-booking-link">
+                <img src="/images/g-9.jpg" alt="">
+            </a>
             <div class="card-content">
                 <h3>Pyramids</h3>
                 <div class="card-meta">
@@ -112,8 +101,10 @@
             </div>
         </div>
 
-        <div class="card">
-            <a href=""><img src="/images/neuschwanstein-đức.jpg" alt=""></a>
+        <div class="card js-booking-card" data-destination="Neuschwanstein Castle">
+            <a href="booking" class="js-booking-link">
+                <img src="/images/neuschwanstein-đức.jpg" alt="">
+            </a>
             <div class="card-content">
                 <h3>Neuschwanstein Castle</h3>
                 <div class="card-meta">
@@ -142,7 +133,9 @@
                     <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
                 </div>
                 <div class="price">$78.00 <span>$120.00</span></div>
-                <a href="#" class="btn-book">Book Now</a>
+
+                <!-- ✅ Book Now -> booking + prefill -->
+                <a href="booking" class="btn-book js-package-book" data-destination="The United Kingdom">Book Now</a>
             </div>
         </div>
 
@@ -157,7 +150,8 @@
                     <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                 </div>
                 <div class="price">$86.00 <span>$140.00</span></div>
-                <a href="#" class="btn-book">Book Now</a>
+
+                <a href="booking" class="btn-book js-package-book" data-destination="Hawaii">Book Now</a>
             </div>
         </div>
 
@@ -172,7 +166,8 @@
                     <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                 </div>
                 <div class="price">$56.00 <span>$126.00</span></div>
-                <a href="#" class="btn-book">Book Now</a>
+
+                <a href="booking" class="btn-book js-package-book" data-destination="Paris">Book Now</a>
             </div>
         </div>
     </div>
@@ -182,6 +177,7 @@
     <div class="section-heading">
         <h1>Our <span>Services</span></h1>
     </div>
+
     <div class="services-container">
         <div class="service-box">
             <i class="fas fa-hotel"></i>
@@ -210,6 +206,7 @@
     <div class="section-heading">
         <h1>Travel <span>News</span></h1>
     </div>
+
     <div class="grid-container">
         <div class="card">
             <img src="/images/costa-rica.jpg" alt="">
@@ -247,23 +244,8 @@
     </div>
 </section>
 
+<!-- ✅ JS tách hoàn toàn ra ngoài -->
 <script src="/js/home.js"></script>
-<script>
-    document.getElementById("user-icon").addEventListener("click", function(event) {
-        event.preventDefault();
-        let menu = document.getElementById("user-menu");
-        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-    });
-
-    document.addEventListener("click", function(event) {
-        let userIcon = document.getElementById("user-icon");
-        let menu = document.getElementById("user-menu");
-
-        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
-            menu.style.display = "none";
-        }
-    });
-</script>
 
 </body>
 </html>

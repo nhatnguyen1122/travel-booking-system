@@ -44,8 +44,15 @@
 </div>
 
 <div class="search-container">
-    <input type="text" id="bookingInput" onkeyup="if(event.key === 'Enter') fetchOrdersWithSearch()" placeholder="Search">
-    <button onclick="fetchOrdersWithSearch()" class="search-btn"><i class="fas fa-search"></i> Search</button>
+    <input
+            type="text"
+            id="bookingInput"
+            onkeyup="if(event.key === 'Enter') fetchOrdersWithSearch()"
+            placeholder="Search"
+    >
+    <button onclick="fetchOrdersWithSearch()" class="search-btn">
+        <i class="fas fa-search"></i> Search
+    </button>
 </div>
 
 <div class="table-wrapper">
@@ -67,6 +74,7 @@
         </thead>
         <tbody></tbody>
     </table>
+
     <div id="pagination" class="pagination"></div>
 </div>
 
@@ -82,199 +90,6 @@
     </div>
 </div>
 
-<script>
-    // --- UTILS: TIME & MENU ---
-    function updateTime() {
-        const now = new Date();
-        document.getElementById('currentDate').innerText = now.toLocaleDateString();
-        document.getElementById('currentTime').innerText = now.toLocaleTimeString();
-    }
-    setInterval(updateTime, 1000);
-    updateTime();
-
-    document.getElementById("user-icon").addEventListener("click", function(event) {
-        event.preventDefault();
-        let menu = document.getElementById("user-menu");
-        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-    });
-
-    document.addEventListener("click", function(event) {
-        let userIcon = document.getElementById("user-icon");
-        let menu = document.getElementById("user-menu");
-        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
-            menu.style.display = "none";
-        }
-    });
-
-    // --- ORDER LOGIC ---
-    let currentOrderId = null;
-    let currentPage = 0;
-    const pageSize = 5;
-
-    document.addEventListener("DOMContentLoaded", function () {
-        fetchOrders(currentPage);
-    });
-
-    function fetchOrders(page) {
-        fetch(`/order/getAllOrder?pageNo=${page}&pageSize=${pageSize}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.code === 1000 && data.data.items.length > 0) {
-                    renderOrderTable(data.data.items);
-                    renderPagination(data.data.totalPages);
-                } else {
-                    console.error("No orders found or error:", data.message);
-                    document.querySelector("#bookingTable tbody").innerHTML =
-                        "<tr><td colspan='11' style='text-align:center'>No orders found</td></tr>";
-                }
-            })
-            .catch(error => console.error("Error fetching orders:", error));
-    }
-
-    function renderOrderTable(orders) {
-        const tableBody = document.querySelector("#bookingTable tbody");
-        tableBody.innerHTML = "";
-
-        orders.forEach(order => {
-            const row = document.createElement("tr");
-            let statusClass = '';
-            let statusText = 'Unpaid';
-
-            if(order.payment) {
-                if(order.payment.status === 'PAID') { statusClass = 'status-paid'; statusText = 'Paid'; }
-                else if(order.payment.status === 'VERIFYING') { statusClass = 'status-verifying'; statusText = 'Verifying'; }
-                else if(order.payment.status === 'PAYMENT_FAILED') { statusClass = 'status-unpaid'; statusText = 'Failed'; }
-            }
-
-            row.innerHTML = `
-                <td>${order.id}</td>
-                <td>${formatDateTime(order.orderDate)}</td>
-                <td>${order.user ? order.user.fullName : 'Guest'}</td>
-                <td>${order.destination}</td>
-                <td>${formatDate(order.checkinDate)}</td>
-                <td>${formatDate(order.checkoutDate)}</td>
-                <td>${order.flight ? order.flight.airlineName : "N/A"}</td>
-                <td>${order.hotel ? order.hotel.hotelName : "N/A"}</td>
-                <td>${order.totalPrice.toLocaleString()}</td>
-                <td class="${statusClass}">${statusText}</td>
-                <td>
-                    ${order.payment && order.payment.status === 'VERIFYING'
-                        ? `<button class="confirm-btn btn-verify" onclick="openPaymentModal(${order.id})">Verify</button>`
-                        : ''}
-                </td>
-            `;
-            tableBody.appendChild(row);
-        });
-    }
-
-    function formatDateTime(dateTimeString) {
-        if (!dateTimeString) return "N/A";
-        return new Date(dateTimeString).toLocaleString();
-    }
-
-    function formatDate(dateString) {
-        if (!dateString) return "N/A";
-        return new Date(dateString).toLocaleDateString();
-    }
-
-    function renderPagination(totalPages) {
-        const paginationContainer = document.getElementById("pagination");
-        paginationContainer.innerHTML = "";
-
-        for (let i = 0; i < totalPages; i++) {
-            const button = document.createElement("button");
-            button.textContent = i + 1;
-            button.classList.add("pagination-btn");
-            if (i === currentPage) button.classList.add("active");
-
-            button.onclick = function () {
-                currentPage = i;
-                fetchOrders(currentPage);
-            };
-            paginationContainer.appendChild(button);
-        }
-    }
-
-    function fetchOrdersWithSearch() {
-        let searchQuery = document.getElementById("bookingInput").value.trim();
-        if (searchQuery === "") {
-            fetchOrders(currentPage);
-            return;
-        }
-
-        fetch(`/order/getAllOrderWithMultipleColumnsWithSearch?pageNo=${currentPage}&pageSize=${pageSize}&search=${searchQuery}&sortBy=totalPrice:asc`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.code === 1000 && data.data.items.length > 0) {
-                    renderOrderTable(data.data.items);
-                    renderPagination(data.data.totalPages);
-                } else {
-                    alert("No matching orders found.");
-                    fetchOrders(currentPage);
-                }
-            })
-            .catch(error => console.error("Error searching:", error));
-    }
-
-    // --- PAYMENT CONFIRMATION LOGIC ---
-    function openPaymentModal(orderId) {
-        currentOrderId = orderId;
-        document.getElementById('payment-modal').style.display = 'flex';
-    }
-
-    document.getElementById('close-modal-btn').onclick = function() {
-        document.getElementById('payment-modal').style.display = 'none';
-    }
-
-    document.getElementById('confirm-success-btn').addEventListener('click', function () {
-        if (currentOrderId) {
-            fetch(`/order/${currentOrderId}/confirm-payment`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.code === 1000) {
-                    alert("Payment Confirmed Successfully!");
-                    Promise.all([
-                        fetch(`/api/v1/email/${currentOrderId}/announce-pay-success`, { method: "POST" }),
-                        new Promise(resolve => setTimeout(resolve, 500))
-                    ]).then(() => fetchOrders(currentPage));
-                } else {
-                    alert("Confirmation Failed: " + data.message);
-                }
-            })
-            .catch(() => alert("Error confirming payment."))
-            .finally(() => {
-                document.getElementById('payment-modal').style.display = 'none';
-            });
-        }
-    });
-
-    document.getElementById('confirm-failed-btn').addEventListener('click', function () {
-        if (currentOrderId) {
-            fetch(`/order/${currentOrderId}/payment-falled`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.code === 1000) {
-                    alert("Payment Rejected!");
-                    Promise.all([
-                        fetch(`/api/v1/email/${currentOrderId}/announce-pay-falled`, { method: "POST" }),
-                        new Promise(resolve => setTimeout(resolve, 500))
-                    ]).then(() => fetchOrders(currentPage));
-                } else {
-                    alert("Rejection Failed: " + data.message);
-                }
-            })
-            .catch(() => alert("Error rejecting payment."))
-            .finally(() => {
-                document.getElementById('payment-modal').style.display = 'none';
-            });
-        }
-    });
-</script>
+<script src="/js/admin_booking.js"></script>
 </body>
 </html>

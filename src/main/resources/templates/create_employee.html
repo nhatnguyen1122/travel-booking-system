@@ -67,63 +67,7 @@
     </form>
 </div>
 
-<script>
-    // --- USER MENU LOGIC ---
-    document.getElementById("user-icon").addEventListener("click", function(event) {
-        event.preventDefault();
-        let menu = document.getElementById("user-menu");
-        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-    });
-
-    document.addEventListener("click", function(event) {
-        let userIcon = document.getElementById("user-icon");
-        let menu = document.getElementById("user-menu");
-        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
-            menu.style.display = "none";
-        }
-    });
-
-    // --- FORM SUBMIT LOGIC ---
-    document.getElementById("createStaffForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-        var formData = new FormData(this);
-
-        if (formData.get("password") !== formData.get("confirmPassword")) {
-            alert("Passwords do not match!");
-            return;
-        }
-
-        var data = {
-            name: formData.get("name"),
-            email: formData.get("email"),
-            telephone: formData.get("phone"),
-            password: formData.get("password"),
-            confirmPassword: formData.get("confirmPassword"),
-            roles: "admin"
-        };
-
-        fetch("api/auth/createStaff", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert("Employee created successfully!");
-                window.location.href = "admin_account";
-            } else {
-                alert("Error: " + data.message);
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("An error occurred while creating the employee.");
-        });
-    });
-</script>
-
+<!-- JS ở /js/ -->
+<script src="/js/create_employee.js"></script>
 </body>
 </html>

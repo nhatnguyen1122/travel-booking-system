@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trending | HUST ONEFUTURE</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
     <!-- CSS tách ra -->
-    <link rel="stylesheet" href="/css/trending.css">
+    <link rel="stylesheet" href="/css/trending.css" />
 </head>
 
 <body class="hust-trending-page">
@@ -31,7 +31,6 @@
         <a href="plan-trip">Payment</a>
     </nav>
     <div class="icons">
-        <i class="fas fa-search" id="search-btn"></i>
         <i class="fas fa-user" id="user-icon"></i>
         <div id="user-menu" class="dropdown-menu">
             <a href="/profile">My Profile</a>
@@ -57,9 +56,12 @@
     </h1>
 
     <div class="grid-container">
-        <div class="card">
+
+        <div class="card" data-destination="United Kingdom">
             <div class="image-box">
-                <a href=""><img src="images/dia-diem-hampshire-anh.jpg" alt="Wakehurst"></a>
+                <a href="booking" class="trending-to-booking">
+                    <img src="images/dia-diem-hampshire-anh.jpg" alt="Wakehurst" />
+                </a>
             </div>
             <div class="content">
                 <h3>Wakehurst Forest</h3>
@@ -68,9 +70,11 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-destination="Egypt">
             <div class="image-box">
-                <a href=""><img src="images/g-9.jpg" alt="Pyramids"></a>
+                <a href="booking" class="trending-to-booking">
+                    <img src="images/g-9.jpg" alt="Pyramids" />
+                </a>
             </div>
             <div class="content">
                 <h3>The Pyramids</h3>
@@ -79,9 +83,11 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-destination="Germany">
             <div class="image-box">
-                <a href=""><img src="images/neuschwanstein-đức.jpg" alt="Neuschwanstein"></a>
+                <a href="booking" class="trending-to-booking">
+                    <img src="images/neuschwanstein-đức.jpg" alt="Neuschwanstein" />
+                </a>
             </div>
             <div class="content">
                 <h3>Neuschwanstein Castle</h3>
@@ -90,9 +96,11 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-destination="Hanoi City">
             <div class="image-box">
-                <a href=""><img src="images/trung-tam-thanh-pho-ha-noi-603da1f235b38.jpg" alt="Hanoi"></a>
+                <a href="booking" class="trending-to-booking">
+                    <img src="images/trung-tam-thanh-pho-ha-noi-603da1f235b38.jpg" alt="Hanoi" />
+                </a>
             </div>
             <div class="content">
                 <h3>Turtle Tower</h3>
@@ -101,9 +109,11 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-destination="Vietnam">
             <div class="image-box">
-                <a href=""><img src="images/hcm.jfif" alt="HCM"></a>
+                <a href="booking" class="trending-to-booking">
+                    <img src="images/hcm.jfif" alt="HCM" />
+                </a>
             </div>
             <div class="content">
                 <h3>Ho Chi Minh City</h3>
@@ -112,9 +122,11 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-destination="Da Nang City">
             <div class="image-box">
-                <a href=""><img src="images/danang.jfif" alt="Da Nang"></a>
+                <a href="booking" class="trending-to-booking">
+                    <img src="images/danang.jfif" alt="Da Nang" />
+                </a>
             </div>
             <div class="content">
                 <h3>Golden Bridge</h3>
@@ -122,6 +134,7 @@
                 <p><i class="fas fa-map-marker-alt"></i> Da Nang City</p>
             </div>
         </div>
+
     </div>
 </section>
 
@@ -134,22 +147,8 @@
     </div>
 </section>
 
-<script>
-    document.getElementById("user-icon").addEventListener("click", function(event) {
-        event.preventDefault();
-        let menu = document.getElementById("user-menu");
-        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-    });
-
-    document.addEventListener("click", function(event) {
-        let userIcon = document.getElementById("user-icon");
-        let menu = document.getElementById("user-menu");
-
-        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
-            menu.style.display = "none";
-        }
-    });
-</script>
+<!-- JS tách ra -->
+<script src="/js/trending.js"></script>
 
 </body>
 </html>

@@ -12,9 +12,14 @@ body.hust-trending-page{
   background-color: var(--bg-light);
   margin: 0;
   font-family: 'Poppins', sans-serif;
+
+  /* giúp footer luôn nằm đáy khi nội dung ít */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-body.hust-trending-page *,
+body.hust-trending-page * ,
 body.hust-trending-page *::before,
 body.hust-trending-page *::after {
   margin: 0;
@@ -107,6 +112,7 @@ body.hust-trending-page .dropdown-menu a:hover {
 /* --- TRENDING CONTENT --- */
 body.hust-trending-page .trending-section {
   padding: 8rem 7% 4rem;
+  flex: 1; /* để footer xuống đáy */
 }
 
 body.hust-trending-page .heading {
@@ -149,6 +155,8 @@ body.hust-trending-page .card {
   display: flex;
   flex-direction: column;
   border: 1px solid #eee;
+
+  cursor: pointer; /* nhấn toàn card */
 }
 
 body.hust-trending-page .card:hover {
@@ -204,6 +212,7 @@ body.hust-trending-page .footer {
   background: #222;
   color: #fff;
   padding: 4rem 7%;
+  margin-top: auto; /* quan trọng: đẩy footer xuống đáy */
 }
 
 body.hust-trending-page .footer-container {

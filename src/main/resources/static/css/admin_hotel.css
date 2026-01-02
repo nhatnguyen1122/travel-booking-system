@@ -15,10 +15,10 @@ body.hust-admin-hotel {
   margin: 0;
   background-color: var(--bg-light);
   padding-top: 80px;
-  font-family: 'Poppins', sans-serif; /* đặt font ở body để không đè icon font */
+  font-family: 'Poppins', sans-serif;
 }
 
-/* reset nhẹ: KHÔNG set font-family ở đây */
+/* reset nhẹ */
 body.hust-admin-hotel *,
 body.hust-admin-hotel *::before,
 body.hust-admin-hotel *::after {
@@ -28,7 +28,6 @@ body.hust-admin-hotel *::after {
   transition: all .2s linear;
 }
 
-/* chỉ áp cho link trong scope */
 body.hust-admin-hotel a { text-decoration: none; }
 
 /* --- HEADER & NAVBAR --- */
@@ -166,7 +165,7 @@ body.hust-admin-hotel .btn-cancel { background-color: #95a5a6; }
 /* --- TABLE --- */
 body.hust-admin-hotel .table-wrapper {
   padding: 0 5%;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 
 body.hust-admin-hotel table {
@@ -194,6 +193,35 @@ body.hust-admin-hotel th {
 }
 
 body.hust-admin-hotel tr:hover { background-color: #f1f1f1; }
+
+/* --- PAGINATION giống admin_account/booking --- */
+body.hust-admin-hotel .pagination {
+  display: flex;
+  justify-content: center;
+  margin: 18px 0 30px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+body.hust-admin-hotel .pagination button {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+body.hust-admin-hotel .pagination button.active,
+body.hust-admin-hotel .pagination button:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+body.hust-admin-hotel .pagination button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
 
 /* --- MODAL --- */
 body.hust-admin-hotel .modal {

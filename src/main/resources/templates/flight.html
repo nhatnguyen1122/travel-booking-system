@@ -31,7 +31,6 @@
         <a href="plan-trip">Payment</a>
     </nav>
     <div class="icons">
-        <i class="fas fa-search" id="search-btn"></i>
         <i class="fas fa-user" id="user-icon"></i>
         <div id="user-menu" class="dropdown-menu">
             <a href="/profile">My Profile</a>
@@ -64,30 +63,7 @@
     </div>
 </section>
 
+<!-- JS ở /js/ -->
 <script src="/js/flight.js"></script>
-<script>
-    document.getElementById("user-icon").addEventListener("click", function(event) {
-        event.preventDefault();
-        let menu = document.getElementById("user-menu");
-        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-    });
-
-    document.addEventListener("click", function(event) {
-        let userIcon = document.getElementById("user-icon");
-        let menu = document.getElementById("user-menu");
-
-        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
-            menu.style.display = "none";
-        }
-    });
-
-    const flightDateInput = document.querySelector('input[name="flightDate"]');
-    if (flightDateInput) {
-        flightDateInput.addEventListener('change', function () {
-            localStorage.setItem('flightDate', this.value);
-        });
-    }
-</script>
-
 </body>
 </html>

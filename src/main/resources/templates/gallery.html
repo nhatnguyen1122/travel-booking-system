@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gallery | HUST ONEFUTURE</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -30,7 +30,6 @@
         <a href="plan-trip">Payment</a>
     </nav>
     <div class="icons">
-        <i class="fas fa-search" id="search-btn"></i>
         <i class="fas fa-user" id="user-icon"></i>
         <div id="user-menu" class="dropdown-menu">
             <a href="/profile">My Profile</a>
@@ -45,84 +44,75 @@
     </h1>
 
     <div class="gallery-container">
-        <div class="gallery-item">
-            <img src="/images/tokyo.jpg" alt="Canada">
-            <div class="content">
-                <h3>Nature's Splendor</h3>
-                <p>A Breathtaking Canadian Wonderland.</p>
-                <a href="#" class="btn btn-see-more">See More</a>
-            </div>
-        </div>
-
-        <div class="gallery-item">
+        <div class="gallery-item" data-place="tokyo">
             <img src="/images/tokyo.jpg" alt="Tokyo">
             <div class="content">
                 <h3>Tokyo Unveiled</h3>
                 <p>Where Tradition Meets Futuristic Marvels.</p>
-                <a href="#" class="btn btn-see-more">See More</a>
+                <a href="#" class="btn btn-see-more js-see-more">See More</a>
             </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item" data-place="saturnia">
             <img src="/images/Saturnia-ý.jpg" alt="Saturnia">
             <div class="content">
                 <h3>Saturnia's Hidden Gem</h3>
                 <p>A Thermal Wonderland in Tuscany.</p>
-                <a href="#" class="btn btn-see-more">See More</a>
+                <a href="#" class="btn btn-see-more js-see-more">See More</a>
             </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item" data-place="mumbai">
             <img src="/images/p-1.jpg" alt="Mumbai">
             <div class="content">
                 <h3>Mumbai's Enchanting Tapestry</h3>
                 <p>A Vibrant Cultural Melting Pot.</p>
-                <a href="#" class="btn btn-see-more">See More</a>
+                <a href="#" class="btn btn-see-more js-see-more">See More</a>
             </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item" data-place="hamnoy">
             <img src="/images/Hamnoy-nauy.jpg" alt="Hamnoy">
             <div class="content">
                 <h3>Hamnoy's Majestic Beauty</h3>
                 <p>Rugged Grandeur in the Heart of Norway.</p>
-                <a href="#" class="btn btn-see-more">See More</a>
+                <a href="#" class="btn btn-see-more js-see-more">See More</a>
             </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item" data-place="mauritius">
             <img src="/images/Mauri.jpg" alt="Mauritius">
             <div class="content">
                 <h3>Mauritius' Paradise</h3>
                 <p>A Jewel in the Indian Ocean.</p>
-                <a href="#" class="btn btn-see-more">See More</a>
+                <a href="#" class="btn btn-see-more js-see-more">See More</a>
             </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item" data-place="cappadocia">
             <img src="/images/dia-diem-tho-nhi-ky.jpg" alt="Cappadocia">
             <div class="content">
                 <h3>Cappadocia's Sky</h3>
                 <p>A Hot Air Balloon Adventure Like No Other.</p>
-                <a href="#" class="btn btn-see-more">See More</a>
+                <a href="#" class="btn btn-see-more js-see-more">See More</a>
             </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item" data-place="hallstatt">
             <img src="/images/Hallstatt.jpg" alt="Hallstatt">
             <div class="content">
                 <h3>Hallstatt's Charm</h3>
                 <p>A Lakeside Fairy Tale of Unsurpassed Beauty.</p>
-                <a href="#" class="btn btn-see-more">See More</a>
+                <a href="#" class="btn btn-see-more js-see-more">See More</a>
             </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item" data-place="pisa">
             <img src="/images/thap-nghieng-Pisa.png" alt="Pisa">
             <div class="content">
                 <h3>Pisa's Wonder</h3>
                 <p>An Icon of Architectural Grandeur.</p>
-                <a href="#" class="btn btn-see-more">See More</a>
+                <a href="#" class="btn btn-see-more js-see-more">See More</a>
             </div>
         </div>
     </div>
@@ -137,22 +127,31 @@
     </div>
 </section>
 
-<script>
-    document.getElementById("user-icon").addEventListener("click", function(event) {
-        event.preventDefault();
-        let menu = document.getElementById("user-menu");
-        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-    });
+<!-- ===== PLACE MODAL (DETAIL FORM) ===== -->
+<div id="placeModal" class="place-modal" aria-hidden="true">
+    <div class="place-modal__backdrop" data-close="true"></div>
 
-    document.addEventListener("click", function(event) {
-        let userIcon = document.getElementById("user-icon");
-        let menu = document.getElementById("user-menu");
+    <div class="place-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="placeModalTitle">
+        <button type="button" class="place-modal__close" aria-label="Close">&times;</button>
 
-        if (!userIcon.contains(event.target) && !menu.contains(event.target)) {
-            menu.style.display = "none";
-        }
-    });
-</script>
+        <!-- ✅ Removed image/media area. Text-only modal -->
 
+        <div class="place-modal__body">
+            <h2 id="placeModalTitle"></h2>
+            <p id="placeModalSubtitle" class="place-modal__subtitle"></p>
+
+            <div id="placeModalContent" class="place-modal__content"></div>
+
+            <div class="place-modal__cta">
+                <button id="placeModalBookBtn" type="button" class="place-modal__book-btn">
+                    Book Now
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/gallery.js"></script>
 </body>
 </html>

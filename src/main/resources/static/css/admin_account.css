@@ -14,11 +14,10 @@ body.hust-admin-account {
 
   margin: 0;
   background-color: var(--bg-light);
-  padding-top: 80px; /* Space for fixed header */
-  font-family: 'Poppins', sans-serif; /* đặt font ở body để không đè icon font */
+  padding-top: 80px;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* reset nhẹ: KHÔNG set font-family ở đây */
 body.hust-admin-account *,
 body.hust-admin-account *::before,
 body.hust-admin-account *::after {
@@ -28,7 +27,6 @@ body.hust-admin-account *::after {
   transition: all .2s linear;
 }
 
-/* chỉ áp cho link trong scope */
 body.hust-admin-account a { text-decoration: none; }
 
 /* --- HEADER & NAVBAR --- */
@@ -151,32 +149,15 @@ body.hust-admin-account .btn {
 }
 
 body.hust-admin-account .btn-create { background-color: var(--primary); }
-body.hust-admin-account .btn-upload { background-color: var(--info); }
-body.hust-admin-account .btn-print { background-color: #95a5a6; }
-body.hust-admin-account .btn-copy { background-color: #34495e; }
-body.hust-admin-account .btn-excel { background-color: #27ae60; }
-body.hust-admin-account .btn-pdf { background-color: #e74c3c; }
-body.hust-admin-account .btn-delete-all { background-color: #c0392b; }
-
 body.hust-admin-account .btn:hover { opacity: 0.9; }
 
-/* --- FILTER & SEARCH --- */
+/* --- SEARCH --- */
 body.hust-admin-account .filter-container {
   padding: 0 5%;
   margin-bottom: 20px;
   display: flex;
   gap: 10px;
   align-items: center;
-}
-
-body.hust-admin-account .toggle-btn {
-  margin-left: 5%;
-  margin-bottom: 10px;
-  background: none;
-  border: 1px solid #ccc;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 5px;
 }
 
 body.hust-admin-account .search-box {
@@ -245,12 +226,13 @@ body.hust-admin-account .action-buttons button {
 
 body.hust-admin-account .toggle-status-btn { background-color: var(--info); }
 
-/* --- PAGINATION --- */
+/* --- PAGINATION (đồng bộ admin_booking) --- */
 body.hust-admin-account .pagination {
   display: flex;
   justify-content: center;
   margin: 20px 0;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 body.hust-admin-account .pagination button {
@@ -268,6 +250,11 @@ body.hust-admin-account .pagination button:hover {
   border-color: var(--primary);
 }
 
+body.hust-admin-account .pagination button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 /* --- MODAL --- */
 body.hust-admin-account .modal {
   display: none;
@@ -275,78 +262,4 @@ body.hust-admin-account .modal {
   z-index: 2000;
   left: 0; top: 0;
   width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  justify-content: center;
-  align-items: center;
-}
-
-body.hust-admin-account .modal-content {
-  background-color: white;
-  padding: 0;
-  border-radius: 12px;
-  width: 450px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  animation: hustAccFadeIn 0.3s ease-in-out;
-  overflow: hidden;
-}
-
-@keyframes hustAccFadeIn {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-body.hust-admin-account .modal-header {
-  background-color: var(--primary);
-  color: white;
-  padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-body.hust-admin-account .modal-header .close {
-  cursor: pointer;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-body.hust-admin-account .modal-body { padding: 20px; }
-
-body.hust-admin-account .form-group { margin-bottom: 15px; }
-
-body.hust-admin-account .form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
-  color: #333;
-  font-size: 0.9rem;
-}
-
-body.hust-admin-account .form-group input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-body.hust-admin-account .form-group input:focus {
-  border-color: var(--primary);
-  outline: none;
-}
-
-body.hust-admin-account .btn-primary {
-  width: 100%;
-  padding: 12px;
-  border-radius: 6px;
-  background-color: var(--primary);
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-body.hust-admin-account .btn-primary:hover {
-  background-color: var(--primary-dark);
-}
+  backgroun
