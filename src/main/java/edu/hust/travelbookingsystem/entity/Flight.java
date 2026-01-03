@@ -50,10 +50,10 @@ public class Flight {
     @DateTimeFormat
     private Date checkOutDate;
 
-    @Column(name = "numberOfChairs", nullable = false)
+    @Column(name = "number_of_chairs", nullable = false)
     private int numberOfChairs;
 
-    @Column(name = "seatAvailable", nullable = false)
+    @Column(name = "seats_available", nullable = false)
     private int seatAvailable;
 
     @Version

@@ -39,55 +39,41 @@ New user accounts can be registered through the application or added via the see
 
 ## Database
 
-This project uses **H2 Database** (file-based) for easy development without external database setup.
+This project uses **H2 Database** (in-memory) for easy development without external database setup.
+
+> **Important**: The database uses in-memory mode, so all data is lost when the application stops. You'll need to reload demo data each time you restart.
 
 ### H2 Console Access
 
 1. Go to: http://localhost:8080/h2-console
 2. Connection settings:
-   - **JDBC URL**: `jdbc:h2:file:./data/traveldb`
+   - **JDBC URL**: `jdbc:h2:mem:traveldb`
    - **Username**: `sa`
    - **Password**: *(leave empty)*
 3. Click "Connect"
 
 ### Reset Database (Start Fresh)
 
-To completely reset the database and start with fresh data:
+Since the database is in-memory, simply **restart the application** to reset all data.
 
-**Option 1: Delete the data folder (Recommended)**
-```bash
-# Stop the application first, then:
-rm -rf ./data
+The database schema and initial data (roles, admin user, payment statuses) are auto-created on startup by:
+- `RoleSeeder` - Creates admin/user roles and admin account
+- `PaymentSeeder` - Creates payment status records
 
-# Restart the application
-./mvnw spring-boot:run
-```
-The `RoleSeeder` will automatically recreate the admin account and roles on startup.
-
-**Option 2: Clear specific tables via H2 Console**
-```sql
--- Run these in H2 Console (http://localhost:8080/h2-console)
-DELETE FROM review;
-DELETE FROM payment;
-DELETE FROM orders;
-DELETE FROM hotel_bedroom;
-DELETE FROM flight;
-DELETE FROM hotel;
-DELETE FROM password_reset_token;
--- Keep users if you want to preserve accounts
-```
-
-**Option 3: Drop all tables and let Hibernate recreate**
-```sql
--- In H2 Console, run:
-DROP ALL OBJECTS;
-```
-Then restart the application.
+After restart, you can load demo data from the SQL files (see below).
 
 ### Load Demo Data
 
-After resetting, you can load demo data from the `seed-data/` folder:
+You can load demo data using either approach:
 
+**Option 1: Complete Demo Data (All-in-One)**
+1. Start the application
+2. Open H2 Console (http://localhost:8080/h2-console)
+3. Copy all SQL from `src/main/resources/db/demo-data.sql`
+4. Paste and execute in H2 Console
+
+**Option 2: Individual Seed Files**
+Load files from `seed-data/` folder in order:
 1. Start the application
 2. Open H2 Console
 3. Run SQL files in order:
@@ -96,6 +82,8 @@ After resetting, you can load demo data from the `seed-data/` folder:
    - `seed-data/03-hotel-bedrooms.sql`
    - `seed-data/04-flights.sql`
    - `seed-data/05-users.sql`
+
+> **Note**: The database schema is auto-created by Hibernate on application startup. Demo data includes flights, hotels, rooms, and sample users.
 
 ## Features
 
