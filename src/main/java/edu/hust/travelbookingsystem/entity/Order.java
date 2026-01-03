@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(
@@ -85,6 +86,9 @@ public class Order {
 
     @Column(name = "bedrooms", length = 2000)
     private String listBedrooms;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<FlightSeat> flightSeats;
 
     public Order(String destination, int numberOfPeople, Date checkinDate, Date checkoutDate) {
         this.destination = destination;

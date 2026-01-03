@@ -58,6 +58,11 @@ public enum ErrorCode {
 
     // Contact
     CONTACT_NOT_FOUND(1050, "contact not found", HttpStatus.BAD_REQUEST),
+
+    // Flight Seats
+    FLIGHT_NOT_FOUND(1051, "flight not found", HttpStatus.BAD_REQUEST),
+    SEAT_COUNT_MISMATCH(1052, "number of seats must match number of people", HttpStatus.BAD_REQUEST),
+    SEATS_NOT_AVAILABLE(1053, "selected seats are not available", HttpStatus.BAD_REQUEST),
     ;
     private int code ;
     private String message;

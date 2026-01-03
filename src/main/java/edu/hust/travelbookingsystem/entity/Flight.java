@@ -63,4 +63,8 @@ public class Flight {
     @OneToMany(mappedBy = "flight", cascade = CascadeType.PERSIST)
     @JsonIgnore
     private List<Order> orders;
+
+    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<FlightSeat> seats;
 }

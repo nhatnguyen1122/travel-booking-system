@@ -42,6 +42,8 @@ public class OrderServiceImplementation implements OrderService {
     private HotelBookingRepository hotelBookingRepository;
     @Autowired
     private PayRepository payRepository;
+    @Autowired
+    private FlightSeatServiceImplementation flightSeatService;
 
     @Override
     @Transactional
@@ -168,6 +170,52 @@ public class OrderServiceImplementation implements OrderService {
 
     @Override
     @Transactional
+    public Order chooseFlightWithSeats(Long orderId, Long flightId, List<String> seatNumbers) {
+        Flight flight = flightRepository.findById(flightId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTS));
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
+
+        // Flight date must be on or after order check-in date
+        if (flight.getCheckInDate().before(order.getCheckinDate())) {
+            throw new AppException(ErrorCode.NOT_VALID_FLIGHT_DATE);
+        }
+
+        // Flight date must not exceed order check-out date
+        if (flight.getCheckInDate().after(order.getCheckoutDate())) {
+            throw new AppException(ErrorCode.FLIGHT_DATE_EXCEEDS_CHECKOUT);
+        }
+
+        // Validate seat count matches number of people
+        if (seatNumbers.size() != order.getNumberOfPeople()) {
+            throw new AppException(ErrorCode.SEAT_COUNT_MISMATCH);
+        }
+
+        // Attempt to book seats
+        boolean seatsBooked = flightSeatService.bookSeats(flight, order, seatNumbers);
+        if (!seatsBooked) {
+            throw new AppException(ErrorCode.SEATS_NOT_AVAILABLE);
+        }
+
+        // Update flight available seats count
+        flight.setSeatAvailable(flight.getSeatAvailable() - order.getNumberOfPeople());
+        order.setFlight(flight);
+
+        // Calculate total price
+        order.setTotalPrice(order.getTotalPrice() + order.getNumberOfPeople() * flight.getPrice());
+
+        // Set payment status
+        order.setPayment(payRepository.findByStatus(PaymentStatus.UNPAID)
+                .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_UNPAID_NOT_EXISTS)));
+
+        flightRepository.save(flight);
+        orderRepository.save(order);
+        return order;
+    }
+
+    @Override
+    @Transactional
     public void cancelOrder(Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(()->new AppException(ErrorCode.ORDER_NOT_FOUND));
@@ -175,6 +223,8 @@ public class OrderServiceImplementation implements OrderService {
         // Restore flight seats only if a flight was booked
         Flight flight = order.getFlight();
         if(flight != null) {
+            // Release individual seats
+            flightSeatService.releaseSeats(orderId);
             flight.setSeatAvailable(flight.getSeatAvailable() + order.getNumberOfPeople());
             flightRepository.save(flight);
         }
@@ -188,6 +238,8 @@ public class OrderServiceImplementation implements OrderService {
                 .orElseThrow(()->new AppException(ErrorCode.ORDER_NOT_FOUND));
         Flight flight = order.getFlight();
         if(flight != null) {
+            // Release individual seats
+            flightSeatService.releaseSeats(orderId);
             // Restore seats and subtract flight cost from total
             flight.setSeatAvailable(flight.getSeatAvailable() + order.getNumberOfPeople());
             order.setTotalPrice(order.getTotalPrice() - order.getNumberOfPeople() * flight.getPrice());

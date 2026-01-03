@@ -327,8 +327,171 @@ body.hust-flight-page .credit {
 
 body.hust-flight-page .credit span { color: var(--primary); }
 
+/* --- SEAT SELECTION MODAL --- */
+body.hust-flight-page .seat-modal {
+  display: flex;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  align-items: center;
+  justify-content: center;
+}
+
+body.hust-flight-page .seat-modal-content {
+  background: var(--white);
+  border-radius: var(--radius);
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+body.hust-flight-page .seat-modal-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--primary);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+body.hust-flight-page .seat-modal-header h3 {
+  font-size: 1.2rem;
+  color: var(--white);
+  margin: 0;
+}
+
+body.hust-flight-page .seat-close-btn {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--white);
+  cursor: pointer;
+  line-height: 1;
+}
+
+body.hust-flight-page .seat-close-btn:hover {
+  opacity: 0.8;
+}
+
+body.hust-flight-page .seat-modal-body {
+  padding: 30px;
+}
+
+body.hust-flight-page .seat-selection-info {
+  margin-bottom: 25px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary);
+}
+
+body.hust-flight-page .seat-selection-info p {
+  margin: 8px 0;
+  font-size: 0.95rem;
+  color: var(--text-dark);
+}
+
+body.hust-flight-page .seat-selection-info span {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+body.hust-flight-page .seat-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+
+body.hust-flight-page .seat-item {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+}
+
+body.hust-flight-page .seat-item.available {
+  background-color: #4CAF50;
+  color: white;
+}
+
+body.hust-flight-page .seat-item.selected {
+  background-color: #ff9800;
+  color: white;
+  border-color: #f57c00;
+  transform: scale(1.05);
+}
+
+body.hust-flight-page .seat-item:hover:not(.selected) {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+body.hust-flight-page .seat-modal-footer {
+  padding: 20px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+body.hust-flight-page .btn-cancel-seat,
+body.hust-flight-page .btn-confirm-seat {
+  padding: 10px 25px;
+  border-radius: 5px;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+body.hust-flight-page .btn-cancel-seat {
+  background-color: #6c757d;
+  color: white;
+}
+
+body.hust-flight-page .btn-confirm-seat {
+  background-color: var(--primary);
+  color: white;
+}
+
+body.hust-flight-page .btn-cancel-seat:hover,
+body.hust-flight-page .btn-confirm-seat:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
 /* --- RESPONSIVE --- */
 @media (max-width: 1200px) {
   body.hust-flight-page header { padding: 1rem 2rem; }
   body.hust-flight-page header .bar { display: none; }
+}
+
+@media (max-width: 768px) {
+  body.hust-flight-page .seat-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  body.hust-flight-page .seat-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  body.hust-flight-page .seat-modal-content {
+    width: 95%;
+  }
 }

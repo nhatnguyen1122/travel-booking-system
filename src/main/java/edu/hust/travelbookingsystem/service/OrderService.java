@@ -10,6 +10,7 @@ public interface OrderService {
     public Order chooseHotel(Long orderId, Long HotelId, OrderHotelDTO orderHotelDTO);
     public  Order saveOrder(Order order) ;
     public Order chooseFlight(Long orderId , Long flightId);
+    public Order chooseFlightWithSeats(Long orderId, Long flightId, java.util.List<String> seatNumbers);
     public void cancelOrder(Long orderId);
     public Order cancelFlight(Long orderId) ;
     public PageResponse getOrdersByUserId(Long userId,int pageNo, int pageSize);
