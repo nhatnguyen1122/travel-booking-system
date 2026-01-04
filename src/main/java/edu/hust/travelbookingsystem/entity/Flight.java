@@ -40,14 +40,12 @@ public class Flight {
     @Column(name = "price", nullable = false)
     private double price;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @Column(name = "check_in_date", nullable = false)
-    @DateTimeFormat
     private Date checkInDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @Column(name = "check_out_date", nullable = false)
-    @DateTimeFormat
     private Date checkOutDate;
 
     @Column(name = "number_of_chairs", nullable = false)

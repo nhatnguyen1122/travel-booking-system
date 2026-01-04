@@ -60,14 +60,14 @@
   // ===== Ticket Class mapping (UI <-> backend) =====
   function uiToApiTicketClass(uiValue) {
     // UI: ECONOMY/BUSINESS -> API: NORMAL_CLASS/BUSINESS_CLASS
-    if (uiValue === 'BUSINESS') return 'BUSINESS_CLASS';
+    if (uiValue === 'BUSINESS_CLASS') return 'BUSINESS_CLASS';
     return 'NORMAL_CLASS';
   }
 
   function apiToUiTicketClass(apiValue) {
     // API: NORMAL_CLASS/BUSINESS_CLASS -> UI: ECONOMY/BUSINESS
-    if (apiValue === 'BUSINESS_CLASS') return 'BUSINESS';
-    return 'ECONOMY';
+    if (apiValue === 'BUSINESS_CLASS') return 'BUSINESS_CLASS';
+    return 'NORMAL_CLASS';
   }
 
   function displayTicketClass(apiValue) {
