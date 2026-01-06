@@ -55,6 +55,23 @@ body.hust-flight-page header .logo span { color: var(--primary); }
 body.hust-flight-page header .bar {
   display: flex;
   gap: 15px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+}
+
+body.hust-flight-page header .bar::-webkit-scrollbar {
+  height: 4px;
+}
+
+body.hust-flight-page header .bar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body.hust-flight-page header .bar::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
 }
 
 body.hust-flight-page header .bar a {
@@ -67,6 +84,22 @@ body.hust-flight-page header .bar a {
 body.hust-flight-page header .bar a:hover,
 body.hust-flight-page header .bar a.indam {
   color: var(--primary);
+}
+
+/* AI Assistant Link in navbar */
+body.hust-flight-page header .bar a.ai-assistant-link {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: var(--white);
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+body.hust-flight-page header .bar a.ai-assistant-link:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: scale(1.05);
 }
 
 body.hust-flight-page header .icons {
@@ -188,6 +221,23 @@ body.hust-flight-page .flight-list > div {
   flex-direction: column;
   position: relative;
   border: 1px solid #e1e8ed;
+  max-height: 450px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary) transparent;
+}
+
+body.hust-flight-page .flight-list > div::-webkit-scrollbar {
+  width: 6px;
+}
+
+body.hust-flight-page .flight-list > div::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body.hust-flight-page .flight-list > div::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 6px;
 }
 
 body.hust-flight-page .flight-list > div:hover {
@@ -199,13 +249,15 @@ body.hust-flight-page .flight-list > div:hover {
 body.hust-flight-page .flight-list > div::before {
   content: '';
   display: block;
+  min-height: 80px;
   height: 80px;
   background: linear-gradient(to right, var(--secondary), #2980b9);
   width: 100%;
-  position: absolute;
+  position: sticky;
   top: 0;
   left: 0;
   z-index: 0;
+  flex-shrink: 0;
 }
 
 /* Giữ nguyên logic :has(...) như bản gốc
@@ -227,7 +279,7 @@ body.hust-flight-page .flight-list > div strong {
   position: relative;
   z-index: 1;
   color: var(--white);
-  margin: 25px 20px 35px 20px;
+  margin: -55px 20px 15px 20px;
   font-size: 1.4rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -477,7 +529,6 @@ body.hust-flight-page .btn-confirm-seat:hover {
 /* --- RESPONSIVE --- */
 @media (max-width: 1200px) {
   body.hust-flight-page header { padding: 1rem 2rem; }
-  body.hust-flight-page header .bar { display: none; }
 }
 
 @media (max-width: 768px) {

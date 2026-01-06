@@ -36,11 +36,11 @@ body.hust-home-page header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 7%;
+  padding: 1rem 5%;
 }
 
 body.hust-home-page header .logo {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--white);
   text-transform: uppercase;
@@ -48,14 +48,31 @@ body.hust-home-page header .logo {
 
 body.hust-home-page header .logo span { color: var(--primary); }
 
-/* Menu bar (đúng như bản gốc: gap 15px, font-size 0.9rem) */
+/* Menu bar */
 body.hust-home-page header .bar {
   display: flex;
   gap: 15px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+}
+
+body.hust-home-page header .bar::-webkit-scrollbar {
+  height: 4px;
+}
+
+body.hust-home-page header .bar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body.hust-home-page header .bar::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
 }
 
 body.hust-home-page header .bar a {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--white);
   font-weight: 500;
   white-space: nowrap;
@@ -66,11 +83,27 @@ body.hust-home-page header .bar a.indam {
   color: var(--primary);
 }
 
+/* AI Assistant Link in navbar */
+body.hust-home-page header .bar a.ai-assistant-link {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: var(--white);
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+body.hust-home-page header .bar a.ai-assistant-link:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: scale(1.05);
+}
+
 body.hust-home-page header .icons i {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--white);
   cursor: pointer;
-  margin-left: 15px;
+  margin-left: 10px;
 }
 
 body.hust-home-page header .icons i:hover { color: var(--primary); }
@@ -80,11 +113,11 @@ body.hust-home-page .dropdown-menu {
   display: none;
   position: absolute;
   top: 60px;
-  right: 7%;
+  right: 5%;
   background-color: var(--white);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  width: 180px;
+  width: 150px;
   overflow: hidden;
   flex-direction: column;
 }
@@ -452,7 +485,6 @@ body.hust-home-page .credit span { color: var(--primary); }
 /* Responsive */
 @media (max-width: 1200px) {
   body.hust-home-page header { padding: 1rem 2rem; }
-  body.hust-home-page header .bar { display: none; }
 }
 
 @media (max-width: 768px) {

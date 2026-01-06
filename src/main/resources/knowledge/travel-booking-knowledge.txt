@@ -1,0 +1,178 @@
+# Travel Booking System - Knowledge Base
+
+## System Overview
+The Travel Booking System is a comprehensive web application for booking flights and hotels in Vietnam. The system allows users to plan trips, book flights, reserve hotel rooms, make payments, and leave reviews. It supports both regular users and administrators.
+
+## User Registration and Login
+- Users can register with their phone number, email, full name, birthday, and password.
+- Phone numbers must be valid Vietnamese phone numbers (starting with 09, 03, 07, 08, or 05).
+- Email must be a valid email format.
+- Password is encrypted using BCrypt for security.
+- Users can log in using their phone number and password.
+- Forgot password feature sends a reset link to the user's email.
+
+## User Roles
+1. **Regular Users (USER role)**:
+   - Can browse flights and hotels
+   - Can create bookings/orders
+   - Can view their booking history
+   - Can make payments
+   - Can leave reviews for hotels they've stayed at
+   - Can manage their profile
+
+2. **Administrators (ADMIN role)**:
+   - Can manage all users (view, edit, delete)
+   - Can manage flights (add, edit, delete)
+   - Can manage hotels and rooms (add, edit, delete)
+   - Can view all bookings
+   - Can manage contact inquiries
+   - Can view system statistics
+
+## Destinations
+The system supports booking trips to popular Vietnamese destinations:
+- Da Nang - Famous for beaches, Ba Na Hills, and Dragon Bridge
+- Nha Trang - Beautiful coastal city with beaches and islands
+- Phu Quoc - Island paradise with pristine beaches and resorts
+- Ha Long - UNESCO World Heritage site with limestone islands
+- Hoi An - Ancient town with rich cultural heritage
+- Sapa - Mountain town famous for rice terraces and trekking
+
+## Flights
+- Flights are categorized into two classes: BUSINESS_CLASS and NORMAL_CLASS
+- Airlines available include Vietnam Airlines, VietJet Air, Bamboo Airways, and Pacific Airlines
+- Each flight has:
+  - Check-in date and check-out date
+  - Number of total seats and available seats
+  - Price per seat
+  - Ticket class
+- Users can select specific seats when booking (e.g., 1A, 1B, 2C, etc.)
+- Seat selection uses optimistic locking to prevent double booking
+
+## Hotels
+- Hotels are located in all supported destinations
+- Each hotel has:
+  - Hotel name and address
+  - Price per night
+  - Number of floors
+  - Multiple bedrooms/rooms
+- Hotel rooms have:
+  - Room number
+  - Room type (Standard, Deluxe, Suite, etc.)
+  - Price per night
+- Room availability is checked to prevent overlapping bookings
+
+## Booking Process
+1. **Create Order**: User selects destination, number of people, check-in and check-out dates
+2. **Choose Hotel**: User selects a hotel and specific rooms
+3. **Choose Flight**: User selects a flight and specific seats
+4. **Review & Payment**: User reviews the booking and proceeds to payment
+5. **Confirmation**: Booking is confirmed after successful payment
+
+## Payments
+Payment statuses include:
+- UNPAID - Initial status when booking is created
+- VERIFYING - Payment is being verified
+- PAID - Payment completed successfully
+- PAYMENT_FAILED - Payment failed
+
+## Reviews
+- Users can leave reviews for hotels they've stayed at
+- Reviews include:
+  - Rating (1-5 stars)
+  - Comment/feedback
+  - Timestamps (created and updated)
+- Only one review per order is allowed
+
+## Loyalty Program
+- Users earn loyalty points for each booking
+- Points can be redeemed for discounts on future bookings
+- Loyalty tiers: BRONZE, SILVER, GOLD, PLATINUM
+- Tier is based on total points earned
+
+## Promotions and Discounts
+- Promo codes available for discounts
+- Discount types: PERCENTAGE or FIXED_AMOUNT
+- Some promotions have usage limits
+- Active promotions are displayed to users
+
+## Contact and Support
+- Users can send inquiries through the contact form
+- Contact form requires: full name, email, subject, and message
+- Administrators can view and respond to inquiries
+- Support email: support@travelbooking.vn
+- Support hotline: 1900-xxxx
+
+## Pricing Information
+- Prices are in Vietnamese Dong (VND)
+- Flight prices range from approximately 1,000,000 VND to 5,000,000 VND
+- Hotel prices range from approximately 1,200,000 VND to 15,000,000 VND per night
+- Total order price = (Flight price × number of people) + (Hotel price × number of nights)
+
+## Popular Hotels
+### Da Nang:
+- Vinpearl Resort Da Nang - 5-star beachfront resort
+- Furama Resort Da Nang - Luxury resort on My Khe Beach
+- Hyatt Regency Da Nang - Modern resort with ocean views
+- Sheraton Grand Da Nang - Premium hotel with excellent service
+
+### Phu Quoc:
+- JW Marriott Phu Quoc - Ultra-luxury resort
+- Vinpearl Resort Phu Quoc - Family-friendly resort
+- InterContinental Phu Quoc - Beachfront luxury
+
+### Other Destinations:
+- Vinpearl Resort Nha Trang - Famous resort in Nha Trang
+- Vinpearl Ha Long - Bay-view luxury resort
+- Four Seasons Hoi An - Premium heritage hotel
+- Hotel de la Coupole Sapa - Unique mountain retreat
+
+## Cancellation Policy
+- Free cancellation up to 48 hours before check-in
+- 10% cancellation fee applies after that
+- Refunds processed within 7-10 business days
+
+## System Features
+- Responsive web design for mobile and desktop
+- Real-time seat availability checking
+- Email notifications for bookings and password resets
+- H2 console available at /h2-console for database access (development only)
+- Secure password handling with BCrypt encryption
+
+## Technical Information
+- Built with Spring Boot framework
+- Uses H2 in-memory database for development
+- JPA/Hibernate for data persistence
+- Thymeleaf for server-side rendering
+- RESTful API endpoints for frontend communication
+
+## Frequently Asked Questions
+
+**Q: How do I book a trip?**
+A: Click on "Plan Trip" or "Booking", select your destination, dates, and number of travelers, then choose your preferred hotel and flight.
+
+**Q: Can I modify my booking?**
+A: Yes, you can modify unpaid bookings. Once paid, you may need to cancel and rebook.
+
+**Q: How do I cancel my booking?**
+A: Go to your booking history, select the booking, and click "Cancel Order". Cancellation fees may apply.
+
+**Q: What payment methods are accepted?**
+A: We accept major credit cards and bank transfers.
+
+**Q: How do I use a promo code?**
+A: Enter your promo code during checkout before completing payment.
+
+**Q: Can I select specific seats on the flight?**
+A: Yes, during the flight selection step, you can choose specific seats.
+
+**Q: How do I earn loyalty points?**
+A: You automatically earn points for every completed booking based on the total amount spent.
+
+**Q: Can I leave a review?**
+A: Yes, after your stay is completed, you can leave a review for the hotel from your booking history.
+
+**Q: How do I contact customer support?**
+A: Use the Contact form on our website, or email support@travelbooking.vn, or call 1900-xxxx.
+
+**Q: Is my personal information secure?**
+A: Yes, we use industry-standard encryption and never store plain-text passwords.
