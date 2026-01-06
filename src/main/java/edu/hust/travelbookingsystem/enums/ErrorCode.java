@@ -63,6 +63,14 @@ public enum ErrorCode {
     FLIGHT_NOT_FOUND(1051, "flight not found", HttpStatus.BAD_REQUEST),
     SEAT_COUNT_MISMATCH(1052, "number of seats must match number of people", HttpStatus.BAD_REQUEST),
     SEATS_NOT_AVAILABLE(1053, "selected seats are not available", HttpStatus.BAD_REQUEST),
+    HOTEL_CHECKIN_TOO_FAR_FROM_TOUR_START( 1054,
+            "Ngày check-in khách sạn phải nằm trong khoảng từ ngày bắt đầu tour đến tối đa 2 ngày sau ngày bắt đầu " +
+                    "tour.", HttpStatus.BAD_REQUEST),
+
+    HOTEL_CHECKOUT_TOO_FAR_FROM_TOUR_END( 1055,
+            "Ngày check-out khách sạn phải nằm trong khoảng từ tối đa 2 ngày trước ngày kết thúc tour đến ngày kết " +
+                    "thúc tour.", HttpStatus.BAD_REQUEST)
+
     ;
     private int code ;
     private String message;

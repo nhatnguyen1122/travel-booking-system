@@ -108,8 +108,8 @@ public class OrderController {
     }
     @GetMapping("/{id}")
     public ApiResponse<PageResponse> getOrderById(@PathVariable Long id,
-                                                @RequestParam(defaultValue = "0",required = false) int pageNo,
-                                                @RequestParam(defaultValue = "5",required = false) int pageSize) {
+                                                  @RequestParam(defaultValue = "0",required = false) int pageNo,
+                                                  @RequestParam(defaultValue = "5",required = false) int pageSize) {
         log.info("Start get order of user id = {}",id);
         try{
             PageResponse<?> orders = orderService.getOrdersByUserId(id,pageNo,pageSize);
@@ -121,8 +121,8 @@ public class OrderController {
     }
     @GetMapping("/getAllOrder")
     public ApiResponse<PageResponse> getAllOrder(@RequestParam(defaultValue = "0",required = false) int pageNo,
-                                                @RequestParam(defaultValue = "5",required = false) int pageSize,
-                                                @RequestParam(required = false) String sortBy) {
+                                                 @RequestParam(defaultValue = "5",required = false) int pageSize,
+                                                 @RequestParam(required = false) String sortBy) {
         log.info("Start get order : {}",pageNo);
         try{
             PageResponse<?> orders = orderService.getAllOrders(pageNo,pageSize,sortBy)  ;
@@ -134,12 +134,12 @@ public class OrderController {
     }
     @GetMapping("/getAllOrderWithMultipleColumns")
     public ApiResponse<PageResponse> getAllOrderWithSortByMultipleColums(@RequestParam(defaultValue = "0",required = false) int pageNo,
-                                                @RequestParam(defaultValue = "5",required = false) int pageSize,
-                                                @RequestParam(required = false) String... sort) {
+                                                                         @RequestParam(defaultValue = "5",required = false) int pageSize,
+                                                                         @RequestParam(required = false) String... sort) {
         log.info("Start get order with sort by multiple columns : ");
         try{
             PageResponse<?> orders = orderService.getAllOrdersByMultipleColumns(pageNo,pageSize,sort)  ;
-                return new ApiResponse<>(1000,"get success",orders);
+            return new ApiResponse<>(1000,"get success",orders);
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ApiResponse<>(7777,e.getMessage(),null);
@@ -147,9 +147,9 @@ public class OrderController {
     }
     @GetMapping("/getAllOrderWithMultipleColumnsWithSearch")
     public ApiResponse<PageResponse> getAllOrderWithSortByMultipleColumsAndSearch(@RequestParam(defaultValue = "0",required = false) int pageNo,
-                                                                        @RequestParam(defaultValue = "5",required = false) int pageSize,
-                                                                        @RequestParam( required = false) String search,
-                                                                        @RequestParam(required = false) String sortBy) {
+                                                                                  @RequestParam(defaultValue = "5",required = false) int pageSize,
+                                                                                  @RequestParam( required = false) String search,
+                                                                                  @RequestParam(required = false) String sortBy) {
         log.info("Start get order with sort by  columns and search : ");
         try{
             PageResponse<?> orders = orderService.getAllOrderWithSortByMultipleColumsAndSearch(pageNo,pageSize,search,sortBy)  ;
@@ -161,9 +161,9 @@ public class OrderController {
     }
     @GetMapping("/advance-search-by-criteria")
     public ApiResponse<PageResponse> advanceSearchByCriteria(@RequestParam(defaultValue = "0",required = false) int pageNo,
-                                                                                 @RequestParam(defaultValue = "5",required = false) int pageSize,
-                                                                                 @RequestParam( required = false) String sortBy,
-                                                                                 @RequestParam(required = false) String... search) {
+                                                             @RequestParam(defaultValue = "5",required = false) int pageSize,
+                                                             @RequestParam( required = false) String sortBy,
+                                                             @RequestParam(required = false) String... search) {
         log.info("Start search by criteria : ");
         try{
             PageResponse<?> orders = orderService.advanceSearchByCriteria(pageNo,pageSize,sortBy,search)  ;
@@ -184,15 +184,15 @@ public class OrderController {
     @PostMapping("/{orderId}/confirm-payment")
     public ApiResponse<Order> confirmOrder(@PathVariable Long orderId){
         ApiResponse apiResponse = new ApiResponse<>();
-       log.info("Start confirm payment order : {} ",orderId);
-       try{
-           apiResponse.setData(orderService.confirmPayment(orderId));
-           apiResponse.setMessage("confirm payment success");
-           return apiResponse;
-       } catch (Exception e) {
-           log.error(e.getMessage());
-           return new ApiResponse<>(7777,e.getMessage(),null);
-       }
+        log.info("Start confirm payment order : {} ",orderId);
+        try{
+            apiResponse.setData(orderService.confirmPayment(orderId));
+            apiResponse.setMessage("confirm payment success");
+            return apiResponse;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ApiResponse<>(7777,e.getMessage(),null);
+        }
     }
     @PostMapping("/{orderId}/verifying-payment")
     public ApiResponse<Order> verifyOrder(@PathVariable Long orderId){
