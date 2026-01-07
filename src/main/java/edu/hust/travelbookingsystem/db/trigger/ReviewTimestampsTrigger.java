@@ -14,8 +14,6 @@ public class ReviewTimestampsTrigger implements Trigger {
 
     @Override
     public void fire(Connection conn, Object[] oldRow, Object[] newRow) throws SQLException {
-        // reviews columns:
-        // 0=id, 1=rating, 2=comment, 3=created_at, 4=updated_at, 5=user_id, 6=hotel_id, 7=order_id
         Timestamp now = new Timestamp(System.currentTimeMillis());
 
         // Insert: oldRow == null

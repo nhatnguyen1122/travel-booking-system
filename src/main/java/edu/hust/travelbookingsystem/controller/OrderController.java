@@ -22,7 +22,7 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private OrderRepository orderRepository;
-    @PostMapping("/create/{id}") // id này là của user
+    @PostMapping("/create/{id}")
     public ApiResponse<Order> addOrder(@Valid  @RequestBody OrderDTO orderDTO,@PathVariable Long id) {
         log.info("Start add order of user id = {}",id);
         ApiResponse<Order> apiResponse = new ApiResponse<>();
@@ -30,7 +30,7 @@ public class OrderController {
         log.info("Add order successfully of user id = {}",id);
         return apiResponse;
     }
-    @PostMapping("/chooseHotel/{orderId}/{hotelId}") // id này là của id order dto
+    @PostMapping("/chooseHotel/{orderId}/{hotelId}")
     public ApiResponse<Order> chooseHotel(
             @PathVariable Long orderId,
             @PathVariable Long hotelId,
@@ -173,13 +173,6 @@ public class OrderController {
             return new ApiResponse<>(7777,e.getMessage(),null);
         }
     }
-//    @PostMapping("/pay/{tripId}")
-//    public  ApiResponse<Order> payOrder(@PathVariable Long tripId){
-//        ApiResponse apiResponse = new ApiResponse<>();
-//        apiResponse.setData(orderService.payOrderById(tripId));
-//        apiResponse.setMessage("pay success");
-//        return apiResponse;
-//    }
 
     @PostMapping("/{orderId}/confirm-payment")
     public ApiResponse<Order> confirmOrder(@PathVariable Long orderId){

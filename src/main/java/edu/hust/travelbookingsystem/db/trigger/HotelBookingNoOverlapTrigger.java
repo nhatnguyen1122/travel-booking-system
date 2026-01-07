@@ -18,8 +18,7 @@ public class HotelBookingNoOverlapTrigger implements Trigger {
 
     @Override
     public void fire(Connection conn, Object[] oldRow, Object[] newRow) throws SQLException {
-        // hotel_booking columns (per schema-h2.sql):
-        // 0=id, 1=order_id, 2=hotel_id, 3=hotel_bedroom_id, 4=start_date, 5=end_date
+
         if (newRow == null) return; // should not happen for BEFORE INSERT/UPDATE
 
         Long id = extractId(oldRow, newRow);

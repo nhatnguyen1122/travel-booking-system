@@ -12,8 +12,7 @@ public class FlightSeatsAvailabilityTrigger implements Trigger {
 
     @Override
     public void fire(Connection conn, Object[] oldRow, Object[] newRow) throws SQLException {
-        // flight_seats columns:
-        // 0=id, 1=flight_id, 2=seat_number, 3=is_booked, 4=order_id, 5=version
+
         Object[] row = (newRow != null) ? newRow : oldRow;
         long flightId = ((Number) row[1]).longValue();
 

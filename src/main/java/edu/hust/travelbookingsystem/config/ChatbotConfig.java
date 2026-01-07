@@ -101,7 +101,6 @@ public class ChatbotConfig {
             EmbeddingStoreIngestor ingestor,
             ChatbotTools chatbotTools) {
 
-        // Load and ingest knowledge base
         try {
             Resource resource = resourceLoader.getResource("classpath:knowledge/travel-booking-knowledge.txt");
             if (resource.exists()) {

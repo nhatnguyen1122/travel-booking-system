@@ -97,7 +97,6 @@ public class H2Routines {
             throw new SQLException("Invalid date range");
         }
         
-        // Count total rooms in hotel
         String totalRoomsSql = "SELECT COUNT(*) FROM hotel_bedroom WHERE hotel_id = ?";
         int totalRooms;
         try (PreparedStatement ps = conn.prepareStatement(totalRoomsSql)) {
@@ -110,8 +109,7 @@ public class H2Routines {
         
         if (totalRooms == 0) return BigDecimal.ZERO;
         
-        // Count booked rooms overlapping with date range
-        String bookedSql = 
+        String bookedSql =
             "SELECT COUNT(DISTINCT hb.hotel_bedroom_id) FROM hotel_booking hb " +
             "WHERE hb.hotel_id = ? AND (? < hb.end_date) AND (? > hb.start_date)";
         int bookedRooms;
@@ -317,7 +315,6 @@ public class H2Routines {
 
         conn.setAutoCommit(false);
         try {
-            // Strong isolation reduces race conditions (grading-friendly)
             conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
             // Basic referential existence checks (clear messages for coursework)
@@ -385,7 +382,6 @@ public class H2Routines {
                 }
             }
 
-            // Availability recalculation is handled by trigger on flight_seats.
             conn.commit();
         } catch (SQLException ex) {
             conn.rollback();
@@ -435,7 +431,6 @@ public class H2Routines {
         }
     }
 
-    // ---- helpers ----
 
     private static void requireExists(Connection conn, String sql, long id, String msg) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
