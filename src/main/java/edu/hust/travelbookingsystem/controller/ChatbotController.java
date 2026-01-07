@@ -1,5 +1,6 @@
 package edu.hust.travelbookingsystem.controller;
 
+import edu.hust.travelbookingsystem.model.ChatbotResponse;
 import edu.hust.travelbookingsystem.service.ChatbotService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,34 +33,30 @@ public class ChatbotController {
 
     /**
      * REST endpoint to process chat messages.
+     * Returns AI response with optional navigation actions.
      *
      * @param request Map containing the user's message
-     * @return AI-generated response
+     * @return ChatbotResponse with message and actions
      */
     @PostMapping("/api/chatbot/message")
     @ResponseBody
-    public ResponseEntity<ChatResponse> sendMessage(@RequestBody Map<String, String> request) {
+    public ResponseEntity<ChatbotResponse> sendMessage(@RequestBody Map<String, String> request) {
         String userMessage = request.get("message");
         log.info("Received chat message: {}", userMessage);
 
-        String response = chatbotService.processMessage(userMessage);
-        return ResponseEntity.ok(new ChatResponse(response, true));
+        ChatbotResponse response = chatbotService.processMessage(userMessage);
+        return ResponseEntity.ok(response);
     }
 
     /**
-     * REST endpoint to get welcome message.
+     * REST endpoint to get welcome message with quick actions.
      *
-     * @return Welcome message
+     * @return ChatbotResponse with welcome message and actions
      */
     @GetMapping("/api/chatbot/welcome")
     @ResponseBody
-    public ResponseEntity<ChatResponse> getWelcomeMessage() {
-        String welcomeMessage = chatbotService.getWelcomeMessage();
-        return ResponseEntity.ok(new ChatResponse(welcomeMessage, true));
+    public ResponseEntity<ChatbotResponse> getWelcomeMessage() {
+        ChatbotResponse response = chatbotService.getWelcomeMessage();
+        return ResponseEntity.ok(response);
     }
-
-    /**
-     * Response DTO for chat messages.
-     */
-    public record ChatResponse(String message, boolean success) {}
 }

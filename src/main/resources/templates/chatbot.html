@@ -94,7 +94,7 @@
 </main>
 
 <footer class="chatbot-footer">
-    <p>Powered by Mistral AI • Travel Booking System © 2024</p>
+    <p>Powered by Mistral AI with Tools & RAG • Travel Booking System © 2024</p>
 </footer>
 
 <script>
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const response = await fetch('/api/chatbot/welcome');
             const data = await response.json();
             if (data.success) {
-                addMessage(data.message, 'bot');
+                addMessage(data.message, 'bot', data.actions);
             }
         } catch (error) {
             console.error('Error loading welcome message:', error);
@@ -171,9 +171,9 @@ document.addEventListener('DOMContentLoaded', function() {
             typingIndicator.style.display = 'none';
 
             if (data.success) {
-                addMessage(data.message, 'bot');
+                addMessage(data.message, 'bot', data.actions);
             } else {
-                addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+                addMessage(data.message || 'Sorry, I encountered an error. Please try again.', 'bot', data.actions);
             }
         } catch (error) {
             console.error('Error sending message:', error);
@@ -182,8 +182,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Add message to chat
-    function addMessage(text, sender) {
+    // Add message to chat with optional actions
+    function addMessage(text, sender, actions) {
         const messageDiv = document.createElement('div');
         messageDiv.classList.add('message', sender);
         
@@ -212,6 +212,23 @@ document.addEventListener('DOMContentLoaded', function() {
             messageDiv.appendChild(content);
         }
         content.appendChild(time);
+
+        // Add action buttons if present
+        if (actions && actions.length > 0 && sender === 'bot') {
+            const actionsDiv = document.createElement('div');
+            actionsDiv.classList.add('message-actions');
+            
+            actions.forEach(action => {
+                const actionBtn = document.createElement('a');
+                actionBtn.href = action.url;
+                actionBtn.classList.add('action-btn', `action-${action.type}`);
+                actionBtn.innerHTML = `<i class="fas ${action.icon}"></i> ${action.label}`;
+                actionBtn.title = action.label;
+                actionsDiv.appendChild(actionBtn);
+            });
+            
+            content.appendChild(actionsDiv);
+        }
 
         chatMessages.appendChild(messageDiv);
         scrollToBottom();

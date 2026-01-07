@@ -10,75 +10,78 @@ import edu.hust.travelbookingsystem.model.response.PageResponse;
 import edu.hust.travelbookingsystem.repository.*;
 import edu.hust.travelbookingsystem.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
 public class OrderServiceImplementation implements OrderService {
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private HotelRepository hotelRepository;
-    @Autowired
-    private FlightRepository flightRepository;
-    @Autowired
-    private SearchRepository searchRepository;
-    @Autowired
-    private HotelBedroomRepository hotelBedroomRepository;
-    @Autowired
-    private HotelBookingRepository hotelBookingRepository;
-    @Autowired
-    private PayRepository payRepository;
-    @Autowired
-    private FlightSeatServiceImplementation flightSeatService;
 
-    /**
-     * Convert java.util.Date / java.sql.Date / Timestamp -> LocalDate
-     * để so sánh theo ngày (bỏ phần time), tránh lệch giờ gây before/after sai.
-     */
+    @Autowired private OrderRepository orderRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private HotelRepository hotelRepository;
+    @Autowired private FlightRepository flightRepository;
+    @Autowired private SearchRepository searchRepository;
+    @Autowired private HotelBedroomRepository hotelBedroomRepository;
+    @Autowired private HotelBookingRepository hotelBookingRepository;
+    @Autowired private PayRepository payRepository;
+    @Autowired private FlightSeatServiceImplementation flightSeatService;
+
+    // ---------------------------
+    // LocalDate helpers
+    // ---------------------------
     private static LocalDate toLocalDate(Date d) {
         if (d == null) return null;
         if (d instanceof java.sql.Date sd) return sd.toLocalDate();
+        if (d instanceof Timestamp ts) return ts.toLocalDateTime().toLocalDate();
         return d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
+    private static void requireNonNull(LocalDate d, ErrorCode code) {
+        if (d == null) throw new AppException(code);
+    }
+
+    private static boolean inRangeInclusive(LocalDate v, LocalDate start, LocalDate end) {
+        return v != null && !v.isBefore(start) && !v.isAfter(end);
+    }
+
+    /** value ∈ [base, base+1] */
+    private static void assertForwardMax1Day(LocalDate value, LocalDate base, ErrorCode code) {
+        if (!inRangeInclusive(value, base, base.plusDays(1))) throw new AppException(code);
+    }
+
+    /** base ∈ [value, value+1]  (dùng cho: tourEnd ∈ [fr, fr+1]) */
+    private static void assertBaseWithinNext1Day(LocalDate value, LocalDate base, ErrorCode code) {
+        if (!inRangeInclusive(base, value, value.plusDays(1))) throw new AppException(code);
+    }
+
+    // -------------------------------------------------
+    // Core business
+    // -------------------------------------------------
     @Override
     @Transactional
     public Order addOrder(OrderDTO orderDTO, Long userId) {
-        Order order = new Order();
-        if (!userRepository.existsById(userId)) {
-            throw new AppException(ErrorCode.USER_NOT_EXISTS);
-        }
-        // Check-in date must be in the future
-        if (orderDTO.getCheckInDate().before(new Date())) {
-            throw new AppException(ErrorCode.DATE_NOT_VALID);
-        }
-        // Check-in date must be before check-out date
-        if (!orderDTO.getCheckInDate().before(orderDTO.getCheckOutDate())) {
+        if (!userRepository.existsById(userId)) throw new AppException(ErrorCode.USER_NOT_EXISTS);
+
+        if (orderDTO.getCheckInDate().before(new Date())) throw new AppException(ErrorCode.DATE_NOT_VALID);
+
+        if (!orderDTO.getCheckInDate().before(orderDTO.getCheckOutDate()))
             throw new AppException(ErrorCode.DATE_TIME_NOT_VALID);
-        }
+
+        Order order = new Order();
         order.setDestination(orderDTO.getDestination());
         order.setNumberOfPeople(orderDTO.getNumberOfPeople());
         order.setCheckinDate(orderDTO.getCheckInDate());
         order.setCheckoutDate(orderDTO.getCheckOutDate());
-
-        User user = userRepository.findById(userId).get();
-        order.setUser(user);
+        order.setUser(userRepository.findById(userId).get());
 
         return orderRepository.save(order);
     }
@@ -86,62 +89,101 @@ public class OrderServiceImplementation implements OrderService {
     @Override
     @Transactional
     public Order chooseHotel(Long orderId, Long hotelId, OrderHotelDTO orderHotelDTO) {
-        // Tìm Hotel theo hotelId
         Hotel hotel = hotelRepository.findById(hotelId)
                 .orElseThrow(() -> new AppException(ErrorCode.HOTEL_NOT_FOUND));
 
-        // Tìm Order theo orderId
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
 
-        // Hotel start date must be on or after order check-in date
-        if (orderHotelDTO.getStartHotel().before(order.getCheckinDate())) {
-            throw new AppException(ErrorCode.DATE_INVALID);
+        LocalDate tourStart = toLocalDate(order.getCheckinDate());
+        LocalDate tourEnd   = toLocalDate(order.getCheckoutDate());
+        requireNonNull(tourStart, ErrorCode.DATE_TIME_NOT_VALID);
+        requireNonNull(tourEnd, ErrorCode.DATE_TIME_NOT_VALID);
+
+        LocalDate hotelIn  = toLocalDate(orderHotelDTO.getStartHotel());
+        LocalDate hotelOut = toLocalDate(orderHotelDTO.getEndHotel());
+        requireNonNull(hotelIn, ErrorCode.DATE_TIME_NOT_VALID);
+        requireNonNull(hotelOut, ErrorCode.DATE_TIME_NOT_VALID);
+
+        // basic ranges (existing behavior)
+        if (!hotelIn.isBefore(hotelOut)) throw new AppException(ErrorCode.HOTEL_END_DATE_INVALID);
+        if (hotelIn.isBefore(tourStart)) throw new AppException(ErrorCode.DATE_INVALID);
+        if (hotelOut.isAfter(tourEnd))   throw new AppException(ErrorCode.HOTEL_DATE_EXCEEDS_CHECKOUT);
+
+        // ✅ STRICT PROXIMITY FEASIBILITY (KHÔNG query flight)
+        // Inbound: hotelIn <= tourStart + 2
+        if (hotelIn.isAfter(tourStart.plusDays(2))) {
+            throw new AppException(ErrorCode.HOTEL_CHECKIN_TOO_FAR_FROM_TOUR_START);
+        }
+        // Outbound: hotelOut >= tourEnd - 2
+        if (hotelOut.isBefore(tourEnd.minusDays(2))) {
+            throw new AppException(ErrorCode.HOTEL_CHECKOUT_TOO_FAR_FROM_TOUR_END);
         }
 
-        // Hotel end date must be after hotel start date
-        if (!orderHotelDTO.getStartHotel().before(orderHotelDTO.getEndHotel())) {
-            throw new AppException(ErrorCode.HOTEL_END_DATE_INVALID);
+        // If already selected a flight -> validate strict chain fully
+        Flight existingFlight = order.getFlight();
+        if (existingFlight != null) {
+            LocalDate fd = toLocalDate(existingFlight.getCheckInDate());
+            LocalDate fr = toLocalDate(existingFlight.getCheckOutDate());
+            requireNonNull(fd, ErrorCode.NOT_VALID_FLIGHT_DATE);
+            requireNonNull(fr, ErrorCode.NOT_VALID_FLIGHT_DATE);
+
+            // TourStart vs FlightDepart: fd ∈ [tourStart, tourStart+1]
+            assertForwardMax1Day(fd, tourStart, ErrorCode.NOT_VALID_FLIGHT_DATE);
+
+            // FlightDepart vs HotelCheckin: hotelIn ∈ [fd, fd+1]
+            assertForwardMax1Day(hotelIn, fd, ErrorCode.DATE_INVALID);
+
+            // HotelCheckout vs FlightReturn: fr ∈ [hotelOut, hotelOut+1]
+            if (!inRangeInclusive(fr, hotelOut, hotelOut.plusDays(1))) {
+                throw new AppException(ErrorCode.NOT_VALID_FLIGHT_DATE);
+            }
+
+            // FlightReturn vs TourEnd: tourEnd ∈ [fr, fr+1]
+            assertBaseWithinNext1Day(fr, tourEnd, ErrorCode.FLIGHT_DATE_EXCEEDS_CHECKOUT);
         }
 
-        // Hotel end date must not exceed order check-out date
-        if (orderHotelDTO.getEndHotel().after(order.getCheckoutDate())) {
-            throw new AppException(ErrorCode.HOTEL_DATE_EXCEEDS_CHECKOUT);
-        }
-
+        // set into order
         order.setHotel(hotel);
         order.setStartHotel(orderHotelDTO.getStartHotel());
         order.setEndHotel(orderHotelDTO.getEndHotel());
 
-        String listBedrooms = "";
+        // bookings + price
+        StringBuilder bedroomsStr = new StringBuilder();
         double totalPrice = 0;
-        for (HotelBedroom hotelBedroom : orderHotelDTO.getHotelBedroomList()) {
-            // kiem tra co bi chong cheo lich khong
-            List<HotelBooking> hotelBookings = hotelBookingRepository.findOverLappingBookings(
-                    hotelId,
-                    hotelBedroom.getId(),
-                    orderHotelDTO.getStartHotel(),
-                    orderHotelDTO.getEndHotel()
-            );
-            if (!hotelBookings.isEmpty()) {
-                throw new AppException(ErrorCode.HOTEL_BEDROOM_NOT_AVAILABLE);
+
+        for (HotelBedroom hbRequest : orderHotelDTO.getHotelBedroomList()) {
+            Long bedroomId = hbRequest.getId();
+            if (bedroomId == null) continue;
+
+            HotelBedroom bedroom = hotelBedroomRepository.findById(bedroomId)
+                    .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTS));
+
+            if (bedroom.getHotel() == null || bedroom.getHotel().getId() == null
+                    || !bedroom.getHotel().getId().equals(hotelId)) {
+                throw new AppException(ErrorCode.NOT_EXISTS);
             }
 
-            HotelBooking hotelBooking = new HotelBooking();
-            hotelBooking.setHotel(hotel);
-            hotelBooking.setHotelBedroom(hotelBedroom);
-            hotelBooking.setOrder(order);
-            hotelBooking.setStartDate(orderHotelDTO.getStartHotel());
-            hotelBooking.setEndDate(orderHotelDTO.getEndHotel());
+            List<HotelBooking> overlaps = hotelBookingRepository.findOverLappingBookings(
+                    hotelId, bedroomId, orderHotelDTO.getStartHotel(), orderHotelDTO.getEndHotel()
+            );
+            if (!overlaps.isEmpty()) throw new AppException(ErrorCode.HOTEL_BEDROOM_NOT_AVAILABLE);
 
-            // save data
-            hotelBookingRepository.save(hotelBooking);
-            listBedrooms += hotelBedroom.getRoomNumber() + " ";
-            totalPrice += hotelBedroom.getPrice();
+            HotelBooking booking = new HotelBooking();
+            booking.setHotel(hotel);
+            booking.setHotelBedroom(bedroom);
+            booking.setOrder(order);
+            booking.setStartDate(orderHotelDTO.getStartHotel());
+            booking.setEndDate(orderHotelDTO.getEndHotel());
+            hotelBookingRepository.save(booking);
+
+            bedroomsStr.append(bedroom.getRoomNumber()).append(" ");
+            totalPrice += bedroom.getPrice();
         }
-        order.setListBedrooms(listBedrooms);
-        // tính tiền
+
+        order.setListBedrooms(bedroomsStr.toString().trim());
         order.setTotalPrice(order.getTotalPrice() + totalPrice);
+
         return orderRepository.save(order);
     }
 
@@ -160,37 +202,50 @@ public class OrderServiceImplementation implements OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
 
-        // ✅ So sánh theo LocalDate để cho phép trùng ngày check-in (>=) và tránh lệch time
-        LocalDate flightDate = toLocalDate(flight.getCheckInDate());
-        LocalDate orderCheckIn = toLocalDate(order.getCheckinDate());
-        LocalDate orderCheckOut = toLocalDate(order.getCheckoutDate());
+        LocalDate tourStart = toLocalDate(order.getCheckinDate());
+        LocalDate tourEnd   = toLocalDate(order.getCheckoutDate());
+        requireNonNull(tourStart, ErrorCode.DATE_TIME_NOT_VALID);
+        requireNonNull(tourEnd, ErrorCode.DATE_TIME_NOT_VALID);
 
-        // Flight date must be on or after order check-in date (allow equal)
-        if (flightDate.isBefore(orderCheckIn)) {
-            throw new AppException(ErrorCode.NOT_VALID_FLIGHT_DATE);
+        LocalDate fd = toLocalDate(flight.getCheckInDate());
+        LocalDate fr = toLocalDate(flight.getCheckOutDate());
+        requireNonNull(fd, ErrorCode.NOT_VALID_FLIGHT_DATE);
+        requireNonNull(fr, ErrorCode.NOT_VALID_FLIGHT_DATE);
+
+        // ✅ Strict constraints (Arrival)
+        assertForwardMax1Day(fd, tourStart, ErrorCode.NOT_VALID_FLIGHT_DATE);
+
+        // ✅ Strict constraints (Return): tourEnd ∈ [fr, fr+1]
+        assertBaseWithinNext1Day(fr, tourEnd, ErrorCode.FLIGHT_DATE_EXCEEDS_CHECKOUT);
+
+        // If hotel already selected, validate strict chain with hotel
+        LocalDate hotelIn  = toLocalDate(order.getStartHotel());
+        LocalDate hotelOut = toLocalDate(order.getEndHotel());
+
+        if (hotelIn != null && hotelOut != null) {
+            // hotelIn ∈ [fd, fd+1]
+            assertForwardMax1Day(hotelIn, fd, ErrorCode.DATE_INVALID);
+
+            // fr ∈ [hotelOut, hotelOut+1]
+            if (!inRangeInclusive(fr, hotelOut, hotelOut.plusDays(1))) {
+                throw new AppException(ErrorCode.NOT_VALID_FLIGHT_DATE);
+            }
         }
 
-        // Flight date must not exceed order check-out date (allow equal)
-        if (flightDate.isAfter(orderCheckOut)) {
-            throw new AppException(ErrorCode.FLIGHT_DATE_EXCEEDS_CHECKOUT);
-        }
-
-        // Check if enough seats are available
+        // seats
         if (flight.getSeatAvailable() < order.getNumberOfPeople()) {
             throw new AppException(ErrorCode.NOT_ENOUGH_SEATS);
         }
 
-        flight.setSeatAvailable(flight.getSeatAvailable() - order.getNumberOfPeople());// cập nhật số ghế thừa
+        flight.setSeatAvailable(flight.getSeatAvailable() - order.getNumberOfPeople());
         order.setFlight(flight);
-        // tính tiền
+
         order.setTotalPrice(order.getTotalPrice() + order.getNumberOfPeople() * flight.getPrice());
-        // xác nhận tình trạng thanh toán
         order.setPayment(payRepository.findByStatus(PaymentStatus.UNPAID)
                 .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_UNPAID_NOT_EXISTS)));
 
         flightRepository.save(flight);
-        orderRepository.save(order);
-        return order;
+        return orderRepository.save(order);
     }
 
     @Override
@@ -202,46 +257,51 @@ public class OrderServiceImplementation implements OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
 
-        // ✅ So sánh theo LocalDate để cho phép trùng ngày check-in (>=) và tránh lệch time
-        LocalDate flightDate = toLocalDate(flight.getCheckInDate());
-        LocalDate orderCheckIn = toLocalDate(order.getCheckinDate());
-        LocalDate orderCheckOut = toLocalDate(order.getCheckoutDate());
+        LocalDate tourStart = toLocalDate(order.getCheckinDate());
+        LocalDate tourEnd   = toLocalDate(order.getCheckoutDate());
+        requireNonNull(tourStart, ErrorCode.DATE_TIME_NOT_VALID);
+        requireNonNull(tourEnd, ErrorCode.DATE_TIME_NOT_VALID);
 
-        // Flight date must be on or after order check-in date (allow equal)
-        if (flightDate.isBefore(orderCheckIn)) {
-            throw new AppException(ErrorCode.NOT_VALID_FLIGHT_DATE);
+        LocalDate fd = toLocalDate(flight.getCheckInDate());
+        LocalDate fr = toLocalDate(flight.getCheckOutDate());
+        requireNonNull(fd, ErrorCode.NOT_VALID_FLIGHT_DATE);
+        requireNonNull(fr, ErrorCode.NOT_VALID_FLIGHT_DATE);
+
+        // strict
+        assertForwardMax1Day(fd, tourStart, ErrorCode.NOT_VALID_FLIGHT_DATE);
+        assertBaseWithinNext1Day(fr, tourEnd, ErrorCode.FLIGHT_DATE_EXCEEDS_CHECKOUT);
+
+        LocalDate hotelIn  = toLocalDate(order.getStartHotel());
+        LocalDate hotelOut = toLocalDate(order.getEndHotel());
+        if (hotelIn != null && hotelOut != null) {
+            assertForwardMax1Day(hotelIn, fd, ErrorCode.DATE_INVALID);
+            if (!inRangeInclusive(fr, hotelOut, hotelOut.plusDays(1))) {
+                throw new AppException(ErrorCode.NOT_VALID_FLIGHT_DATE);
+            }
         }
 
-        // Flight date must not exceed order check-out date (allow equal)
-        if (flightDate.isAfter(orderCheckOut)) {
-            throw new AppException(ErrorCode.FLIGHT_DATE_EXCEEDS_CHECKOUT);
-        }
-
-        // Validate seat count matches number of people
         if (seatNumbers.size() != order.getNumberOfPeople()) {
             throw new AppException(ErrorCode.SEAT_COUNT_MISMATCH);
         }
 
-        // Attempt to book seats
         boolean seatsBooked = flightSeatService.bookSeats(flight, order, seatNumbers);
         if (!seatsBooked) {
             throw new AppException(ErrorCode.SEATS_NOT_AVAILABLE);
         }
 
-        // Update flight available seats count
+        if (flight.getSeatAvailable() < order.getNumberOfPeople()) {
+            throw new AppException(ErrorCode.NOT_ENOUGH_SEATS);
+        }
+
         flight.setSeatAvailable(flight.getSeatAvailable() - order.getNumberOfPeople());
         order.setFlight(flight);
 
-        // Calculate total price
         order.setTotalPrice(order.getTotalPrice() + order.getNumberOfPeople() * flight.getPrice());
-
-        // Set payment status
         order.setPayment(payRepository.findByStatus(PaymentStatus.UNPAID)
                 .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_UNPAID_NOT_EXISTS)));
 
         flightRepository.save(flight);
-        orderRepository.save(order);
-        return order;
+        return orderRepository.save(order);
     }
 
     @Override
@@ -250,10 +310,9 @@ public class OrderServiceImplementation implements OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
         hotelBookingRepository.deleteByOrderId(orderId);
-        // Restore flight seats only if a flight was booked
+
         Flight flight = order.getFlight();
         if (flight != null) {
-            // Release individual seats
             flightSeatService.releaseSeats(orderId);
             flight.setSeatAvailable(flight.getSeatAvailable() + order.getNumberOfPeople());
             flightRepository.save(flight);
@@ -268,16 +327,13 @@ public class OrderServiceImplementation implements OrderService {
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
         Flight flight = order.getFlight();
         if (flight != null) {
-            // Release individual seats
             flightSeatService.releaseSeats(orderId);
-            // Restore seats and subtract flight cost from total
             flight.setSeatAvailable(flight.getSeatAvailable() + order.getNumberOfPeople());
             order.setTotalPrice(order.getTotalPrice() - order.getNumberOfPeople() * flight.getPrice());
             flightRepository.save(flight);
         }
         order.setFlight(null);
-        orderRepository.save(order);
-        return order;
+        return orderRepository.save(order);
     }
 
     @Override
@@ -300,21 +356,17 @@ public class OrderServiceImplementation implements OrderService {
     @Transactional(readOnly = true)
     public PageResponse getAllOrders(int pageNo, int pageSize, String sortBy) {
         List<Sort.Order> sorts = new ArrayList<>();
-        // xu ly sort by
         if (StringUtils.hasLength(sortBy)) {
-            // orderDate:asc|desc
             Pattern pattern = Pattern.compile("(\\w+?)(:)(.*)");
             Matcher matcher = pattern.matcher(sortBy);
             if (matcher.find()) {
-                if (matcher.group(3).equalsIgnoreCase("asc")) {
-                    sorts.add(new Sort.Order(Sort.Direction.ASC, matcher.group(1)));
-                } else {
-                    sorts.add(new Sort.Order(Sort.Direction.DESC, matcher.group(1)));
-                }
+                sorts.add(new Sort.Order(
+                        matcher.group(3).equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC,
+                        matcher.group(1)
+                ));
             }
-
         }
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sorts)); // phan trang co sap xep
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sorts));
         Page<Order> orders = orderRepository.findAll(pageable);
 
         return PageResponse.builder()
@@ -330,19 +382,16 @@ public class OrderServiceImplementation implements OrderService {
     public PageResponse getAllOrdersByMultipleColumns(int pageNo, int pageSize, String... sorts) {
         List<Sort.Order> ordersSort = new ArrayList<>();
         for (String sortBy : sorts) {
-            // orderDate:asc|desc
             Pattern pattern = Pattern.compile("(\\w+?)(:)(.*)");
             Matcher matcher = pattern.matcher(sortBy);
             if (matcher.find()) {
-                if (matcher.group(3).equalsIgnoreCase("asc")) {
-                    ordersSort.add(new Sort.Order(Sort.Direction.ASC, matcher.group(1)));
-                } else {
-                    ordersSort.add(new Sort.Order(Sort.Direction.DESC, matcher.group(1)));
-                }
+                ordersSort.add(new Sort.Order(
+                        matcher.group(3).equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC,
+                        matcher.group(1)
+                ));
             }
         }
-
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(ordersSort)); // phan trang co sap xep
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(ordersSort));
         Page<Order> orders = orderRepository.findAll(pageable);
 
         return PageResponse.builder()
