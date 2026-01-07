@@ -7,8 +7,6 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-    <!-- CSS tách ra -->
     <link rel="stylesheet" href="/css/home.css">
 </head>
 
@@ -52,7 +50,6 @@
         <p>New journeys are waiting for you</p>
     </div>
 
-    <!-- ✅ Replaced booking form with a clean CTA -->
     <div class="booking-cta">
         <button type="button" class="btn-start-booking" id="go-booking-btn">
             Start Booking <i class="fas fa-arrow-right"></i>
@@ -75,7 +72,6 @@
     </div>
 
     <div class="grid-container">
-        <!-- ✅ Click card -> booking + prefill -->
         <div class="card js-booking-card" data-destination="Wakehurst Forest, UK">
             <a href="booking" class="js-booking-link">
                 <img src="/images/dia-diem-hampshire-anh.jpg" alt="">
@@ -135,7 +131,6 @@
                 </div>
                 <div class="price">$78.00 <span>$120.00</span></div>
 
-                <!-- ✅ Book Now -> booking + prefill -->
                 <a href="booking" class="btn-book js-package-book" data-destination="The United Kingdom">Book Now</a>
             </div>
         </div>
@@ -245,80 +240,78 @@
     </div>
 </section>
 
-<!-- Floating Chatbot Button -->
 <a href="/chatbot" class="chatbot-floating-btn" title="AI Travel Assistant">
     <i class="fas fa-robot"></i>
     <span class="chat-tooltip">Need help? Ask AI!</span>
 </a>
 
 <style>
-.chatbot-floating-btn {
-    position: fixed;
-    bottom: 100px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.5rem;
-    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
-    z-index: 9999;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    animation: pulse 2s infinite;
-}
-
-.chatbot-floating-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 30px rgba(59, 130, 246, 0.6);
-}
-
-.chatbot-floating-btn:hover .chat-tooltip {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-10px);
-}
-
-.chat-tooltip {
-    position: absolute;
-    right: 70px;
-    background: #1e293b;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-.chat-tooltip::after {
-    content: '';
-    position: absolute;
-    right: -6px;
-    top: 50%;
-    transform: translateY(-50%);
-    border: 6px solid transparent;
-    border-left-color: #1e293b;
-}
-
-@keyframes pulse {
-    0%, 100% {
+    .chatbot-floating-btn {
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
         box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+        z-index: 9999;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        animation: pulse 2s infinite;
     }
-    50% {
-        box-shadow: 0 4px 30px rgba(59, 130, 246, 0.7);
+
+    .chatbot-floating-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 30px rgba(59, 130, 246, 0.6);
     }
-}
+
+    .chatbot-floating-btn:hover .chat-tooltip {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-10px);
+    }
+
+    .chat-tooltip {
+        position: absolute;
+        right: 70px;
+        background: #1e293b;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .chat-tooltip::after {
+        content: '';
+        position: absolute;
+        right: -6px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 6px solid transparent;
+        border-left-color: #1e293b;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+        }
+        50% {
+            box-shadow: 0 4px 30px rgba(59, 130, 246, 0.7);
+        }
+    }
 </style>
 
-<!-- ✅ JS tách hoàn toàn ra ngoài -->
 <script src="/js/home.js"></script>
 
 </body>
