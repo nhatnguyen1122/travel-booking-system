@@ -39,8 +39,7 @@ INSERT INTO hotels (hotel_name, hotel_price, address, number_floor) VALUES
 ('Vinpearl Resort Da Nang', 2500000, 'Da Nang', 25),
 ('Furama Resort Da Nang', 3200000, 'Da Nang', 20),
 ('Hyatt Regency Da Nang', 2800000, 'Da Nang', 18),
-('Sheraton Grand Da Nang', 2200000, 'Da Nang', 22),
-('Hust Da Nang', 99999999, 'Da Nang', 50);
+('Sheraton Grand Da Nang', 3300000, 'Da Nang', 22);
 
 -- Nha Trang Hotels (IDs: 5-8)
 INSERT INTO hotels (hotel_name, hotel_price, address, number_floor) VALUES
