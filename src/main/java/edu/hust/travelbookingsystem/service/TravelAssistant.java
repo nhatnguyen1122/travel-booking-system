@@ -5,7 +5,6 @@ import dev.langchain4j.service.UserMessage;
 
 /**
  * AI-powered Travel Assistant interface that uses LangChain4j
- * to provide intelligent responses about the travel booking system.
  */
 public interface TravelAssistant {
 

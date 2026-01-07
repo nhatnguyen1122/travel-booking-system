@@ -62,7 +62,6 @@ public class Review {
     @JsonIgnore
     private Order order;
 
-    // Helper method to get hotel name for JSON serialization
     public String getHotelName() {
         return hotel != null ? hotel.getHotelName() : null;
     }

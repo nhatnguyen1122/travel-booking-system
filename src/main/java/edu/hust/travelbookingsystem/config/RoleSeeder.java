@@ -76,15 +76,12 @@ public class RoleSeeder implements ApplicationRunner {
     @Transactional
     public void run(ApplicationArguments args) throws Exception {
         if (roleRepository.count() == 0) {
-            // Tạo và lưu role USER
             Role userRole = new Role(RoleCode.USER);
             roleRepository.save(userRole);
 
-            // Tạo và lưu role ADMIN
             Role adminRole = new Role(RoleCode.ADMIN);
             roleRepository.save(adminRole);
 
-            // Tạo và lưu user admin
             LocalDate localDate = LocalDate.of(2000, 10, 10);
             Date birthday = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
@@ -92,7 +89,6 @@ public class RoleSeeder implements ApplicationRunner {
             adminUser.setRole(adminRole);
             userRepository.save(adminUser);
         } else {
-            // Nếu bảng roles đã có dữ liệu, kiểm tra và tạo user admin nếu chưa tồn tại
             Role adminRole = roleRepository.findByRoleCode(RoleCode.ADMIN)
                     .orElseThrow(() -> new RuntimeException("Role ADMIN not found"));
 

@@ -29,7 +29,7 @@ public class FlightSeat {
     private Flight flight;
 
     @Column(nullable = false, length = 10)
-    private String seatNumber; // e.g., "1A", "2B", "15C"
+    private String seatNumber;
 
     @Column(nullable = false)
     private Boolean isBooked = false;
@@ -40,5 +40,5 @@ public class FlightSeat {
     private Order order;
 
     @Version
-    private Long version; // For optimistic locking to prevent double booking
+    private Long version;
 }
