@@ -41,8 +41,7 @@ public class HotelBookingNoOverlapTrigger implements Trigger {
                         (id == null ? "" : "  AND hb.id <> ?");
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            int i = 0;
-            i = 1;
+            int i = 1;
             ps.setLong(i++, hotelId);
             ps.setLong(i++, bedroomId);
 
@@ -51,8 +50,7 @@ public class HotelBookingNoOverlapTrigger implements Trigger {
             ps.setDate(i++, java.sql.Date.valueOf(end));
 
             if (id != null) {
-
-
+                
                 ps.setLong(i, id);
             }
 
