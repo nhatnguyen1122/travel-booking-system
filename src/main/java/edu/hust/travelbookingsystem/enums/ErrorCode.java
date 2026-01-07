@@ -37,7 +37,7 @@ public enum ErrorCode {
     BODY_NOT_BLANK(1028,"body can not blank", HttpStatus.BAD_REQUEST),
     HOTEL_END_DATE_INVALID(1031,"Hotel end date must be after start date", HttpStatus.BAD_REQUEST),
     HOTEL_DATE_EXCEEDS_CHECKOUT(1032,"Hotel stay cannot exceed order checkout date", HttpStatus.BAD_REQUEST),
-    FLIGHT_DATE_EXCEEDS_CHECKOUT(1033,"Flight date cannot be after order checkout date", HttpStatus.BAD_REQUEST),
+    FLIGHT_DATE_EXCEEDS_CHECKOUT(1033,"Flight return date must align with tour end date (within 1 day)", HttpStatus.BAD_REQUEST),
     NOT_ENOUGH_SEATS(1034,"Not enough seats available on this flight", HttpStatus.BAD_REQUEST),
 
     // Room Management
@@ -69,9 +69,7 @@ public enum ErrorCode {
 
     HOTEL_CHECKOUT_TOO_FAR_FROM_TOUR_END( 1055,
             "Ngày check-out khách sạn phải nằm trong khoảng từ tối đa 2 ngày trước ngày kết thúc tour đến ngày kết " +
-                    "thúc tour.", HttpStatus.BAD_REQUEST)
-
-    ;
+                    "thúc tour.", HttpStatus.BAD_REQUEST);
     private int code ;
     private String message;
     private HttpStatusCode httpStatusCode;

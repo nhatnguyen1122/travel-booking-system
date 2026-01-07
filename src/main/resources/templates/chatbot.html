@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Travel Assistant | HUST ONEFUTURE</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/css/chatbot.css">
+</head>
+
+<body class="hust-chatbot-page">
+
+<header>
+    <a href="/home" class="logo"><span>HUST</span>ONEFUTURE</a>
+
+    <nav class="bar">
+        <a href="/home">Home</a>
+        <a href="/booking">Booking</a>
+        <a href="/hotel">Hotels</a>
+        <a href="/flight">Flights</a>
+        <a href="/trending">Trending</a>
+        <a href="/news">News</a>
+        <a href="/package">Packages</a>
+        <a href="/services">Services</a>
+        <a href="/gallery">Gallery</a>
+        <a href="/review">Reviews</a>
+        <a href="/contact">Contact</a>
+        <a href="/chatbot" class="indam">AI Assistant</a>
+    </nav>
+
+    <div class="icons">
+        <i class="fas fa-user" id="user-icon"></i>
+        <div id="user-menu" class="dropdown-menu">
+            <a href="/profile">My Profile</a>
+            <a href="/user">Logout</a>
+        </div>
+    </div>
+</header>
+
+<main class="chatbot-main">
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <div class="chatbot-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="chatbot-info">
+                <h2>AI Travel Assistant</h2>
+                <span class="status online">● Online</span>
+            </div>
+            <button id="clear-chat" class="btn-clear" title="Clear chat">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </div>
+
+        <div class="chatbot-messages" id="chatMessages">
+            <!-- Messages will be dynamically added here -->
+        </div>
+
+        <div class="chatbot-input-area">
+            <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <form id="chatForm" class="chat-form">
+                <input type="text" 
+                       id="userInput" 
+                       placeholder="Ask me anything about travel booking..." 
+                       autocomplete="off"
+                       required>
+                <button type="submit" id="sendBtn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="quick-actions">
+            <button class="quick-btn" data-message="What destinations do you offer?">
+                <i class="fas fa-map-marker-alt"></i> Destinations
+            </button>
+            <button class="quick-btn" data-message="How do I book a flight?">
+                <i class="fas fa-plane"></i> Book Flight
+            </button>
+            <button class="quick-btn" data-message="Tell me about the loyalty program">
+                <i class="fas fa-gift"></i> Loyalty Program
+            </button>
+            <button class="quick-btn" data-message="What are the current promotions?">
+                <i class="fas fa-tags"></i> Promotions
+            </button>
+        </div>
+    </div>
+</main>
+
+<footer class="chatbot-footer">
+    <p>Powered by Mistral AI with Tools & RAG • Travel Booking System © 2024</p>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatMessages = document.getElementById('chatMessages');
+    const chatForm = document.getElementById('chatForm');
+    const userInput = document.getElementById('userInput');
+    const typingIndicator = document.getElementById('typingIndicator');
+    const clearChatBtn = document.getElementById('clear-chat');
+    const quickBtns = document.querySelectorAll('.quick-btn');
+
+    // Load welcome message on page load
+    loadWelcomeMessage();
+
+    // Handle form submission
+    chatForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const message = userInput.value.trim();
+        if (message) {
+            sendMessage(message);
+            userInput.value = '';
+        }
+    });
+
+    // Handle quick action buttons
+    quickBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const message = this.getAttribute('data-message');
+            sendMessage(message);
+        });
+    });
+
+    // Clear chat
+    clearChatBtn.addEventListener('click', function() {
+        chatMessages.innerHTML = '';
+        loadWelcomeMessage();
+    });
+
+    // Load welcome message
+    async function loadWelcomeMessage() {
+        try {
+            const response = await fetch('/api/chatbot/welcome');
+            const data = await response.json();
+            if (data.success) {
+                addMessage(data.message, 'bot', data.actions);
+            }
+        } catch (error) {
+            console.error('Error loading welcome message:', error);
+            addMessage('Hello! How can I help you with your travel plans today?', 'bot');
+        }
+    }
+
+    // Send message to API
+    async function sendMessage(message) {
+        // Add user message to chat
+        addMessage(message, 'user');
+        
+        // Show typing indicator
+        typingIndicator.style.display = 'flex';
+        scrollToBottom();
+
+        try {
+            const response = await fetch('/api/chatbot/message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: message })
+            });
+
+            const data = await response.json();
+            
+            // Hide typing indicator
+            typingIndicator.style.display = 'none';
+
+            if (data.success) {
+                addMessage(data.message, 'bot', data.actions);
+            } else {
+                addMessage(data.message || 'Sorry, I encountered an error. Please try again.', 'bot', data.actions);
+            }
+        } catch (error) {
+            console.error('Error sending message:', error);
+            typingIndicator.style.display = 'none';
+            addMessage('Sorry, I\'m having trouble connecting. Please try again later.', 'bot');
+        }
+    }
+
+    // Add message to chat with optional actions
+    function addMessage(text, sender, actions) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', sender);
+        
+        const avatar = document.createElement('div');
+        avatar.classList.add('avatar');
+        avatar.innerHTML = sender === 'bot' 
+            ? '<i class="fas fa-robot"></i>' 
+            : '<i class="fas fa-user"></i>';
+
+        const content = document.createElement('div');
+        content.classList.add('content');
+        
+        // Format the message (handle newlines and basic markdown)
+        const formattedText = formatMessage(text);
+        content.innerHTML = formattedText;
+
+        const time = document.createElement('span');
+        time.classList.add('time');
+        time.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        if (sender === 'user') {
+            messageDiv.appendChild(content);
+            messageDiv.appendChild(avatar);
+        } else {
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(content);
+        }
+        content.appendChild(time);
+
+        // Add action buttons if present
+        if (actions && actions.length > 0 && sender === 'bot') {
+            const actionsDiv = document.createElement('div');
+            actionsDiv.classList.add('message-actions');
+            
+            actions.forEach(action => {
+                const actionBtn = document.createElement('a');
+                actionBtn.href = action.url;
+                actionBtn.classList.add('action-btn', `action-${action.type}`);
+                actionBtn.innerHTML = `<i class="fas ${action.icon}"></i> ${action.label}`;
+                actionBtn.title = action.label;
+                actionsDiv.appendChild(actionBtn);
+            });
+            
+            content.appendChild(actionsDiv);
+        }
+
+        chatMessages.appendChild(messageDiv);
+        scrollToBottom();
+    }
+
+    // Format message text
+    function formatMessage(text) {
+        // Convert newlines to <br>
+        let formatted = text.replace(/\n/g, '<br>');
+        // Convert **bold** to <strong>
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        // Convert *italic* to <em>
+        formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        // Convert bullet points
+        formatted = formatted.replace(/• /g, '&bull; ');
+        return formatted;
+    }
+
+    // Scroll to bottom of messages
+    function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // User dropdown toggle
+    const userIcon = document.getElementById('user-icon');
+    const userMenu = document.getElementById('user-menu');
+    
+    if (userIcon && userMenu) {
+        userIcon.addEventListener('click', function() {
+            userMenu.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!userIcon.contains(e.target) && !userMenu.contains(e.target)) {
+                userMenu.classList.remove('show');
+            }
+        });
+    }
+});
+</script>
+
+</body>
+</html>

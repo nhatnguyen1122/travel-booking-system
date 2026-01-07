@@ -494,7 +494,6 @@ body.hust-profile-page .btn-submit-review:hover {
 /* Responsive */
 @media (max-width: 1200px) {
   body.hust-profile-page header { padding: 1rem 2rem; }
-  body.hust-profile-page header .bar { display: none; }
 }
 
 @media (max-width: 768px) {

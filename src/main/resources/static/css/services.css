@@ -49,6 +49,23 @@ body.hust-services-page header .logo span { color: var(--primary); }
 body.hust-services-page header .bar {
   display: flex;
   gap: 15px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+}
+
+body.hust-services-page header .bar::-webkit-scrollbar {
+  height: 4px;
+}
+
+body.hust-services-page header .bar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body.hust-services-page header .bar::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
 }
 
 body.hust-services-page header .bar a {
@@ -61,6 +78,22 @@ body.hust-services-page header .bar a {
 body.hust-services-page header .bar a:hover,
 body.hust-services-page header .bar a.indam {
   color: var(--primary);
+}
+
+/* AI Assistant Link in navbar */
+body.hust-services-page header .bar a.ai-assistant-link {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: var(--white);
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+body.hust-services-page header .bar a.ai-assistant-link:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: scale(1.05);
 }
 
 body.hust-services-page header .icons {
@@ -204,5 +237,4 @@ body.hust-services-page .footer-col p {
 /* Responsive */
 @media (max-width: 1200px) {
   body.hust-services-page header { padding: 1rem 2rem; }
-  body.hust-services-page header .bar { display: none; }
 }

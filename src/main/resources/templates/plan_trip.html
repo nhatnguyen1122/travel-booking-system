@@ -29,6 +29,7 @@
         <a href="review">Reviews</a>
         <a href="contact">Contact</a>
         <a href="plan-trip" class="indam">Payment</a>
+        <a href="chatbot" class="ai-assistant-link"><i class="fas fa-robot"></i> AI Help</a>
     </nav>
     <div class="icons">
         <i class="fas fa-user" id="user-icon"></i>
@@ -140,6 +141,36 @@
         </div>
     </div>
 </section>
+
+<!-- Floating Chatbot Button -->
+<a href="/chatbot" class="chatbot-float" title="AI Travel Assistant">
+    <i class="fas fa-robot"></i>
+</a>
+<style>
+.chatbot-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    text-decoration: none;
+}
+.chatbot-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+</style>
 
 <!-- ✅ JS tách hoàn toàn ra ngoài -->
 <script src="/js/plan_trip.js"></script>

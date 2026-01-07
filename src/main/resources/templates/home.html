@@ -30,6 +30,7 @@
         <a href="review">Reviews</a>
         <a href="contact">Contact</a>
         <a href="plan-trip">Payment</a>
+        <a href="chatbot" class="ai-assistant-link"><i class="fas fa-robot"></i> AI Help</a>
     </nav>
 
     <div class="icons">
@@ -243,6 +244,79 @@
         </div>
     </div>
 </section>
+
+<!-- Floating Chatbot Button -->
+<a href="/chatbot" class="chatbot-floating-btn" title="AI Travel Assistant">
+    <i class="fas fa-robot"></i>
+    <span class="chat-tooltip">Need help? Ask AI!</span>
+</a>
+
+<style>
+.chatbot-floating-btn {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+    z-index: 9999;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    animation: pulse 2s infinite;
+}
+
+.chatbot-floating-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 30px rgba(59, 130, 246, 0.6);
+}
+
+.chatbot-floating-btn:hover .chat-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-10px);
+}
+
+.chat-tooltip {
+    position: absolute;
+    right: 70px;
+    background: #1e293b;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.chat-tooltip::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 6px solid transparent;
+    border-left-color: #1e293b;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+    }
+    50% {
+        box-shadow: 0 4px 30px rgba(59, 130, 246, 0.7);
+    }
+}
+</style>
 
 <!-- ✅ JS tách hoàn toàn ra ngoài -->
 <script src="/js/home.js"></script>

@@ -273,5 +273,4 @@ body.hust-auth-page .modal-content button:hover {
 /* Responsive */
 @media (max-width: 1200px) {
   body.hust-auth-page header { padding: 1rem 2rem; }
-  body.hust-auth-page header .bar { display: none; }
 }
