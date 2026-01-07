@@ -49,6 +49,7 @@ public class HotelBookingNoOverlapTrigger implements Trigger {
             ps.setDate(i++, java.sql.Date.valueOf(end));
 
             if (id != null) {
+                
                 ps.setLong(i, id);
             }
 
