@@ -84,8 +84,8 @@ public class OrderController {
             log.error(e.getMessage());
             return new ApiResponse<>(9999, e.getMessage(), null);
         }
-    }
-    // hủy cả chuyến
+    
+    // hủy path
     @DeleteMapping("/{id}")
     public ApiResponse<Order> deleteOrder(@PathVariable Long id) {
         log.info("Start delete order of user id = {}",id);
@@ -95,7 +95,7 @@ public class OrderController {
         log.info("Delete order successfully of user id = {}",id);
         return apiResponse;
     }
-    // hủy máy bay
+    // cancel flight
     @PutMapping("/cancelFlight/{id}")
     public ApiResponse<Order> cancelFlight(@PathVariable Long id) {
         log.info("Start cancel flight of user id = {}",id);
@@ -107,8 +107,7 @@ public class OrderController {
         return apiResponse;
     }
     @GetMapping("/{id}")
-    public ApiResponse<PageResponse> getOrderById(@PathVariable Long id,
-                                                  @RequestParam(defaultValue = "0",required = false) int pageNo,
+    public ApiResponse<PageResponse> getOrderById(@PathVariable Long id, @RequestParam(defaultValue = "0",required = false) int pageNo,
                                                   @RequestParam(defaultValue = "5",required = false) int pageSize) {
         log.info("Start get order of user id = {}",id);
         try{
@@ -181,6 +180,32 @@ public class OrderController {
 //        return apiResponse;
 //    }
 
+    // @PostMapping("/{orderId}/confirm-payment")
+    // public ApiResponse<Order> confirmOrder(@PathVariable Long orderId){
+    //     ApiResponse apiResponse = new ApiResponse<>();
+    //     log.info("Start confirm payment order : {} ",orderId);
+    //     try{
+    //         apiResponse.setData(orderService.confirmPayment(orderId));
+    //         apiResponse.setMessage("confirm payment success");
+    //         return apiResponse;
+    //     } catch (Exception e) {
+    //         log.error(e.getMessage());
+    //         return new ApiResponse<>(7777,e.getMessage(),null);
+    //     }
+    // }
+    @PostMapping("/{orderId}/verifying-payment")
+    public ApiResponse<Order> verifyOrder(@PathVariable Long orderId){
+        ApiResponse apiResponse = new ApiResponse<>();
+        try {
+            apiResponse.setData(orderService.verifyPayment(orderId));
+            apiResponse.setMessage("verify payment success");
+            return apiResponse;
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            return new ApiResponse<>(7777,e.getMessage(),null);
+        }
+    }
+    
     @PostMapping("/{orderId}/confirm-payment")
     public ApiResponse<Order> confirmOrder(@PathVariable Long orderId){
         ApiResponse apiResponse = new ApiResponse<>();
@@ -190,18 +215,6 @@ public class OrderController {
             apiResponse.setMessage("confirm payment success");
             return apiResponse;
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return new ApiResponse<>(7777,e.getMessage(),null);
-        }
-    }
-    @PostMapping("/{orderId}/verifying-payment")
-    public ApiResponse<Order> verifyOrder(@PathVariable Long orderId){
-        ApiResponse apiResponse = new ApiResponse<>();
-        try {
-            apiResponse.setData(orderService.verifyPayment(orderId));
-            apiResponse.setMessage("verify payment success");
-            return apiResponse;
-        }catch (Exception e) {
             log.error(e.getMessage());
             return new ApiResponse<>(7777,e.getMessage(),null);
         }
