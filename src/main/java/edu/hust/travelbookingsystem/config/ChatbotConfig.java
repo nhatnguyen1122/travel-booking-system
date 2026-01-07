@@ -16,6 +16,7 @@ import dev.langchain4j.service.AiServices;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
+import edu.hust.travelbookingsystem.service.ChatbotTools;
 import edu.hust.travelbookingsystem.service.TravelAssistant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -97,7 +98,8 @@ public class ChatbotConfig {
     public TravelAssistant travelAssistant(
             ChatLanguageModel chatLanguageModel,
             RetrievalAugmentor retrievalAugmentor,
-            EmbeddingStoreIngestor ingestor) {
+            EmbeddingStoreIngestor ingestor,
+            ChatbotTools chatbotTools) {
 
         // Load and ingest knowledge base
         try {
@@ -118,6 +120,7 @@ public class ChatbotConfig {
                 .chatLanguageModel(chatLanguageModel)
                 .retrievalAugmentor(retrievalAugmentor)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(20))
+                .tools(chatbotTools)
                 .build();
     }
 }
